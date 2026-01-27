@@ -4,6 +4,8 @@
   let { children } = $props();
 </script>
 
-<div class="p-4 max-w-250 mx-auto">
-  {@render children()}
-</div>
+<main class="bg-bandicoot-100 w-screen h-screen overflow-hidden md:p-2">
+  <div class="max-w-3xl mx-auto px-4 md:py-4 bg-bandicoot-50 rounded-lg max-h-full overflow-y-auto">
+    {@render children()}
+  </div>
+</main>

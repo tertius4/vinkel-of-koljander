@@ -2,14 +2,17 @@
   /**
    * @typedef {Object} Props
    * @property {DB.Resep} resep - The recipe object to be displayed in the card.
+   * @property {(r: DB.Resep) => void} onclick - Callback function to handle click events on the card.
    */
 
   /** @type {Props} */
-  const { resep } = $props();
+  const { resep, onclick } = $props();
 </script>
 
-<div
+<button
   class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100"
+  type="button"
+  onclick={() => onclick(resep)}
 >
   <!-- Recipe Image -->
   {#if resep.foto}
@@ -20,15 +23,6 @@
         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
       />
       <div class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
-    </div>
-  {:else}
-    <div class="h-48 bg-linear-to-br from-orange-100 to-amber-100 flex items-center justify-center">
-      <div class="text-center">
-        <svg class="mx-auto h-16 w-16 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-        </svg>
-        <p class="text-orange-600 font-medium mt-2">Geen foto</p>
-      </div>
     </div>
   {/if}
 
@@ -98,7 +92,7 @@
       {/if}
     </div>
   </div>
-</div>
+</button>
 
 <style>
   .line-clamp-2 {

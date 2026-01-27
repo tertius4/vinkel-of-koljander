@@ -1,1 +1,69 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme {
+  --color-cod-gray-50: #f6f6f6;
+  --color-cod-gray-100: #e7e7e7;
+  --color-cod-gray-200: #d1d1d1;
+  --color-cod-gray-300: #b0b0b0;
+  --color-cod-gray-400: #888888;
+  --color-cod-gray-500: #6d6d6d;
+  --color-cod-gray-600: #5d5d5d;
+  --color-cod-gray-700: #4f4f4f;
+  --color-cod-gray-800: #454545;
+  --color-cod-gray-900: #3d3d3d;
+  --color-cod-gray-950: #0f0f0f;
+
+  --color-alabaster-50: #fafafa;
+  --color-alabaster-100: #efefef;
+  --color-alabaster-200: #dcdcdc;
+  --color-alabaster-300: #bdbdbd;
+  --color-alabaster-400: #989898;
+  --color-alabaster-500: #7c7c7c;
+  --color-alabaster-600: #656565;
+  --color-alabaster-700: #525252;
+  --color-alabaster-800: #464646;
+  --color-alabaster-900: #3d3d3d;
+  --color-alabaster-950: #292929;
+
+  --color-viking-50: #edfefd;
+  --color-viking-100: #d0fbfd;
+  --color-viking-200: #a7f5fa;
+  --color-viking-300: #6becf5;
+  --color-viking-400: #28d8e8;
+  --color-viking-500: #0dd2e7;
+  --color-viking-600: #0d96ad;
+  --color-viking-700: #12788c;
+  --color-viking-800: #186172;
+  --color-viking-900: #185161;
+  --color-viking-950: #0a3542;
+  --color-viking: var(--color-viking-500);
+
+  --color-bandicoot-50: #f4f3f1;
+  --color-bandicoot-100: #e7e5e0;
+  --color-bandicoot-200: #d1cfc5;
+  --color-bandicoot-300: #b4b2a2;
+  --color-bandicoot-400: #999682;
+  --color-bandicoot-500: #86836d;
+  --color-bandicoot-600: #62604e;
+  --color-bandicoot-700: #4c4b3f;
+  --color-bandicoot-800: #3f3e35;
+  --color-bandicoot-900: #38372f;
+  --color-bandicoot-950: #1c1b17;
+  --color-bandicoot: var(--color-bandicoot-500);
+
+  --color-rust-50: #fff8eb;
+  --color-rust-100: #fff1cf;
+  --color-rust-200: #ffdf9f;
+  --color-rust-300: #ffc562;
+  --color-rust-400: #ff9e23;
+  --color-rust-500: #ff8000;
+  --color-rust-600: #ff6100;
+  --color-rust-700: #da4600;
+  --color-rust-800: #af3800;
+  --color-rust-900: #8a2f04;
+  --color-rust-950: #4b1400;
+  --color-rust: var(--color-rust-800);
+
+  --color-black: var(--color-cod-gray-950);
+  --color-white: var(--color-alabaster-50);
+}
