@@ -1,4 +1,6 @@
 <script>
+  import { slide } from "svelte/transition";
+
   /**
    * @typedef {Object} Props
    * @property {DB.Resep} resep - The recipe object to be displayed in the card.
@@ -10,7 +12,8 @@
 </script>
 
 <button
-  class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100"
+  transition:slide
+  class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 w-full"
   type="button"
   onclick={() => onclick(resep)}
 >

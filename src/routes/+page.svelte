@@ -1,20 +1,20 @@
 <script>
-  import CardResep from "$lib/comps/CardResep.svelte";
+  import { Navigation } from "$lib/classes/Navigation.svelte";
+  import Create from "$lib/view/Create.svelte";
+  import List from "$lib/view/List.svelte";
   import Recipe from "$lib/view/Recipe.svelte";
 
-  const { data } = $props();
-  /** @type {DB.Resep?} */
-  let selected_recipe = $state(null);
+  Navigation.initialize();
+
+  $inspect(Navigation.current_view);
 </script>
 
-<div class="w-full flex justify-center">
-  <h1 class="text-4xl font-bold leading-30">Vinkel of Koljander</h1>
-</div>
-
-<div class="flex flex-col gap-6">
-  {#each data.resepte as resep}
-    <CardResep {resep} onclick={() => (selected_recipe = resep)} />
-  {/each}
-</div>
-
-<Recipe recipe={selected_recipe} onclose={() => (selected_recipe = null)} />
+{#if !Navigation.is_initialized}
+  <p class="text-center text-gray-500">Laai tans…</p>
+{:else if Navigation.current_view === "list"}
+  <List />
+{:else if Navigation.current_view === "recipe"}
+  <Recipe />
+{:else if Navigation.current_view === "create_recipe"}
+  <Create />
+{/if}

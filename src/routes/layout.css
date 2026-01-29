@@ -67,3 +67,15 @@
   --color-black: var(--color-cod-gray-950);
   --color-white: var(--color-alabaster-50);
 }
+
+
+/* add the code bellow */
+@utility scrollbar-none {
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
