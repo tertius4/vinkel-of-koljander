@@ -1,11 +1,11 @@
 <script>
-  import { normalize, SKEP_KODE } from "$lib";
+  import { normalize, SKEP_KODE, WYSIG_KODE, WYSIG_WAGWOORD } from "$lib";
   import { Navigation } from "$lib/classes/Navigation.svelte";
   import CardResep from "$lib/comps/CardResep.svelte";
   import Input from "$lib/comps/Input.svelte";
+  import PageHeader from "$lib/comps/PageHeader.svelte";
   import { DB } from "$lib/DB";
   import { onMount } from "svelte";
-  import { slide } from "svelte/transition";
 
   /** @type {string} */
   let search_text = $state("");
@@ -31,6 +31,10 @@
   function filterRecipes() {
     if (!search_text) return all_recipes;
 
+    if (search_text === WYSIG_KODE) {
+      return all_recipes;
+    }
+
     return all_recipes.filter((resep) => normalize(resep.naam).includes(normalized_search));
   }
 
@@ -43,9 +47,15 @@
    * @param {DB.Resep} resep
    */
   function handleRecipeSelect(resep) {
-    Navigation.navigateTo(`/?recipe_id=${resep.id}`);
+    if (search_text === WYSIG_KODE) {
+      Navigation.navigateTo(`/?edit_recipe_id=${resep.id}&wysig=${WYSIG_WAGWOORD}`);
+    } else {
+      Navigation.navigateTo(`/?recipe_id=${resep.id}`);
+    }
   }
 </script>
+
+<PageHeader>Reseptelys</PageHeader>
 
 <section
   class="px-4 pb-4 mb-0 rounded-b-lg transition-shadow duration-300"
@@ -75,7 +85,7 @@
   >
     {#each recipes as resep (resep.id)}
       <div>
-        <CardResep {resep} onclick={handleRecipeSelect} />
+        <CardResep {resep} onclick={handleRecipeSelect} editable={search_text === WYSIG_KODE} />
       </div>
     {:else}
       <p class="text-center text-gray-500">Geen resepte gevind nie.</p>

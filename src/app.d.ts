@@ -28,12 +28,19 @@ declare global {
       datum: string;
       inhoud: string;
     }
+
+    interface Bestanddeel {
+      naam: string;
+      hoeveelheid: string;
+      maatstaf: string;
+      nota?: string;
+    }
   }
 
   interface ResepStap {
     nommer: number;
-    instruksies: string;
-    bestanddele: { naam: string; hoeveelheid: string; eenheid: string; nota: string }[];
+    instruksies: string[];
+    bestanddele: DB.Bestanddeel[];
   }
 
   type ApiResult<T> =

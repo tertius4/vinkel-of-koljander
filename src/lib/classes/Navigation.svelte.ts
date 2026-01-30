@@ -1,10 +1,10 @@
-import { browser } from "$app/environment";
 import { replaceState } from "$app/navigation";
 import { page } from "$app/state";
 
 const VIEW_CHART = {
   "?recipe_id=": "recipe",
-  "/?skep=eD3jwnf64nd3iown": "create_recipe",
+  "?edit_recipe_id=": "edit_recipe",
+  "?skep=eD3jwnf64nd3iown": "create_recipe",
   "/": "list",
 };
 

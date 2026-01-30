@@ -125,7 +125,7 @@ export class Table<T extends any> {
   async delete(id: string) {
     const db = this.getFirestore();
     const docRef = doc(db, this.name, id);
-    await deleteDoc(docRef);
+    return await deleteDoc(docRef);
   }
 
   async deleteMany(options?: QueryOptions) {

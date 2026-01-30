@@ -1,6 +1,7 @@
 <script>
   import { Navigation } from "$lib/classes/Navigation.svelte";
   import Create from "$lib/view/Create.svelte";
+  import Edit from "$lib/view/Edit.svelte";
   import List from "$lib/view/List.svelte";
   import Recipe from "$lib/view/Recipe.svelte";
 
@@ -17,4 +18,6 @@
   <Recipe />
 {:else if Navigation.current_view === "create_recipe"}
   <Create />
+{:else if Navigation.current_view === "edit_recipe"}
+  <Edit />
 {/if}
