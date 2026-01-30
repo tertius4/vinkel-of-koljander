@@ -67,7 +67,9 @@ export class Table<T extends any> {
     const snapshot = await getDoc(docRef);
     if (!snapshot.exists()) return null;
 
-    return { id: snapshot.id, ...snapshot.data() } as T;
+    const data = snapshot.data();
+    const doc2 = { ...data, id: snapshot.id } as T;
+    return doc2;
   }
 
   async readMany(options?: QueryOptions): Promise<T[]> {
@@ -85,7 +87,9 @@ export class Table<T extends any> {
   async getAll(options?: QueryOptions): Promise<T[]> {
     const q = this.buildQuery(options);
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((d) => ({ ...d.data(), id: d.id })) as T[];
+
+    const docs = snapshot.docs.map((d) => ({ ...d.data(), id: d.id })) as T[];
+    return docs;
   }
 
   async updateById(id: string, data: Partial<T>): Promise<SimpleApiResult> {

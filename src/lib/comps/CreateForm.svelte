@@ -20,6 +20,7 @@
   const { recipe: original_recipe } = $props();
 
   let recipe = $state(original_recipe);
+  let is_loading = $state(false);
 
   const selected_categories = $derived(new Set((recipe.kategorieë || []).map((c) => normalize(c))));
   const custom_categories = $derived(
@@ -37,18 +38,22 @@
   }
 
   async function save() {
+    is_loading = true;
     if (recipe.id) {
-      const result = await DB.Resep.update(recipe.id, recipe);
-      if (result.success) {
-        Navigation.navigateTo(`/`);
+      const result = await DB.Resep.updateById(recipe.id, recipe);
+      if (result.success) Navigation.navigateTo(`/`);
+      if (!result.success) {
+        alert(result.error_message);
       }
-      return;
+    } else {
+      const result = await DB.Resep.create(recipe);
+      if (result.success) Navigation.navigateTo(`/`);
+      if (!result.success) {
+        alert(result.error_message);
+      }
     }
 
-    const result = await DB.Resep.create(recipe);
-    if (result.success) {
-      Navigation.navigateTo(`/`);
-    }
+    is_loading = false;
   }
 
   /**
@@ -80,7 +85,6 @@
 
   function selectCategory(label) {
     const is_selected = selected_categories.has(normalize(label));
-    console.log("is_selected", label, is_selected);
     if (is_selected) {
       recipe.kategorieë = recipe.kategorieë.filter((c) => normalize(c) !== normalize(label));
     } else {
@@ -238,7 +242,7 @@
             { key: "verwyder", title: "", width: "40px" },
           ]}
         >
-          {#each stap.bestanddele as bestandeel}
+          {#each stap.bestanddele as bestandeel, i}
             <TableRow>
               <!-- <TableCell class="flex justify-center items-center">
                 <svg viewBox="0 0 512 512" fill="currentColor" class="w-5">
@@ -278,7 +282,7 @@
                 />
               </TableCell>
               <TableCell
-                onclick={() => console.log("verwyder", bestandeel.naam)}
+                onclick={() => stap.bestanddele.splice(i, 1)}
                 class="flex justify-center items-center shrink-0"
               >
                 <svg
@@ -293,7 +297,7 @@
               </TableCell>
             </TableRow>
           {:else}
-            <div class="p-4 text-alabaster-400 italic col-span-6">Nog geen bestanddele nie.</div>
+            <div class="p-4 text-alabaster-400 italic">Nog geen bestanddele nie.</div>
           {/each}
         </Table>
       </div>
@@ -306,7 +310,7 @@
           class="bg-rust-500 text-white px-4 py-2 rounded hover:bg-rust-600 transition-colors items-center justify-center"
           type="button"
           onclick={() => {
-            stap.instruksies.push("");
+            stap.instruksies.push({ label: "" });
           }}
         >
           <svg class="w-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -319,28 +323,48 @@
         <div class="p-2 flex gap-1">
           {i + 1}.
           <input
+            id={`stap-${stap.nommer}-instruksie-${i}`}
             class="resize-none w-full outline-none focus:bg-alabaster-100 rounded-lg"
-            bind:value={stap.instruksies[i]}
+            bind:value={instruksie.label}
             placeholder={`Stap ${stap.nommer}.${i + 1} instruksies…`}
             onkeydown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                if (!stap.instruksies[i]?.length) {
+                if (!instruksie.label?.length) {
                   stap.instruksies.splice(i, 1);
                 } else {
-                  stap.instruksies.splice(i + 1, 0, "");
+                  stap.instruksies.splice(i + 1, 0, { label: "" });
+                  // Focus on the new input
+                  setTimeout(() => {
+                    const nextInput = document.getElementById(`stap-${stap.nommer}-instruksie-${i + 1}`);
+                    nextInput?.focus();
+                  }, 0);
                 }
               }
             }}
             onblur={() => {
-              if (!stap.instruksies[i]?.length) {
+              if (!instruksie.label?.length) {
                 stap.instruksies.splice(i, 1);
               }
             }}
           />
         </div>
       {:else}
-        <div class="p-4 text-alabaster-400 italic">Nog geen instruksies nie.</div>
+        <button
+          type="button"
+          class="p-4 text-alabaster-400 italic col-span-6"
+          onclick={() => {
+            stap.instruksies.push({ label: "" });
+            setTimeout(() => {
+              const nextInput = document.getElementById(
+                `stap-${stap.nommer}-instruksie-${stap.instruksies.length - 1}`,
+              );
+              nextInput?.focus();
+            }, 0);
+          }}
+        >
+          Nog geen instruksies nie.
+        </button>
       {/each}
     </div>
   </div>
@@ -375,15 +399,28 @@
     >
       Skrap
     </button>
-  {:else}
-    <a href="/" class="bg-alabaster-200 px-8 py-4 rounded-xl transition-all duration-200 text-lg"> Terug </a>
   {/if}
 
   <button
     type="button"
     onclick={save}
-    class="bg-viking px-8 py-4 rounded-xl transition-all duration-200 font-semibold text-lg"
+    disabled={is_loading}
+    class="bg-viking px-8 py-4 rounded-xl transition-all duration-200 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
   >
-    Stoor Resep
+    {#if is_loading}
+      <svg class="w-6 inline-block animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    {:else}
+      <svg class="w-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    {/if}
+    <span>Stoor</span>
   </button>
 </div>

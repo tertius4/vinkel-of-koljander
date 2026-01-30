@@ -3,7 +3,7 @@
   import { Navigation } from "$lib/classes/Navigation.svelte";
   import PageHeader from "$lib/comps/PageHeader.svelte";
   import { DB } from "$lib/DB";
-  import { onMount, tick } from "svelte";
+  import { onMount } from "svelte";
 
   /** @type {DB.Resep?} */
   let recipe = $state(null);
@@ -67,7 +67,7 @@
         <span>Werktyd:</span>
       </div>
 
-      <div class="font-semibold">{recipe?.tyd.werk} min</div>
+      <div class="font-semibold">{recipe?.tyd?.werk} min</div>
     </div>
 
     <div class="flex flex-col md:flex-row items-center gap-2">
@@ -108,7 +108,9 @@
             {/each}
           </ul>
           <div class="font-medium mb-2">Instruksies:</div>
-          <div class="whitespace-pre-line text-gray-700">{stap.instruksies.join("\n")}</div>
+          <div class="whitespace-pre-line text-gray-700">
+            {stap.instruksies.map((instruksie) => instruksie.label).join("\n")}
+          </div>
         </div>
       {/each}
     </div>

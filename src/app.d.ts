@@ -39,7 +39,7 @@ declare global {
 
   interface ResepStap {
     nommer: number;
-    instruksies: string[];
+    instruksies: { label: string }[];
     bestanddele: DB.Bestanddeel[];
   }
 
