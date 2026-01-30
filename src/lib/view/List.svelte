@@ -35,7 +35,13 @@
       return all_recipes;
     }
 
-    return all_recipes.filter((resep) => normalize(resep.naam).includes(normalized_search));
+    return all_recipes.filter((resep) => {
+      if (normalize(resep.naam).includes(normalized_search)) return true;
+      for (const kategorie of resep.kategorieë ?? []) {
+        if (normalize(kategorie) === normalized_search) return true;
+      }
+      return false;
+    });
   }
 
   function createRecipe() {
