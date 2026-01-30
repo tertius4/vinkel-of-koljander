@@ -17,12 +17,9 @@
    */
 
   /** @type {Props} */
-  const { recipe } = $props();
-  recipe.tyd ??= { werk: 30, wag: 15 };
-  recipe.tyd.werk ??= 30;
-  recipe.tyd.wag ??= 15;
-  recipe.porsies ??= 4;
-  recipe.kategorieë ??= [];
+  const { recipe: original_recipe } = $props();
+
+  let recipe = $state(original_recipe);
 
   const selected_categories = $derived(new Set((recipe.kategorieë || []).map((c) => normalize(c))));
   const custom_categories = $derived(

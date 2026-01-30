@@ -1,0 +1,21 @@
+[debug] [2026-01-30T18:12:20.222Z] ----------------------------------------------------------------------
+[debug] [2026-01-30T18:12:20.225Z] Command:       /home/tertius/.nvm/versions/node/v22.14.0/bin/node /home/tertius/.nvm/versions/node/v22.14.0/bin/firebase deploy --only hosting
+[debug] [2026-01-30T18:12:20.226Z] CLI Version:   15.3.1
+[debug] [2026-01-30T18:12:20.226Z] Platform:      linux
+[debug] [2026-01-30T18:12:20.226Z] Node Version:  v22.14.0
+[debug] [2026-01-30T18:12:20.226Z] Time:          Fri Jan 30 2026 20:12:20 GMT+0200 (South Africa Standard Time)
+[debug] [2026-01-30T18:12:20.227Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-30T18:12:20.882Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-30T18:12:20.883Z] > authorizing via signed-in user (tertiusvniekerk@gmail.com)
+[debug] [2026-01-30T18:12:20.883Z] [iam] checking project vinkel-of-koljander for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-30T18:12:20.883Z] Checked if tokens are valid: true, expires at: 1769799851184
+[debug] [2026-01-30T18:12:20.883Z] Checked if tokens are valid: true, expires at: 1769799851184
+[debug] [2026-01-30T18:12:20.884Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions [none]
+[debug] [2026-01-30T18:12:20.884Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions x-goog-quota-user=projects/vinkel-of-koljander
+[debug] [2026-01-30T18:12:20.884Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-01-30T18:12:22.730Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions 200
+[debug] [2026-01-30T18:12:22.730Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-01-30T18:12:22.732Z] Checked if tokens are valid: true, expires at: 1769799851184
+[debug] [2026-01-30T18:12:22.732Z] Checked if tokens are valid: true, expires at: 1769799851184
+[debug] [2026-01-30T18:12:22.733Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/vinkel-of-koljander [none]
