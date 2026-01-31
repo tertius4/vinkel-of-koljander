@@ -1,5 +1,6 @@
 import { replaceState } from "$app/navigation";
 import { page } from "$app/state";
+import { App } from "@capacitor/app";
 
 const VIEW_CHART = {
   "?recipe_id=": "recipe",
@@ -15,6 +16,11 @@ class NavigationClass {
   readonly current_view: string = $derived(this.getCurrentView(this.current_page));
 
   history: string[] = [];
+
+  constructor() {
+    if (typeof window === "undefined") return;
+    App.addListener("backButton", () => Navigation.navigateTo("/"));
+  }
 
   initialize() {
     const initial_page = page.url.pathname + page.url.search;

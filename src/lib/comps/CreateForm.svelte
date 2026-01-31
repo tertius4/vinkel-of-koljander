@@ -10,6 +10,7 @@
   import TableRow from "./table/TableRow.svelte";
   import TableCell from "./table/TableCell.svelte";
   import { Navigation } from "$lib/classes/Navigation.svelte";
+  import Note from "./Note.svelte";
 
   /**
    * @typedef {Object} Props
@@ -222,7 +223,7 @@
           class="bg-rust-500 text-white px-4 py-2 rounded hover:bg-rust-600 transition-colors items-center justify-center"
           type="button"
           onclick={() => {
-            stap.bestanddele.push({ naam: "", hoeveelheid: "", maatstaf: "" });
+            stap.bestanddele.push({ naam: "", hoeveelheid: "", maatstaf: "", note: "" });
           }}
         >
           <svg class="w-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,7 +236,7 @@
         <Table
           bodyClass="*:even:bg-white *:odd:bg-alabaster-100! scrollbar-none"
           headings={[
-            // { key: "nota", title: "", width: "40px" },
+            { key: "nota", title: "", width: "40px" },
             { key: "naam", title: "Naam" },
             { key: "hoeveelheid", title: "Hoeveelheid", short_title: "Hoeveelh." },
             { key: "maatstaf", title: "Maatstaf", short_title: "Maatsf." },
@@ -244,19 +245,9 @@
         >
           {#each stap.bestanddele as bestandeel, i}
             <TableRow>
-              <!-- <TableCell class="flex justify-center items-center">
-                <svg viewBox="0 0 512 512" fill="currentColor" class="w-5">
-                  {#if false}
-                    <path
-                      d="M512 240c0 132.5-114.6 240-256 240-37.1 0-72.3-7.4-104.1-20.7L33.5 510.1c-9.4 4-20.2 1.7-27.1-5.8S-2 485.8 2.8 476.8l48.8-92.2C19.2 344.3 0 294.3 0 240 0 107.5 114.6 0 256 0S512 107.5 512 240z"
-                    />
-                  {:else}
-                    <path
-                      d="M51.9 384.9C19.3 344.6 0 294.4 0 240 0 107.5 114.6 0 256 0S512 107.5 512 240 397.4 480 256 480c-36.5 0-71.2-7.2-102.6-20L37 509.9c-3.7 1.6-7.5 2.1-11.5 2.1-14.1 0-25.5-11.4-25.5-25.5 0-4.3 1.1-8.5 3.1-12.2l48.8-89.4zm37.3-30.2c12.2 15.1 14.1 36.1 4.8 53.2l-18 33.1 58.5-25.1c11.8-5.1 25.2-5.2 37.1-.3 25.7 10.5 54.2 16.4 84.3 16.4 117.8 0 208-88.8 208-192S373.8 48 256 48 48 136.8 48 240c0 42.8 15.1 82.4 41.2 114.7z"
-                    />
-                  {/if}
-                </svg>
-              </TableCell> -->
+              <TableCell class="flex justify-center items-center">
+                <Note bind:value={bestandeel.note} />
+              </TableCell>
               <TableCell>
                 <input
                   class="w-full bg-transparent outline-0 text-ellipsis"
@@ -297,7 +288,7 @@
               </TableCell>
             </TableRow>
           {:else}
-            <div class="p-4 text-alabaster-400 italic">Nog geen bestanddele nie.</div>
+            <div class="p-4 text-alabaster-400 italic col-span-5">Nog geen bestanddele nie.</div>
           {/each}
         </Table>
       </div>
@@ -310,7 +301,7 @@
           class="bg-rust-500 text-white px-4 py-2 rounded hover:bg-rust-600 transition-colors items-center justify-center"
           type="button"
           onclick={() => {
-            stap.instruksies.push({ label: "" });
+            stap.instruksies.push({ label: "", note: "" });
           }}
         >
           <svg class="w-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,7 +324,7 @@
                 if (!instruksie.label?.length) {
                   stap.instruksies.splice(i, 1);
                 } else {
-                  stap.instruksies.splice(i + 1, 0, { label: "" });
+                  stap.instruksies.splice(i + 1, 0, { label: "", note: "" });
                   // Focus on the new input
                   setTimeout(() => {
                     const nextInput = document.getElementById(`stap-${stap.nommer}-instruksie-${i + 1}`);
@@ -348,13 +339,14 @@
               }
             }}
           />
+          <Note bind:value={instruksie.note} />
         </div>
       {:else}
         <button
           type="button"
-          class="p-4 text-alabaster-400 italic col-span-6"
+          class="p-4 text-alabaster-400 italic col-span-5"
           onclick={() => {
-            stap.instruksies.push({ label: "" });
+            stap.instruksies.push({ label: "", note: "" });
             setTimeout(() => {
               const nextInput = document.getElementById(
                 `stap-${stap.nommer}-instruksie-${stap.instruksies.length - 1}`,
@@ -386,7 +378,7 @@
 <hr class="w-full text-alabaster-200 my-6.5" />
 
 <!-- Save Button -->
-<div class="flex justify-between mb-6">
+<div class="flex {recipe.id ? 'justify-between' : 'justify-end'} mb-6">
   {#if recipe.id}
     <button
       type="button"

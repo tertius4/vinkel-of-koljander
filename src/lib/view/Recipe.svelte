@@ -54,7 +54,9 @@
     {recipe?.beskrywing}
   </div>
 
-  <img src={recipe?.foto} alt={recipe?.naam} class="w-full h-64 object-cover rounded-lg shadow-md" />
+  {#if recipe?.foto}
+    <img src={recipe?.foto} alt={recipe?.naam} class="w-full h-64 object-cover rounded-lg shadow-md" />
+  {/if}
 
   <div class="grid grid-cols-3 gap-5">
     <div class="flex flex-col md:flex-row items-center gap-2">
@@ -104,13 +106,33 @@
           <div class="font-medium mb-2">Bestanddele:</div>
           <ul class="list-disc list-inside mb-4">
             {#each stap.bestanddele as bestanddeel}
-              <li>{bestanddeel.hoeveelheid} {bestanddeel.maatstaf} {bestanddeel.naam}</li>
+              <li>
+                {bestanddeel.hoeveelheid}
+                {bestanddeel.maatstaf}
+                {bestanddeel.naam}
+                {#if bestanddeel.note}
+                  <div class="mt-1 text-sm text-alabaster-700 bg-alabaster-50 rounded px-3 py-2">
+                    <strong>Nota:</strong>
+                    {bestanddeel.note}
+                  </div>
+                {/if}
+              </li>
             {/each}
           </ul>
           <div class="font-medium mb-2">Instruksies:</div>
-          <div class="whitespace-pre-line text-gray-700">
-            {stap.instruksies.map((instruksie) => instruksie.label).join("\n")}
-          </div>
+          {#each stap.instruksies as instruksie}
+            <div class="mb-2">
+              <div class="whitespace-pre-line text-alabaster-700">
+                {instruksie.label}
+              </div>
+              {#if instruksie.note}
+                <div class="mt-1 text-sm text-alabaster-700 bg-alabaster-50 rounded px-3 py-2">
+                  <strong>Nota:</strong>
+                  {instruksie.note}
+                </div>
+              {/if}
+            </div>
+          {/each}
         </div>
       {/each}
     </div>

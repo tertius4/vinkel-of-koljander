@@ -46,6 +46,18 @@
     }
 
     const recipe = await DB.Resep.read(recipe_id);
+    for (const stap of recipe?.stappe || []) {
+      for (const instruksie of stap.instruksies) {
+        if (!instruksie.note) {
+          instruksie.note = "";
+        }
+      }
+      for (const bestanddeel of stap.bestanddele) {
+        if (!bestanddeel.note) {
+          bestanddeel.note = "";
+        }
+      }
+    }
     return recipe;
   }
 </script>

@@ -33,13 +33,13 @@ declare global {
       naam: string;
       hoeveelheid: string;
       maatstaf: string;
-      nota?: string;
+      note?: string;
     }
   }
 
   interface ResepStap {
     nommer: number;
-    instruksies: { label: string }[];
+    instruksies: { label: string, note?: string }[];
     bestanddele: DB.Bestanddeel[];
   }
 
