@@ -17,11 +17,6 @@ class NavigationClass {
 
   history: string[] = [];
 
-  constructor() {
-    if (typeof window === "undefined") return;
-    App.addListener("backButton", () => Navigation.navigateTo("/"));
-  }
-
   initialize() {
     const initial_page = page.url.pathname + page.url.search;
     this.current_page = initial_page;

@@ -46,10 +46,24 @@
     }
 
     const recipe = await DB.Resep.read(recipe_id);
-    for (const stap of recipe?.stappe || []) {
-      for (const instruksie of stap.instruksies) {
-        if (!instruksie.note) {
-          instruksie.note = "";
+    if (!recipe) return recipe;
+
+    recipe.beskrywing ??= "";
+    recipe.naam ??= "";
+    recipe.foto ??= "";
+    recipe.porsies ??= 4;
+    recipe.kategorieë ??= [];
+    recipe.tyd ??= { werk: 30, wag: 15 };
+    recipe.stappe ??= [];
+
+    for (const stap of recipe.stappe) {
+      for (let i = 0; i < stap.instruksies.length; i++) {
+        let instruksie = stap.instruksies[i];
+        if (typeof instruksie === "string") {
+          stap.instruksies[i] = { label: instruksie };
+        }
+        if (!stap.instruksies[i].note) {
+          stap.instruksies[i].note = "";
         }
       }
       for (const bestanddeel of stap.bestanddele) {

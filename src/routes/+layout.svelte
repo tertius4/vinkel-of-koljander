@@ -1,7 +1,21 @@
 <script>
+  import { onMount } from "svelte";
   import "./layout.css";
+  import { App } from "@capacitor/app";
+  import { Navigation } from "$lib/classes/Navigation.svelte";
 
   let { children } = $props();
+
+  onMount(() => {
+    if (typeof window === "undefined") return;
+    App.addListener("backButton", () => {
+      Navigation.navigateTo("/");
+    });
+
+    window.addEventListener("popstate", () => {
+      Navigation.navigateTo("/");
+    });
+  });
 </script>
 
 <main class="bg-bandicoot-100 w-dvw h-dvh md:p-2">
