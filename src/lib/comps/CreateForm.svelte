@@ -313,24 +313,27 @@
       {#each stap.instruksies as instruksie, i}
         <div class="p-2 flex gap-1">
           {i + 1}.
-          <input
+          <textarea
             id={`stap-${stap.nommer}-instruksie-${i}`}
             class="resize-none w-full outline-none focus:bg-alabaster-100 rounded-lg"
+            rows="3"
             bind:value={instruksie.label}
             placeholder={`Stap ${stap.nommer}.${i + 1} instruksies…`}
             onkeydown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                if (!instruksie.label?.length) {
-                  stap.instruksies.splice(i, 1);
-                } else {
-                  stap.instruksies.splice(i + 1, 0, { label: "", note: "" });
-                  // Focus on the new input
-                  setTimeout(() => {
-                    const nextInput = document.getElementById(`stap-${stap.nommer}-instruksie-${i + 1}`);
-                    nextInput?.focus();
-                  }, 0);
-                }
+              if (!(e.key === "Enter" && e.ctrlKey)) {
+                return;
+              }
+
+              e.preventDefault();
+              if (!instruksie.label?.length) {
+                stap.instruksies.splice(i, 1);
+              } else {
+                stap.instruksies.splice(i + 1, 0, { label: "", note: "" });
+                // Focus on the new input
+                setTimeout(() => {
+                  const nextInput = document.getElementById(`stap-${stap.nommer}-instruksie-${i + 1}`);
+                  nextInput?.focus();
+                }, 0);
               }
             }}
             onblur={() => {
@@ -338,7 +341,7 @@
                 stap.instruksies.splice(i, 1);
               }
             }}
-          />
+          ></textarea>
           <Note bind:value={instruksie.note} />
         </div>
       {:else}

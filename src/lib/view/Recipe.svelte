@@ -120,10 +120,10 @@
             {/each}
           </ul>
           <div class="font-medium mb-2">Instruksies:</div>
-          {#each stap.instruksies as instruksie}
+          {#each stap.instruksies as instruksie, i}
             <div class="mb-2">
               <div class="whitespace-pre-line text-alabaster-700">
-                {instruksie.label}
+                {stap.nommer}.{i + 1}. {instruksie.label}
               </div>
               {#if instruksie.note}
                 <div class="mt-1 text-sm text-alabaster-700 bg-alabaster-50 rounded px-3 py-2">
