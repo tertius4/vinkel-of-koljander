@@ -29,7 +29,7 @@
     value = "";
   }}
   class={[
-    "w-full px-4 py-3 bg-alabaster-50 focus:bg-rust-50 border border-alabaster-500 placeholder-alabaster-400 rounded-lg focus:ring-0.5 outline-0 focus:ring-rust-400 focus:border-rust-400 caret-rust-400 transition-colors placeholder:italic",
+    "w-full px-4 py-3 focus:bg-rust-50 border focus:placeholder:text-rust-600 border-alabaster-300 bg-white placeholder-alabaster-400 rounded-lg focus:ring-0.5 outline-0 focus:ring-rust-400 focus:border-rust-400 caret-rust-400 transition-colors placeholder:italic",
     className,
   ]}
   bind:value

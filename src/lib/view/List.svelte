@@ -61,11 +61,13 @@
   }
 </script>
 
-<PageHeader>Reseptelys</PageHeader>
+<PageHeader />
 
 <section
-  class="px-4 pb-4 mb-0 rounded-b-lg transition-shadow duration-300"
+  class="pt-4 px-4 mb-0 rounded-b-lg transition-shadow duration-300 border-b"
   class:shadow-[0_10px_10px_rgba(1,1,1,0.08)]={scrolled}
+  class:border-b-alabaster-200={scrolled}
+  class:border-b-transparent={!scrolled}
 >
   <div class="relative">
     <Input bind:value={search_text} placeholder="Soek resepte..." />
@@ -79,13 +81,17 @@
       </button>
     {/if}
   </div>
+
+  {#if !is_loading}
+    <div class="w-fit my-1 text-alabaster-600 font-extralight ml-auto">{recipes.length} resepte</div>
+  {/if}
 </section>
 
 {#if is_loading}
   <p class="text-center text-gray-500">Laai resepte...</p>
 {:else}
   <div
-    class="px-4 pt-4 overflow-y-auto flex flex-col gap-6 h-full pb-50 scrollbar-none"
+    class="px-4 pt-4 overflow-y-auto flex flex-col gap-4 h-full pb-50 scrollbar-none"
     bind:this={listDiv}
     onscroll={handleScroll}
   >
@@ -105,4 +111,3 @@
     {/each}
   </div>
 {/if}
-

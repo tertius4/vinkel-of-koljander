@@ -6,8 +6,6 @@
   import Recipe from "$lib/view/Recipe.svelte";
 
   Navigation.initialize();
-
-  $inspect(Navigation.current_view);
 </script>
 
 {#if !Navigation.is_initialized}
