@@ -1,6 +1,7 @@
 <script>
   import { page } from "$app/state";
   import { Navigation } from "$lib/classes/Navigation.svelte";
+  import DisplaySteps from "$lib/comps/DisplaySteps.svelte";
   import Icon from "$lib/comps/Icon.svelte";
   import PageHeader from "$lib/comps/PageHeader.svelte";
   import { DB } from "$lib/DB";
@@ -86,47 +87,7 @@
 
     <div>
       <h2 class="font-bold text-xl mb-4">Instruksies</h2>
-      <div class="flex flex-col gap-6">
-        {#each recipe?.stappe as stap, index (stap.nommer)}
-          <div class="border-b border-alabaster-200 pb-4">
-            <div class="tracking-wider mb-3.5 font-semibold uppercase text-lg">Stap {stap.nommer} – Bestanddele</div>
-            <ul class="list-disc list-inside mb-4">
-              {#each stap.bestanddele as bestanddeel, i}
-                <div class="mb-3">
-                  <span class="text-alabaster-950">
-                    <span class="font-medium">{stap.nommer}.{i + 1}.</span>
-                    {bestanddeel.hoeveelheid}
-                    {bestanddeel.maatstaf}
-                    {bestanddeel.naam}
-                  </span>
-
-                  {#if bestanddeel.note}
-                    <div class="mt-1 text-sm text-alabaster-700 bg-white rounded px-3 py-2 font-light">
-                      {bestanddeel.note}
-                    </div>
-                  {/if}
-                </div>
-              {/each}
-            </ul>
-
-            <div class="tracking-wider mb-3.5 font-semibold uppercase text-lg">Stap {stap.nommer} – Instruksies</div>
-            {#each stap.instruksies.filter(Boolean) as instruksie, i}
-              <div class="mb-3">
-                <span class="text-alabaster-950">
-                  <span class="font-medium">{stap.nommer}.{i + 1}.</span>
-                  {instruksie.label}
-                </span>
-
-                {#if instruksie.note}
-                  <div class="mt-1 text-sm text-alabaster-700 bg-white rounded px-3 py-2 font-light">
-                    {instruksie.note}
-                  </div>
-                {/if}
-              </div>
-            {/each}
-          </div>
-        {/each}
-      </div>
+      <DisplaySteps steps={recipe.stappe} />
     </div>
   {/if}
 </div>

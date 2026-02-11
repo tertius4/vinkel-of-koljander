@@ -31,14 +31,14 @@
   function filterRecipes() {
     if (!search_text) return all_recipes;
 
-    if (search_text === WYSIG_KODE) {
+    if (search_text.trim() === WYSIG_KODE) {
       return all_recipes;
     }
 
     return all_recipes.filter((resep) => {
       if (normalize(resep.naam).includes(normalized_search)) return true;
       for (const kategorie of resep.kategorieë ?? []) {
-        if (normalize(kategorie) === normalized_search) return true;
+        if (normalize(kategorie).includes(normalized_search)) return true;
       }
       return false;
     });
