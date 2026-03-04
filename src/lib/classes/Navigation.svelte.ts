@@ -1,6 +1,5 @@
 import { replaceState } from "$app/navigation";
 import { page } from "$app/state";
-import { App } from "@capacitor/app";
 
 const VIEW_CHART = {
   "?recipe_id=": "recipe",

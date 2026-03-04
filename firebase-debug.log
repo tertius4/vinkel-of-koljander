@@ -1,0 +1,122 @@
+[debug] [2026-03-04T19:00:58.481Z] ----------------------------------------------------------------------
+[debug] [2026-03-04T19:00:58.483Z] Command:       /home/tertius/.nvm/versions/node/v22.14.0/bin/node /home/tertius/.nvm/versions/node/v22.14.0/bin/firebase deploy --only hosting
+[debug] [2026-03-04T19:00:58.484Z] CLI Version:   15.3.1
+[debug] [2026-03-04T19:00:58.484Z] Platform:      linux
+[debug] [2026-03-04T19:00:58.484Z] Node Version:  v22.14.0
+[debug] [2026-03-04T19:00:58.484Z] Time:          Wed Mar 04 2026 21:00:58 GMT+0200 (South Africa Standard Time)
+[debug] [2026-03-04T19:00:58.484Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-04T19:00:59.033Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-04T19:00:59.033Z] > authorizing via signed-in user (tertiusvniekerk@gmail.com)
+[debug] [2026-03-04T19:00:59.033Z] [iam] checking project vinkel-of-koljander for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-04T19:00:59.034Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:00:59.034Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:00:59.034Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions [none]
+[debug] [2026-03-04T19:00:59.034Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions x-goog-quota-user=projects/vinkel-of-koljander
+[debug] [2026-03-04T19:00:59.034Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-04T19:01:00.927Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions 200
+[debug] [2026-03-04T19:01:00.927Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vinkel-of-koljander:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-04T19:01:00.928Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:00.929Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:00.929Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/vinkel-of-koljander [none]
+[debug] [2026-03-04T19:01:01.823Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/vinkel-of-koljander 200
+[debug] [2026-03-04T19:01:01.823Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/vinkel-of-koljander {"projectId":"vinkel-of-koljander","projectNumber":"841487208159","displayName":"Vinkel of Koljander","name":"projects/vinkel-of-koljander","resources":{"hostingSite":"vinkel-of-koljander"},"state":"ACTIVE","etag":"1_3e5af1f8-92c1-4051-8cef-d004ca7d5146"}
+[info] 
+[info] === Deploying to 'vinkel-of-koljander'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-03-04T19:01:01.829Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:01.829Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:01.829Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/vinkel-of-koljander/versions [none]
+[debug] [2026-03-04T19:01:01.829Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/vinkel-of-koljander/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-03-04T19:01:04.687Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/vinkel-of-koljander/versions 200
+[debug] [2026-03-04T19:01:04.687Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/vinkel-of-koljander/versions {"name":"projects/841487208159/sites/vinkel-of-koljander/versions/92c06242954abf5b","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[vinkel-of-koljander]: beginning deploy... 
+[info] i  hosting[vinkel-of-koljander]: found 24 files in build 
+[debug] [2026-03-04T19:01:04.718Z] [hosting] uploading with 200 concurrency
+[debug] [2026-03-04T19:01:04.771Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:04.771Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:04.772Z] [hosting] hash cache [YnVpbGQ] stored for 24 files
+[debug] [2026-03-04T19:01:04.772Z] [hosting][hash queue][FINAL] {"max":44,"min":14,"avg":16.25,"active":0,"complete":24,"success":24,"errored":0,"retried":0,"total":24,"elapsed":50}
+[debug] [2026-03-04T19:01:04.773Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/841487208159/sites/vinkel-of-koljander/versions/92c06242954abf5b:populateFiles [none]
+[debug] [2026-03-04T19:01:04.773Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/841487208159/sites/vinkel-of-koljander/versions/92c06242954abf5b:populateFiles {"files":{"/robots.txt":"7032ad9e560933b6e769b42bfc3ee92121830f2706fb960499e4e01ce98a6e5f","/index.html":"3554e3b6e0cc7d37bf6d9654c0273ab2ec8b69f5b8d163cf206ba03a21b71a15","/_app/version.json":"de37bd2a7f5e91d64ce4a2e7a192cb17274c72b535be8e2d88aae8cf6c20a1fb","/_app/immutable/nodes/3.Dvbu2jBc.js":"28ab52c65454cdcc3d97c8b0c2876f0b63ca637bb7554c0ded6521d58b598e0a","/_app/env.js":"add538ea793ff655afb177f8bf6e7e9bf0d37382a6059abe2578ee63b5e84fbc","/_app/immutable/nodes/1.DoC-B1tT.js":"e9c2d4814d95ecb98ef00bbf030631787a46ed4f125193cbb79c8ed86281fb99","/_app/immutable/nodes/0.p1A0WTOY.js":"75e220172d0b59ddd11b96d1f103e3d5bad952b9c1e1f42ec88c9c97a92f61dd","/_app/immutable/entry/start.CD6lEzs8.js":"f1c766ebdfe94f0173fafb7bd05f9f2f65071dc29a69fc83c46dd7d37da900d9","/_app/immutable/chunks/poBj-iVO.js":"138709eaf92f98878c7441236b3da475fcd37717e2d4075ac396d68ed3d52633","/_app/immutable/entry/app.l9ec7zZt.js":"d8be4f3aa18f96693781b29e4cf10eb4a6da83cb3993e89a377839f411ba2ca4","/_app/immutable/chunks/eG8HE3Db.js":"fe8a6d5006b56c5b452f8219054d33ec583ae0ea803432bc7eff2a122830b9d8","/_app/immutable/chunks/_I2ir5Mk.js":"b637baa66d57d176656aeea77a1629c38a3644a087050c1c98af1029d87d2209","/_app/immutable/chunks/D2nAz9wY.js":"aa2cfd7762840c40d5f654ed61b7f1bc088234a7f69514f14b0b78429fb559cb","/_app/immutable/chunks/CM4IYle8.js":"2c8415dee12de3ebbf93141e78b9f2011663abb9c5c82fdba93688d0c19a252d","/_app/immutable/nodes/2.CYx4cC_w.js":"c3891481cffc3d826dd629a56c3693773cf7b7bfba320b4939d2007243be0d68","/_app/immutable/chunks/Cq78fdB8.js":"5d2975970e98360687a0cb823db4dd14bee15ef3f312d9e8f6af3c157e2968d5","/_app/immutable/chunks/2hRpmx4w.js":"acbf87e895b324275e648512c0c09e5af10e0194e242994bf28d1a7bb24c8434","/_app/immutable/assets/2.D2j3C7Mx.css":"023b9750965d07d5dc14239ea34d063a951f131696015116c1bdbf4987bb5b16","/_app/immutable/chunks/DFDSKVdE.js":"a991bbd4a2825503720d55d54462f7db1503a78719ac87cd0fb8c80f8706c76d","/_app/immutable/chunks/CBACv1va.js":"5ecc89a237b795c0e3cca80c49ab6383819282f55c2d73193930508c8d5e9eb5","/_app/immutable/chunks/C7IOV2FP.js":"d638e38cda3c84956ffd536e191981742907213776394518eb3acd54b64bfa42","/_app/immutable/assets/0.KOmLmptx.css":"a21fe3b42ba71e45b161fede11925ac1c9894c1c632c2e45049174ad919e3a4d","/vinkel-of-koljander-icon.png":"4e50fd7359334762b120899b0054c479b310c59fee72496c248501b40495c2c8","/_app/immutable/chunks/jTx7VfFl.js":"ef4a23497b9472e7b2bcd27d1ec780c50dcdf970c79548b3c2154454a350362e"}}
+[debug] [2026-03-04T19:01:05.853Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/841487208159/sites/vinkel-of-koljander/versions/92c06242954abf5b:populateFiles 200
+[debug] [2026-03-04T19:01:05.853Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/841487208159/sites/vinkel-of-koljander/versions/92c06242954abf5b:populateFiles {"uploadRequiredHashes":["28ab52c65454cdcc3d97c8b0c2876f0b63ca637bb7554c0ded6521d58b598e0a","75e220172d0b59ddd11b96d1f103e3d5bad952b9c1e1f42ec88c9c97a92f61dd","5ecc89a237b795c0e3cca80c49ab6383819282f55c2d73193930508c8d5e9eb5","b637baa66d57d176656aeea77a1629c38a3644a087050c1c98af1029d87d2209","d638e38cda3c84956ffd536e191981742907213776394518eb3acd54b64bfa42","d8be4f3aa18f96693781b29e4cf10eb4a6da83cb3993e89a377839f411ba2ca4","2c8415dee12de3ebbf93141e78b9f2011663abb9c5c82fdba93688d0c19a252d","3554e3b6e0cc7d37bf6d9654c0273ab2ec8b69f5b8d163cf206ba03a21b71a15","5d2975970e98360687a0cb823db4dd14bee15ef3f312d9e8f6af3c157e2968d5","f1c766ebdfe94f0173fafb7bd05f9f2f65071dc29a69fc83c46dd7d37da900d9","acbf87e895b324275e648512c0c09e5af10e0194e242994bf28d1a7bb24c8434","aa2cfd7762840c40d5f654ed61b7f1bc088234a7f69514f14b0b78429fb559cb","de37bd2a7f5e91d64ce4a2e7a192cb17274c72b535be8e2d88aae8cf6c20a1fb","138709eaf92f98878c7441236b3da475fcd37717e2d4075ac396d68ed3d52633","ef4a23497b9472e7b2bcd27d1ec780c50dcdf970c79548b3c2154454a350362e","c3891481cffc3d826dd629a56c3693773cf7b7bfba320b4939d2007243be0d68","e9c2d4814d95ecb98ef00bbf030631787a46ed4f125193cbb79c8ed86281fb99","fe8a6d5006b56c5b452f8219054d33ec583ae0ea803432bc7eff2a122830b9d8","a991bbd4a2825503720d55d54462f7db1503a78719ac87cd0fb8c80f8706c76d"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files"}
+[debug] [2026-03-04T19:01:05.854Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.854Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.855Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.856Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.856Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.856Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.856Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.856Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.857Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.858Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.859Z] Checked if tokens are valid: true, expires at: 1772652842889
+[debug] [2026-03-04T19:01:05.860Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/28ab52c65454cdcc3d97c8b0c2876f0b63ca637bb7554c0ded6521d58b598e0a [none]
+[debug] [2026-03-04T19:01:05.860Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/28ab52c65454cdcc3d97c8b0c2876f0b63ca637bb7554c0ded6521d58b598e0a [stream]
+[debug] [2026-03-04T19:01:05.863Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/75e220172d0b59ddd11b96d1f103e3d5bad952b9c1e1f42ec88c9c97a92f61dd [none]
+[debug] [2026-03-04T19:01:05.863Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/75e220172d0b59ddd11b96d1f103e3d5bad952b9c1e1f42ec88c9c97a92f61dd [stream]
+[debug] [2026-03-04T19:01:05.866Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/5ecc89a237b795c0e3cca80c49ab6383819282f55c2d73193930508c8d5e9eb5 [none]
+[debug] [2026-03-04T19:01:05.866Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/5ecc89a237b795c0e3cca80c49ab6383819282f55c2d73193930508c8d5e9eb5 [stream]
+[debug] [2026-03-04T19:01:05.869Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/b637baa66d57d176656aeea77a1629c38a3644a087050c1c98af1029d87d2209 [none]
+[debug] [2026-03-04T19:01:05.869Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/b637baa66d57d176656aeea77a1629c38a3644a087050c1c98af1029d87d2209 [stream]
+[debug] [2026-03-04T19:01:05.872Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/d638e38cda3c84956ffd536e191981742907213776394518eb3acd54b64bfa42 [none]
+[debug] [2026-03-04T19:01:05.872Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/d638e38cda3c84956ffd536e191981742907213776394518eb3acd54b64bfa42 [stream]
+[debug] [2026-03-04T19:01:05.876Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/d8be4f3aa18f96693781b29e4cf10eb4a6da83cb3993e89a377839f411ba2ca4 [none]
+[debug] [2026-03-04T19:01:05.876Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/d8be4f3aa18f96693781b29e4cf10eb4a6da83cb3993e89a377839f411ba2ca4 [stream]
+[debug] [2026-03-04T19:01:05.880Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/2c8415dee12de3ebbf93141e78b9f2011663abb9c5c82fdba93688d0c19a252d [none]
+[debug] [2026-03-04T19:01:05.880Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/2c8415dee12de3ebbf93141e78b9f2011663abb9c5c82fdba93688d0c19a252d [stream]
+[debug] [2026-03-04T19:01:05.884Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/3554e3b6e0cc7d37bf6d9654c0273ab2ec8b69f5b8d163cf206ba03a21b71a15 [none]
+[debug] [2026-03-04T19:01:05.884Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/3554e3b6e0cc7d37bf6d9654c0273ab2ec8b69f5b8d163cf206ba03a21b71a15 [stream]
+[debug] [2026-03-04T19:01:05.888Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/5d2975970e98360687a0cb823db4dd14bee15ef3f312d9e8f6af3c157e2968d5 [none]
+[debug] [2026-03-04T19:01:05.888Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/5d2975970e98360687a0cb823db4dd14bee15ef3f312d9e8f6af3c157e2968d5 [stream]
+[debug] [2026-03-04T19:01:05.891Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/f1c766ebdfe94f0173fafb7bd05f9f2f65071dc29a69fc83c46dd7d37da900d9 [none]
+[debug] [2026-03-04T19:01:05.891Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/f1c766ebdfe94f0173fafb7bd05f9f2f65071dc29a69fc83c46dd7d37da900d9 [stream]
+[debug] [2026-03-04T19:01:05.893Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/acbf87e895b324275e648512c0c09e5af10e0194e242994bf28d1a7bb24c8434 [none]
+[debug] [2026-03-04T19:01:05.893Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/acbf87e895b324275e648512c0c09e5af10e0194e242994bf28d1a7bb24c8434 [stream]
+[debug] [2026-03-04T19:01:05.895Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/aa2cfd7762840c40d5f654ed61b7f1bc088234a7f69514f14b0b78429fb559cb [none]
+[debug] [2026-03-04T19:01:05.896Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/aa2cfd7762840c40d5f654ed61b7f1bc088234a7f69514f14b0b78429fb559cb [stream]
+[debug] [2026-03-04T19:01:05.898Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/de37bd2a7f5e91d64ce4a2e7a192cb17274c72b535be8e2d88aae8cf6c20a1fb [none]
+[debug] [2026-03-04T19:01:05.898Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/de37bd2a7f5e91d64ce4a2e7a192cb17274c72b535be8e2d88aae8cf6c20a1fb [stream]
+[debug] [2026-03-04T19:01:05.901Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/138709eaf92f98878c7441236b3da475fcd37717e2d4075ac396d68ed3d52633 [none]
+[debug] [2026-03-04T19:01:05.901Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/138709eaf92f98878c7441236b3da475fcd37717e2d4075ac396d68ed3d52633 [stream]
+[debug] [2026-03-04T19:01:05.903Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/ef4a23497b9472e7b2bcd27d1ec780c50dcdf970c79548b3c2154454a350362e [none]
+[debug] [2026-03-04T19:01:05.903Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/ef4a23497b9472e7b2bcd27d1ec780c50dcdf970c79548b3c2154454a350362e [stream]
+[debug] [2026-03-04T19:01:05.905Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/c3891481cffc3d826dd629a56c3693773cf7b7bfba320b4939d2007243be0d68 [none]
+[debug] [2026-03-04T19:01:05.906Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/c3891481cffc3d826dd629a56c3693773cf7b7bfba320b4939d2007243be0d68 [stream]
+[debug] [2026-03-04T19:01:05.908Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/e9c2d4814d95ecb98ef00bbf030631787a46ed4f125193cbb79c8ed86281fb99 [none]
+[debug] [2026-03-04T19:01:05.908Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/e9c2d4814d95ecb98ef00bbf030631787a46ed4f125193cbb79c8ed86281fb99 [stream]
+[debug] [2026-03-04T19:01:05.910Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/fe8a6d5006b56c5b452f8219054d33ec583ae0ea803432bc7eff2a122830b9d8 [none]
+[debug] [2026-03-04T19:01:05.910Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/fe8a6d5006b56c5b452f8219054d33ec583ae0ea803432bc7eff2a122830b9d8 [stream]
+[debug] [2026-03-04T19:01:05.913Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/a991bbd4a2825503720d55d54462f7db1503a78719ac87cd0fb8c80f8706c76d [none]
+[debug] [2026-03-04T19:01:05.913Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/vinkel-of-koljander/versions/92c06242954abf5b/files/a991bbd4a2825503720d55d54462f7db1503a78719ac87cd0fb8c80f8706c76d [stream]
+[debug] [2026-03-04T19:01:05.916Z] [hosting][populate queue][FINAL] {"max":1089,"min":1089,"avg":1089,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1146}
+[debug] [2026-03-04T19:01:05.917Z] [hosting] uploads queued: 19

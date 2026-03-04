@@ -1,22 +1,23 @@
-import { getApp, initializeApp, type Unsubscribe } from "$lib/chunk/firebase-app";
+import { getApp, initializeApp } from "firebase/app";
+import { type Unsubscribe } from "firebase/auth";
 import {
-  addDoc,
   collection,
-  deleteDoc,
   doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
   getDoc,
   getDocs,
-  getFirestore,
-  limit,
-  onSnapshot,
+  query,
+  writeBatch,
+  where,
   or,
   orderBy,
-  query,
-  updateDoc,
-  where,
-  writeBatch,
+  limit,
+  onSnapshot,
   type WhereFilterOp,
-} from "$lib/chunk/firebase-firestore";
+  getFirestore,
+} from "firebase/firestore";
 import { DB_NAME, APP_NAME, FIREBASE_CONFIG } from "$lib";
 import { DateUtil } from "$lib/date_util";
 
