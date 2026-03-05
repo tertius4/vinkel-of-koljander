@@ -1,32 +1,10 @@
 <script>
-  import { page } from "$app/state";
-  import { Navigation } from "$lib/classes/Navigation.svelte";
   import DisplaySteps from "$lib/comps/DisplaySteps.svelte";
   import Icon from "$lib/comps/Icon.svelte";
-  import { DB } from "$lib/DB";
-  import { onMount } from "svelte";
 
-  /** @type {DB.Resep?} */
-  let recipe = $state(null);
+  const { data } = $props();
 
-  onMount(async () => {
-    recipe = await getRecipe();
-  });
-
-  async function getRecipe() {
-    const url = new URL(page.url.origin + Navigation.current_page);
-    const recipe_id = url.searchParams.get("recipe_id");
-    if (!recipe_id) {
-      Navigation.navigateTo("/");
-      return null;
-    }
-
-    return await DB.Resep.read(recipe_id);
-  }
-
-  async function handleClose() {
-    Navigation.navigateTo("/");
-  }
+  const recipe = $derived(data.recipe);
 </script>
 
 <div class="px-4 pt-4 overflow-y-auto flex flex-col gap-6 h-full pb-50 scrollbar-none">

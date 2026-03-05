@@ -1,7 +1,5 @@
 import * as env from "$env/static/public";
 
-export const SKEP_KODE = env.PUBLIC_GEHEIME_SKEP_KODE;
-export const WYSIG_KODE = env.PUBLIC_GEHEIME_WYSIG_KODE;
 export const WYSIG_WAGWOORD = env.PUBLIC_GEHEIME_WYSIG_WAGWOORD;
 export const DB_NAME = env.PUBLIC_DB_NAME;
 export const APP_NAME = env.PUBLIC_APP_NAME;

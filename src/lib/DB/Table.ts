@@ -62,15 +62,16 @@ export class Table<T extends any> {
     }
   }
 
-  async read(id: string): Promise<T | null> {
+  async read(id: string): Promise<T> {
     const db = this.getFirestore();
     const docRef = doc(db, this.name, id);
     const snapshot = await getDoc(docRef);
-    if (!snapshot.exists()) return null;
+    if (!snapshot.exists()) {
+      throw new Error(`Document with id ${id} not found in ${this.name}`);
+    }
 
     const data = snapshot.data();
-    const doc2 = { ...data, id: snapshot.id } as T;
-    return doc2;
+    return { ...data, id: snapshot.id } as T;
   }
 
   async readMany(options?: QueryOptions): Promise<T[]> {
