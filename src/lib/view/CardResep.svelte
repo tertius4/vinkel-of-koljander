@@ -1,5 +1,5 @@
 <script>
-  import Icon from "$lib/comps/Icon.svelte";
+  import Icon from "$lib/ui/comps/Icon.svelte";
   import { slide } from "svelte/transition";
 
   /**

@@ -1,8 +1,8 @@
 <script>
   import { page } from "$app/state";
   import { Navigation } from "$lib/classes/Navigation.svelte";
-  import DisplaySteps from "$lib/comps/DisplaySteps.svelte";
-  import Icon from "$lib/comps/Icon.svelte";
+  import DisplaySteps from "$lib/ui/DisplaySteps.svelte";
+  import Icon from "$lib/ui/comps/Icon.svelte";
   import { DB } from "$lib/DB";
   import { onMount } from "svelte";
 

@@ -1,6 +1,6 @@
 <script>
-  import Form from "$lib/comps/CreateForm.svelte";
-  import PageHeader from "$lib/comps/PageHeader.svelte";
+  import Form from "$lib/ui/CreateForm.svelte";
+  import PageHeader from "$lib/ui/PageHeader.svelte";
 
   let has_scrolled = $state(false);
   /**
@@ -24,7 +24,7 @@
   <PageHeader>Skep 'n Nuwe Resep</PageHeader>
 </div>
 
-<div use:init class="h-full overflow-y-auto scrollbar-none pb-25 px-4">
+<div use:init class="h-full overflow-y-auto scrollbar-none pb-32 px-4">
   <Form
     recipe={{
       id: "",

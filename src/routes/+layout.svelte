@@ -24,5 +24,10 @@
     </div>
 
     {@render children()}
+    <!-- <div class="flex flex-col items-center justify-center h-full gap-4 p-4">
+      <h2 class="text-2xl font-bold text-alabaster-950">In Onderhoud</h2>
+      <p class="text-alabaster-700 text-center">Hierdie webwerf word tans aan gewerk. Kyk asseblief oor 15 min weer!</p>
+      <span class="text-4xl">🏗️</span>
+    </div> -->
   </div>
 </main>

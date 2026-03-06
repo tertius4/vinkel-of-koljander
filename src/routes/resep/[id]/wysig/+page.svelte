@@ -1,7 +1,7 @@
 <script>
   import Create from "$lib/view/Create.svelte";
-  import Modal from "$lib/comps/Modal.svelte";
-  import Input from "$lib/comps/Input.svelte";
+  import Modal from "$lib/ui/Modal.svelte";
+  import Input from "$lib/ui/Input.svelte";
   import { saveAuthToken } from "$lib/auth";
   import Edit from "$lib/view/Edit.svelte";
   import { Core } from "$lib/core/index.js";

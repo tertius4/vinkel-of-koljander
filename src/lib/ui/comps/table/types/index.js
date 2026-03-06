@@ -5,7 +5,6 @@
 
 /**
  * @typedef {Object} TableColumn
- * @property {string} [short_title] - The short title of the column for compact displays.
  * @property {string} title - The title of the column.
  * @property {string} [width] - The width of the column (e.g., '100px', '1fr').
  * @property {string} [key] - The key associated with the column data.

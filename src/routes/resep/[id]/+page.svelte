@@ -1,6 +1,6 @@
 <script>
-  import DisplaySteps from "$lib/comps/DisplaySteps.svelte";
-  import Icon from "$lib/comps/Icon.svelte";
+  import DisplaySteps from "$lib/ui/DisplaySteps.svelte";
+  import Icon from "$lib/ui/comps/Icon.svelte";
 
   const { data } = $props();
 

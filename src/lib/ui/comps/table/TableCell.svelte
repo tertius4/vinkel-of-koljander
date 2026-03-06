@@ -5,7 +5,7 @@
 <div
 	{...rest}
 	class={[
-		'p-2 transition-all',
+		'p-2 transition-all hover:bg-gray-50',
 		rest.class ?? ''
 	]}
 >

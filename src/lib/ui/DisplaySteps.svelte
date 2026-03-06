@@ -8,13 +8,13 @@
 
   const formatted_steps = $derived(
     steps.map((step) => {
-      const ingredients = step.bestanddele.filter((b) => b.hoeveelheid || b.maatstaf || b.naam);
+      const ingredients = step.ingredients.filter((b) => b.amount || b.unit || b.ingredient.trim());
       const instructions = step.instruksies.filter((i) => !!i.label.trim());
 
       const formatted_ingredients = ingredients.map((ingredient, i) => ({
-        label: `${ingredient.hoeveelheid || ""} ${ingredient.maatstaf || ""} ${ingredient.naam || ""}`.trim(),
+        label: `${ingredient.amount || ""} ${ingredient.unit || ""} ${ingredient.ingredient || ""}`.trim(),
         number: step.nommer + "." + (i + 1),
-        note: ingredient.note?.trim(),
+        note: ingredient.comment?.trim(),
       }));
 
       const formatted_instructions = instructions.map((instruksie, i) => ({

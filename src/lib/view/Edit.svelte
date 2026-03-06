@@ -1,6 +1,6 @@
 <script>
-  import Form from "$lib/comps/CreateForm.svelte";
-  import PageHeader from "$lib/comps/PageHeader.svelte";
+  import Form from "$lib/ui/CreateForm.svelte";
+  import PageHeader from "$lib/ui/PageHeader.svelte";
 
   /**
    * @typedef {Object} Props

@@ -36,6 +36,8 @@ export const FOOD_CATEGORIES = [
   { label: "Stoofpot" },
   { label: "Braai" },
   { label: "Instant-pot" },
+  { label: "Stapperskos" },
+  { label: "Gebottel" },
 
   // Cooking time
   { label: "Stadig gaar" },

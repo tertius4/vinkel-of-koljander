@@ -1,8 +1,8 @@
 <script>
   import { normalize } from "$lib";
   import { checkAuthToken } from "$lib/auth";
-  import Input from "$lib/comps/Input.svelte";
-  import PageHeader from "$lib/comps/PageHeader.svelte";
+  import Input from "$lib/ui/Input.svelte";
+  import PageHeader from "$lib/ui/PageHeader.svelte";
   import { DB } from "$lib/DB";
   import CardResep from "./CardResep.svelte";
 

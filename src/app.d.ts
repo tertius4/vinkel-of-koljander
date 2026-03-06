@@ -29,38 +29,24 @@ declare global {
       inhoud: string;
     }
 
-    interface Bestanddeel {
-      naam: string;
-      hoeveelheid: string;
-      maatstaf: string;
-      note?: string;
+    interface Ingredient {
+      ingredient: string;
+      amount: number;
+      unit: string;
+      comment?: string;
     }
   }
 
   interface ResepStap {
     nommer: number;
-    instruksies: { label: string, note?: string }[];
-    bestanddele: DB.Bestanddeel[];
+    instruksies: { label: string; note?: string }[];
+    ingredients: DB.Ingredient[];
   }
 
-  type ApiResult<T> =
-    | {
-        success: true;
-        data: T;
-      }
-    | {
-        success: false;
-        error_message: string;
-      };
-
-  type SimpleApiResult =
-    | {
-        success: true;
-      }
-    | {
-        success: false;
-        error_message: string;
-      };
+  type Result<T = void> = T extends void
+    ? { ok: true } | { ok: false; error: string }
+    : { ok: true; value: T } | { ok: false; error: string };
+  type AsyncResult<T = void> = Promise<Result<T>>;
 }
 
 export {};

@@ -10,8 +10,9 @@
    * @property {(value: string | number) => void} [onsubmit] - The onsubmit event handler.
    */
 
-  /** @type {Props} */
-  let { value = $bindable(""), placeholder, name, id, type, class: className = "", onsubmit } = $props();
+  /** @type {Props & Record<string, any>} */
+  let { value = $bindable(""), ...props } = $props();
+  const { placeholder, name, id, type, onsubmit, ...rest } = props;
 </script>
 
 <input
@@ -30,7 +31,7 @@
   }}
   class={[
     "w-full px-4 py-3 focus:bg-rust-50 border focus:placeholder:text-rust-600 border-alabaster-300 bg-white placeholder-alabaster-400 rounded-lg focus:ring-0.5 outline-0 focus:ring-rust-400 focus:border-rust-400 caret-rust-400 transition-colors placeholder:italic",
-    className,
+    rest.class,
   ]}
   bind:value
   {name}

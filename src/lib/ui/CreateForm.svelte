@@ -1,16 +1,14 @@
 <script>
-  import { goto } from "$app/navigation";
-  import ImagePicker from "$lib/comps/ImagePicker.svelte";
+  import ImagePicker from "$lib/ui/ImagePicker.svelte";
   import { DB } from "$lib/DB/index.js";
-  import Input from "$lib/comps/Input.svelte";
+  import Input from "$lib/ui/Input.svelte";
   import InputArea from "./InputArea.svelte";
   import { FOOD_CATEGORIES, normalize } from "$lib";
   import CategoryPill from "./CategoryPill.svelte";
-  import Table from "./table/Table.svelte";
-  import TableRow from "./table/TableRow.svelte";
-  import TableCell from "./table/TableCell.svelte";
   import { Navigation } from "$lib/classes/Navigation.svelte";
   import Note from "./Note.svelte";
+  import TableIngredients from "./feature/TableIngredients.svelte";
+  import { goto } from "$app/navigation";
 
   /**
    * @typedef {Object} Props
@@ -217,81 +215,7 @@
     </div>
 
     <div class="bg-white rounded-lg">
-      <div class="flex items-center justify-between border-b border-alabaster-200 p-2">
-        <div class="font-medium text-lg">Bestandele</div>
-        <button
-          class="bg-rust-500 text-white px-4 py-2 rounded hover:bg-rust-600 transition-colors items-center justify-center"
-          type="button"
-          onclick={() => {
-            stap.bestanddele.push({ naam: "", hoeveelheid: "", maatstaf: "", note: "" });
-          }}
-        >
-          <svg class="w-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-          </svg>
-          <span class="leading-none">Voeg By</span>
-        </button>
-      </div>
-      <div>
-        <Table
-          bodyClass="*:even:bg-white *:odd:bg-alabaster-100! scrollbar-none"
-          headings={[
-            { key: "nota", title: "", width: "40px" },
-            { key: "naam", title: "Naam" },
-            { key: "hoeveelheid", title: "Hoeveelheid", short_title: "Hoeveelh." },
-            { key: "maatstaf", title: "Maatstaf", short_title: "Maatsf." },
-            { key: "verwyder", title: "", width: "40px" },
-          ]}
-        >
-          {#each stap.bestanddele as bestandeel, i}
-            <TableRow>
-              <TableCell class="flex justify-center items-center">
-                <Note bind:value={bestandeel.note} />
-              </TableCell>
-              <TableCell>
-                <input
-                  class="w-full bg-transparent outline-0 text-ellipsis"
-                  type="text"
-                  value={bestandeel.naam}
-                  onchange={(e) => (bestandeel.naam = e.target.value)}
-                />
-              </TableCell>
-              <TableCell>
-                <input
-                  class="w-full bg-transparent outline-0 text-ellipsis"
-                  type="text"
-                  value={bestandeel.hoeveelheid}
-                  onchange={(e) => (bestandeel.hoeveelheid = e.target.value)}
-                />
-              </TableCell>
-              <TableCell>
-                <input
-                  class="w-full bg-transparent outline-0 text-ellipsis"
-                  type="text"
-                  value={bestandeel.maatstaf}
-                  onchange={(e) => (bestandeel.maatstaf = e.target.value)}
-                />
-              </TableCell>
-              <TableCell
-                onclick={() => stap.bestanddele.splice(i, 1)}
-                class="flex justify-center items-center shrink-0"
-              >
-                <svg
-                  viewBox="0 0 512 512"
-                  class="w-5! h-5! cursor-pointer hover:text-rust-600 transition-colors"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM168 232l176 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-176 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"
-                  />
-                </svg>
-              </TableCell>
-            </TableRow>
-          {:else}
-            <div class="p-4 text-alabaster-400 italic col-span-5">Nog geen bestanddele nie.</div>
-          {/each}
-        </Table>
-      </div>
+      <TableIngredients ingredients={stap.ingredients} />
     </div>
 
     <div>
@@ -369,7 +293,7 @@
   <button
     class="bg-rust-500 mx-auto text-white px-6 py-3 rounded hover:bg-rust-600 transition-colors items-center justify-center"
     type="button"
-    onclick={() => recipe.stappe.push({ bestanddele: [], instruksies: [], nommer: recipe.stappe.length + 1 })}
+    onclick={() => recipe.stappe.push({ ingredients: [], instruksies: [], nommer: recipe.stappe.length + 1 })}
   >
     <svg class="w-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -388,7 +312,7 @@
       onclick={async () => {
         await DB.Resep.delete(recipe.id);
 
-        Navigation.navigateTo(`/`);
+        goto("/");
       }}
       class="bg-rust-500 px-8 py-4 rounded-xl transition-all duration-200 font-semibold text-lg"
     >
