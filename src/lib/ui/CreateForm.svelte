@@ -3,7 +3,7 @@
   import { DB } from "$lib/DB/index.js";
   import Input from "$lib/ui/Input.svelte";
   import InputArea from "./InputArea.svelte";
-  import { FOOD_CATEGORIES, normalize } from "$lib";
+  import { FOOD_CATEGORIES, normalise } from "$lib";
   import CategoryPill from "./CategoryPill.svelte";
   import { Navigation } from "$lib/classes/Navigation.svelte";
   import Note from "./Note.svelte";
@@ -21,10 +21,10 @@
   let recipe = $state(original_recipe);
   let is_loading = $state(false);
 
-  const selected_categories = $derived(new Set((recipe.kategorieë || []).map((c) => normalize(c))));
+  const selected_categories = $derived(new Set((recipe.kategorieë || []).map((c) => normalise(c))));
   const custom_categories = $derived(
     recipe.kategorieë
-      .filter((c) => !FOOD_CATEGORIES.some((cat) => normalize(cat.label) === normalize(c)))
+      .filter((c) => !FOOD_CATEGORIES.some((cat) => normalise(cat.label) === normalise(c)))
       .map((label) => ({ label })),
   );
 
@@ -83,9 +83,9 @@
   }
 
   function selectCategory(label) {
-    const is_selected = selected_categories.has(normalize(label));
+    const is_selected = selected_categories.has(normalise(label));
     if (is_selected) {
-      recipe.kategorieë = recipe.kategorieë.filter((c) => normalize(c) !== normalize(label));
+      recipe.kategorieë = recipe.kategorieë.filter((c) => normalise(c) !== normalise(label));
     } else {
       recipe.kategorieë = [...recipe.kategorieë, label].sort();
     }
@@ -183,7 +183,7 @@
   {#each [...FOOD_CATEGORIES, ...custom_categories] as category (category.label)}
     <CategoryPill
       label={category.label}
-      is_selected={selected_categories.has(normalize(category.label))}
+      is_selected={selected_categories.has(normalise(category.label))}
       onclick={() => selectCategory(category.label)}
     />
   {/each}

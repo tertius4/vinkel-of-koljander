@@ -37,6 +37,10 @@ declare global {
     }
   }
 
+  interface RecipeCardData {
+    cover_image?: { src: string; alt: string };
+  }
+
   interface ResepStap {
     nommer: number;
     instruksies: { label: string; note?: string }[];
@@ -44,8 +48,8 @@ declare global {
   }
 
   type Result<T = void> = T extends void
-    ? { ok: true } | { ok: false; error: string }
-    : { ok: true; value: T } | { ok: false; error: string };
+    ? { ok: true }
+    : { ok: true; value: T } | { ok: false; status: number; error: string };
   type AsyncResult<T = void> = Promise<Result<T>>;
 }
 

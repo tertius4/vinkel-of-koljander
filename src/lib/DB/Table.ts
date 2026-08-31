@@ -39,7 +39,7 @@ export class Table<T extends any> {
     this.name = name;
   }
 
-  async create(data: Omit<T, "id" | "archived" | "created_at">): Promise<SimpleApiResult> {
+  async create(data: Omit<T, "id" | "archived" | "created_at">): AsyncResult {
     try {
       if (!data) throw new Error("Data is required");
 
@@ -51,13 +51,13 @@ export class Table<T extends any> {
       const doc_data = JSON.parse(JSON.stringify({ ...data, created_at }));
       await addDoc(colRef, doc_data);
 
-      return { success: true };
+      return { ok: true };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
       console.error(`Error creating document in ${this.name}: ${error_message}`);
       return {
-        success: false,
-        error_message: error_message || "Failed to create document",
+        ok: false,
+        error: error_message || "Failed to create document",
       };
     }
   }
@@ -94,20 +94,20 @@ export class Table<T extends any> {
     return docs;
   }
 
-  async updateById(id: string, data: Partial<T>): Promise<SimpleApiResult> {
+  async updateById(id: string, data: Partial<T>): AsyncResult {
     try {
       const db = this.getFirestore();
       const docRef = doc(db, this.name, id);
 
       await updateDoc(docRef, data);
-      return { success: true };
+      return { ok: true };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
-      return { success: false, error_message };
+      return { ok: false, error: error_message };
     }
   }
 
-  async update(id: string, data: Partial<T>): Promise<SimpleApiResult> {
+  async update(id: string, data: Partial<T>): AsyncResult {
     try {
       const db = this.getFirestore();
 
@@ -116,15 +116,15 @@ export class Table<T extends any> {
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
-        return { success: false, error_message: "Document not found" };
+        return { ok: false, error: "Document not found" };
       }
 
       // Update using the found document reference
       await updateDoc(snapshot.docs[0].ref, data);
-      return { success: true };
+      return { ok: true };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
-      return { success: false, error_message };
+      return { ok: false, error: error_message };
     }
   }
 

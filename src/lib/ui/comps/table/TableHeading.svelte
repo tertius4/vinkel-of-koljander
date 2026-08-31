@@ -1,5 +1,5 @@
 <script>
-  import { normalize } from "$lib";
+  import { normalise } from "$lib";
 
   /**
    * @typedef {Object} Props
@@ -11,7 +11,7 @@
    */
 
   /** @type {Props} */
-  const { title, key = normalize(title), sortable = false, sort_method, onclick, ...rest } = $props();
+  const { title, key = normalise(title), sortable = false, sort_method, onclick, ...rest } = $props();
 
   function handleSort() {
     if (sortable && onclick) onclick(key);

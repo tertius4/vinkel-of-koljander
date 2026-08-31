@@ -1,5 +1,5 @@
 <script>
-  import { normalize } from "$lib";
+  import { normalise } from "$lib";
   import { checkAuthToken } from "$lib/auth";
   import Input from "$lib/ui/Input.svelte";
   import PageHeader from "$lib/ui/PageHeader.svelte";
@@ -8,7 +8,7 @@
 
   /** @type {string} */
   let search_text = $state("");
-  const normalized_search = $derived(normalize(search_text));
+  const normalised_search = $derived(normalise(search_text));
 
   const all_recipes = $derived(await DB.Resep.getAll());
   let is_loading = $state(true);
@@ -28,9 +28,9 @@
     if (!search_text) return all_recipes;
 
     return all_recipes.filter((resep) => {
-      if (normalize(resep.naam).includes(normalized_search)) return true;
+      if (normalise(resep.naam).includes(normalised_search)) return true;
       for (const kategorie of resep.kategorieë ?? []) {
-        if (normalize(kategorie).includes(normalized_search)) return true;
+        if (normalise(kategorie).includes(normalised_search)) return true;
       }
       return false;
     });
