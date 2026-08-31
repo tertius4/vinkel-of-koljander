@@ -27,13 +27,16 @@
   }
 </script>
 
-<!-- <a
-  hidden={!data.is_logged_in}
-  href="/skep"
-  class="block text-center bg-rust-500 hover:bg-rust-600 text-white font-medium py-2 px-4 rounded-b-lg transition-colors mb-6"
+<div
+  class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-10 transition-colors rounded-lg"
 >
-  Skep Resep
-</a> -->
+  <a hidden={!data.is_logged_in} href="/skep">
+    <div class="text-white flex items-center gap-1 p-4 shadow-lg">
+      <Icon name="plus" size={20} />
+      <span class="text-[20px] font-semibold tracking-wide">SKEP</span>
+    </div>
+  </a>
+</div>
 
 <div class="my-4">
   <InputSearchRecipe placeholder="Soek 'n Resep" />
@@ -41,15 +44,16 @@
 
 <div class="flex flex-col h-full">
   {#if is_loading}
-    <Icon name="loading" class="animate-spin text-primary mx-auto col-span-full" />
+    <div class="text-black h-50 mx-auto flex flex-col items-center gap-2 animate-pulse">
+      <Icon name="loading" class="animate-spin" />
+      <span class="font-medium">Loading…</span>
+    </div>
   {:else if cards.length === 0}
     <p class="text-center text-on-surface-variant col-span-full">Geen resultate gevind nie.</p>
   {:else}
     <div class="flex-1 min-h-0 w-full overflow-y-auto">
       <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {#each cards as card}
-          <CardRecipe data={card} />
-          <CardRecipe data={card} />
           <CardRecipe data={card} />
         {/each}
       </section>

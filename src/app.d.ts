@@ -38,7 +38,11 @@ declare global {
   }
 
   interface RecipeCardData {
+    id: string;
     cover_image?: { src: string; alt: string };
+    tags: string[];
+    title: string;
+    tyd?: { werk: number; wag: number };
   }
 
   interface ResepStap {
