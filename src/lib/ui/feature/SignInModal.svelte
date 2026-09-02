@@ -1,9 +1,10 @@
 <script lang="ts">
   import { invalidate } from "$app/navigation";
   import { saveAuthToken } from "$lib/auth";
-  import Modal from "$lib/ui/comps/Modal.svelte";
   import Button from "../comps/buttons/Button.svelte";
   import TextInput from "../comps/inputs/TextInput.svelte";
+  import Modal from "$lib/ui/comps/Modal.svelte";
+  import Icon from "../comps/Icon.svelte";
 
   const { onclose } = $props();
 
@@ -46,7 +47,14 @@
 <svelte:body onkeydown={handleKeyPress} />
 
 <Modal>
-  <form class="space-y-2">
+  <form class="space-y-2 relative">
+    <button
+      class="absolute top-1 right-1 text-neutral-400 hover:text-neutral-600 transition-colors"
+      type="button"
+      onclick={onclose}
+    >
+      <Icon name="xmark" size="20" />
+    </button>
     <h2 class="text-xl font-bold">Teken in</h2>
     <p class="text-neutral-400">Teken asseblief in om voort te gaan.</p>
 
@@ -54,8 +62,10 @@
     <TextInput autocomplete="current-password" autofocus placeholder="Password" type="password" bind:value={password} />
     <p class="text-red-500" hidden={!error}>{error}</p>
 
-    <Button type="submit" class="ml-auto" onclick={handleLogin}>
-      <span class="text-white">Teken in</span>
-    </Button>
+    <footer class="w-full flex items-center gap-2">
+      <Button type="submit" class="ml-auto" onclick={handleLogin}>
+        <span class="text-white">Teken in</span>
+      </Button>
+    </footer>
   </form>
 </Modal>

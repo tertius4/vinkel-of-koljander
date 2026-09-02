@@ -11,7 +11,7 @@ export async function load({ depends, url }) {
   const is_logged_in = browser && (await checkAuthToken());
   const is_maintenance_mode = env.PUBLIC_MAINTENANCE_MODE === "true";
 
-  const is_create_page = url.pathname.startsWith("/create");
+  const is_create_page = url.pathname.startsWith("/skep");
   const is_edit_page = url.pathname.endsWith("/wysig");
 const is_recipe_page = url.pathname.startsWith("/resep/");
 

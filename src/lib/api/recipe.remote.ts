@@ -5,7 +5,6 @@ import { remote } from "$lib/server";
 export const searchRecipes = remote(_searchRecipes);
 
 async function _searchRecipes(search: string): AsyncResult<RecipeCardData[]> {
-  console.log("HERE", search);
   try {
     const recipes = await DB.Resep.getAll();
     recipes.sort((a, b) => normalise(a.naam).localeCompare(normalise(b.naam)));

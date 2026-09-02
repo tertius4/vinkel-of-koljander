@@ -53,8 +53,14 @@
       <div class="flex items-center gap-6 text-on-surface-variant font-label-sm text-label-sm">
         {#if data.tyd}
           <div class="flex gap-4 text-neutral-500 font-sans text-[13px]">
-            <span hidden={data.tyd.werk == null}>Werk: {data.tyd.werk} min</span>
-            <span hidden={data.tyd.wag == null}>Wag: {data.tyd.wag} min</span>
+            <div class="flex gap-1" hidden={data.tyd.werk == null}>
+              <Icon name="running-man" class="w-4 h-4 shrink-0" />
+              <span>Werk: {data.tyd.werk} min</span>
+            </div>
+            <div class="flex gap-1" hidden={data.tyd.wag == null}>
+              <Icon name="clock" class="w-4 h-4 shrink-0" />
+              <span>Wag: {data.tyd.wag} min</span>
+            </div>
           </div>
         {/if}
       </div>
