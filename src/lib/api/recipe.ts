@@ -1,14 +1,14 @@
 import { err, normalise, ok, searchOnText, wait } from "$lib";
 import { DB } from "$lib/DB";
-import { remote } from "$lib/server";
+// import { remote } from "$lib/server";
 
-export const searchRecipes = remote(_searchRecipes);
+export const searchRecipes = _searchRecipes;
 
 async function _searchRecipes(search: string): AsyncResult<RecipeCardData[]> {
   try {
     const recipes = await DB.Resep.getAll();
     recipes.sort((a, b) => normalise(a.naam).localeCompare(normalise(b.naam)));
-    recipes.sort((a, b) => a.foto && !b.foto ? -1 : !a.foto && b.foto ? 1 : 0);
+    recipes.sort((a, b) => (a.foto && !b.foto ? -1 : !a.foto && b.foto ? 1 : 0));
 
     // Filter on title and tags
     const filtered_recipes = searchOnText(recipes, (item) => [item.naam, ...item.kategorieë], search);

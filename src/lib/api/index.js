@@ -1,4 +1,4 @@
-import * as recipe from "$lib/api/recipe.remote";
+import * as recipe from "$lib/api/recipe";
 
 const Api = {
     ...recipe

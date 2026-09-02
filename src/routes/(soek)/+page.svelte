@@ -33,7 +33,11 @@
       return console.error(result.error);
     }
 
-    goto(`?search=${encodeURIComponent(search)}`, { replaceState: true, keepFocus: true, noScroll: true });
+    if (!search) {
+      await goto("/", { replaceState: true, keepFocus: true, noScroll: true });
+    } else {
+      await goto(`?search=${encodeURIComponent(search)}`, { replaceState: true, keepFocus: true, noScroll: true });
+    }
 
     cards = result.value;
     is_loading = false;
