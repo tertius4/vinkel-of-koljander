@@ -1,15 +1,21 @@
-import { err, ok, wait } from "$lib";
+import { err, normalise, ok, searchOnText, wait } from "$lib";
 import { DB } from "$lib/DB";
 import { remote } from "$lib/server";
 
 export const searchRecipes = remote(_searchRecipes);
 
-async function _searchRecipes(query: string): AsyncResult<RecipeCardData[]> {
+async function _searchRecipes(search: string): AsyncResult<RecipeCardData[]> {
+  console.log("HERE", search);
   try {
     const recipes = await DB.Resep.getAll();
+    recipes.sort((a, b) => normalise(a.naam).localeCompare(normalise(b.naam)));
+    recipes.sort((a, b) => a.foto && !b.foto ? -1 : !a.foto && b.foto ? 1 : 0);
+
+    // Filter on title and tags
+    const filtered_recipes = searchOnText(recipes, (item) => [item.naam, ...item.kategorieë], search);
 
     const result_data: RecipeCardData[] = [];
-    for (const recipe of recipes) {
+    for (const recipe of filtered_recipes) {
       const data: RecipeCardData = {
         id: recipe.id,
         cover_image: recipe.foto ? { src: recipe.foto, alt: recipe.naam } : undefined,

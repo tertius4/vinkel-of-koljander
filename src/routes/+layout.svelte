@@ -2,6 +2,7 @@
   import ButtonAuth from "$lib/ui/feature/ButtonAuth.svelte";
   import { browser } from "$app/environment";
   import "./layout.css";
+  import Icon from "$lib/ui/comps/Icon.svelte";
 
   const { data, children } = $props();
 </script>
@@ -14,38 +15,32 @@
       <span class="text-4xl">🏗️</span>
     </div>
   {:else}
-    <header
-      class="relative w-full flex justify-center items-center bg-tertiary-50 border-b border-tertiary-400 py-2 md:py-4 h-20"
-    >
-      <a href="/" class="shrink-0">
-        <img
-          src="/vinkel-of-koljander-icon.png"
-          alt="Vinkel of Koljander Logo"
-          class="w-12 md:w-16 md:h-16 h-12 mr-2 md:mr-4 shrink-0"
-        />
-      </a>
+    <header class="relative w-full bg-tertiary-50 border-b border-tertiary-400 py-2">
+      {#if data.is_create_page || data.is_edit_page || data.is_recipe_page}
+        <a href="/" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2">
+          <Icon name="arrow-left" size={24} class="text-primary-500" />
+        </a>
+      {/if}
 
-      <h1
-        class="text-primary-500 text-nowrap font-bold leading-none"
-        style="font-family: 'Times New Roman', Times, serif;"
+      <a
+        href="/"
+        class="shrink-0 w-fit mx-auto flex gap-2 md:gap-4 justify-center items-center outline-none hover:scale-105 focus:scale-105 active:scale-105 transition-transform"
       >
-        <div class="text-lg md:text-xl leading-none">Vinkel of</div>
-        <span class="text-2xl md:text-3xl leading-none">Koljander</span>
-      </h1>
+        <img src="/vinkel-of-koljander-icon.png" alt="Vinkel of Koljander Logo" class="size-12 md:size-16" />
+
+        <h1
+          class="text-primary-500 text-nowrap font-bold leading-none"
+          style="font-family: 'Times New Roman', Times, serif;"
+        >
+          <div class="text-lg md:text-xl leading-none">Vinkel of</div>
+          <span class="text-2xl md:text-3xl leading-none">Koljander</span>
+        </h1>
+      </a>
 
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
     </header>
 
-    <div class="max-w-4xl mx-auto h-full grow w-full px-4">
-      <!-- <div class="flex flex-col h-full">
-        <div class="flex-1 min-h-0 bg-black w-full overflow-y-auto">
-          <section>
-            {#each ["bg-primary-100", "bg-primary-200", "bg-primary-300", "bg-primary-400", "bg-primary-500", "bg-primary-600"] as _}
-              <div class="h-60 {_}"></div>
-            {/each}
-          </section>
-        </div>
-      </div> -->
+    <div class="max-w-4xl mx-auto grow min-h-0 w-full px-4 flex flex-col">
       {@render children()}
     </div>
   {/if}

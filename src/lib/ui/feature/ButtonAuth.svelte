@@ -32,7 +32,7 @@
     in:fade={{ duration: 150 }}
     type="button"
     onclick={handleSignOut}
-    class={["bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3", rest.class]}
+    class={["bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100", rest.class]}
   >
     <Icon name="sign-out" class="text-primary-500" />
   </button>
@@ -42,7 +42,7 @@
     in:fade={{ duration: 150 }}
     type="button"
     onclick={handleSignIn}
-    class={["bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3", rest.class]}
+    class={["bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100", rest.class]}
   >
     <Icon name="sign-in" class="text-primary-500" />
   </button>

@@ -17,7 +17,7 @@
     }
   }
 
-  async function handleLogin(event: SubmitEvent) {
+  async function handleLogin(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
     event.preventDefault();
 
     if (!password) return;
@@ -46,14 +46,15 @@
 <svelte:body onkeydown={handleKeyPress} />
 
 <Modal>
-  <form>
-    <h2 class="text-2xl font-bold">Teken in</h2>
-    <p>Teken asseblief in om voort te gaan.</p>
+  <form class="space-y-2">
+    <h2 class="text-xl font-bold">Teken in</h2>
+    <p class="text-neutral-400">Teken asseblief in om voort te gaan.</p>
 
-    <TextInput placeholder="Password" bind:value={password} />
+    <input hidden autocomplete="username" />
+    <TextInput autocomplete="current-password" autofocus placeholder="Password" type="password" bind:value={password} />
     <p class="text-red-500" hidden={!error}>{error}</p>
 
-    <Button type="submit" onclick={handleLogin}>
+    <Button type="submit" class="ml-auto" onclick={handleLogin}>
       <span class="text-white">Teken in</span>
     </Button>
   </form>
