@@ -15,7 +15,7 @@
   {...rest}
   {type}
   class={[
-    "bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
+    "bg-primary-500 hover:bg-primary-600 active:bg-primary-600 focus:bg-primary-600 text-white font-medium py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed outline-none",
     rest.class || "",
   ]}
   {onclick}

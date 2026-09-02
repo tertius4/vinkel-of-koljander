@@ -51,7 +51,7 @@
 </script>
 
 <div
-  class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-10 transition-colors rounded-lg"
+  class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg"
 >
   <a hidden={!data.is_logged_in} href="/skep">
     <div class="text-white flex items-center gap-1 p-4 shadow-lg">
@@ -62,7 +62,7 @@
 </div>
 
 {#if is_loading}
-  <div transition:fade class="fixed inset-0 w-dvw h-dvh bg-black/20 text-black z-11">
+  <div transition:fade class="fixed inset-0 w-dvw h-dvh bg-black/20 text-black z-12">
     <div class="flex flex-col items-center gap-2 justify-center w-full h-full animate-pulse">
       <Icon name="loading" class="animate-spin" size={28} />
       <span class="font-medium text-lg font-sans">Loading…</span>
