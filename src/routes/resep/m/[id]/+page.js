@@ -6,5 +6,11 @@ export async function load({ params }) {
   const recipe = await Core2.recipe.getRecipe(recipe_id);
   if (!recipe) throw error(404, "Resep nie gevind nie");
 
-  return { recipe };
+  return {
+    recipe: {
+      image: recipe.foto,
+      title: recipe.naam,
+      description: recipe.beskrywing,
+    },
+  };
 }

@@ -17,7 +17,7 @@
   {:else}
     <header class="relative w-full bg-tertiary-50 border-b border-tertiary-400 py-2">
       {#if data.is_create_page || data.is_edit_page || data.is_recipe_page}
-        <a href="/" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2">
+        <a href="/" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100">
           <Icon name="arrow-left" size={24} class="text-primary-500" />
         </a>
       {/if}
@@ -40,7 +40,7 @@
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
     </header>
 
-    <div class="max-w-4xl mx-auto grow min-h-0 w-full px-4 flex flex-col">
+    <div class="max-w-4xl mx-auto grow min-h-0 w-full flex flex-col">
       {@render children()}
     </div>
   {/if}
