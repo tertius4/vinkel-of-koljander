@@ -19,12 +19,12 @@
     class="absolute top-4 right-4 bg-neutral-800/90 p-2 z-10 rounded-xl text-white hover:text-primary-500 transition-colors shadow-sm"
     onclick={async (e) => {
       e.preventDefault();
-      await goto(`/resep/${data.id}/wysig`);
+      await goto(`/resep-oud/${data.id}/wysig`);
     }}
   >
     <Icon name="edit" class="text-white" />
   </button>
-  <a href="/resep/{data.id}" class="flex flex-col grow" {onclick}>
+  <a href="/resep-oud/{data.id}" class="flex flex-col grow" {onclick}>
     <div class="h-56 overflow-hidden bg-surface-container-low flex items-center justify-center">
       {#if data.cover_image}
         <img

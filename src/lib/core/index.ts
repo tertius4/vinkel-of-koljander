@@ -13,3 +13,19 @@ export class Core {
     },
   };
 }
+
+const Core2 = {
+  recipe: {
+    getRecipe: async (id: string) => {
+      try {
+        const recipe = await DB.Resep.read(id);
+        return recipe;
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
+        return null;
+      }
+    },
+  },
+};
+
+export { Core2 };

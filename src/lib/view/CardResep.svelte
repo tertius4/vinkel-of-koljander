@@ -16,7 +16,7 @@
   {#if editable}
     <a
       class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:shadow-md transition-shadow cursor-pointer z-50"
-      href="/resep/{resep.id}/wysig"
+      href="/resep-oud/{resep.id}/wysig"
       title="Wysig resep"
     >
       <svg class="w-6 h-6 text-rust-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
       </svg>
     </a>
   {/if}
-  <a href="/resep/{resep.id}">
+  <a href="/resep-oud/{resep.id}">
     <div
       transition:slide
       class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-alabaster-100 w-full"
