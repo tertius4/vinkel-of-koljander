@@ -50,17 +50,6 @@
   }
 </script>
 
-<div
-  class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg"
->
-  <a hidden={!data.is_logged_in} href="/skep">
-    <div class="text-white flex items-center gap-1 p-4 shadow-lg">
-      <Icon name="plus" size={20} />
-      <span class="text-[20px] font-semibold tracking-wide">SKEP</span>
-    </div>
-  </a>
-</div>
-
 {#if is_loading}
   <div transition:fade class="fixed inset-0 w-dvw h-dvh bg-black/20 text-black z-12">
     <div class="flex flex-col items-center gap-2 justify-center w-full h-full animate-pulse">
@@ -70,7 +59,7 @@
   </div>
 {/if}
 
-<div class="h-full min-h-0 flex flex-col">
+<div class="h-full min-h-0 flex flex-col px-4">
   <div class="my-4 shrink-0">
     <!-- TODO: Add Prop - clearable → provides an × to clear input -->
     <!-- TODO: Use InputText component. -->
@@ -90,4 +79,15 @@
       </div>
     {/if}
   </div>
+</div>
+
+<div
+  class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg"
+>
+  <a hidden={!data.is_logged_in} href="/skep">
+    <div class="text-white flex items-center gap-1 p-4 shadow-lg">
+      <Icon name="plus" size={20} />
+      <span class="text-[20px] font-semibold tracking-wide">SKEP</span>
+    </div>
+  </a>
 </div>

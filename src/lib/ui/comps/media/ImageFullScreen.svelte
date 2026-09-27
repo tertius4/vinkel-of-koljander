@@ -4,14 +4,26 @@
   const { src, alt } = $props();
 
   let is_fullscreen = $state(false);
+
+  /** @param {KeyboardEvent} event */
+  function handleKeyDown(event) {
+    if (event.key === "Escape" && is_fullscreen) {
+      is_fullscreen = false;
+    }
+  }
 </script>
 
-<button type="button" class="w-full" onclick={() => (is_fullscreen = !is_fullscreen)}>
+<svelte:body onkeydown={handleKeyDown} />
+
+<button type="button" class="w-full outline-none" onclick={() => (is_fullscreen = !is_fullscreen)}>
   <img {src} {alt} class="w-full h-64 object-cover rounded-lg" />
 </button>
 
 {#if is_fullscreen}
-  <div transition:fade={{ duration: 150 }} class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+  <div
+    transition:fade={{ duration: 150 }}
+    class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+  >
     <button type="button" class="absolute top-4 right-4 text-white text-2xl" onclick={() => (is_fullscreen = false)}>
       &times;
     </button>
