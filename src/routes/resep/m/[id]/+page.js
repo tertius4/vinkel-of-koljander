@@ -1,7 +1,10 @@
-export async function load({ parent }) {
+import { readServings } from ".";
+
+export async function load({ parent, url }) {
   const { recipe } = await parent();
 
   return {
+    servings: readServings(url, recipe.porsies),
     recipe: {
       image: recipe.foto,
       categories: recipe.kategorieë,

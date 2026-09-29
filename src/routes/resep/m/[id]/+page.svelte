@@ -1,5 +1,6 @@
 <script lang="ts">
   import { replaceState } from "$app/navigation";
+  import { onDestroy } from "svelte";
   import { page } from "$app/state";
   import Button from "$lib/ui/comps/buttons/Button.svelte";
   import ButtonAnchor from "$lib/ui/comps/buttons/ButtonAnchor.svelte";
@@ -9,7 +10,8 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
-  import { scaleAmount } from ".";
+  import { ingredientsHref, scaleAmount, servingsLabel } from ".";
+  import ServingsStepper from "./comps/ServingsStepper.svelte";
 
   const { data } = $props();
 
@@ -22,10 +24,8 @@
   const step_buttons: HTMLButtonElement[] = $state([]);
 
   // The serving count lives in the URL (?porsies=) so it survives navigating to the ingredients page and back.
-  const url_servings = Number(page.url.searchParams.get("porsies"));
-
   // svelte-ignore state_referenced_locally
-  let servings = $state(Number.isInteger(url_servings) && url_servings > 0 ? url_servings : recipe.servings);
+  let servings = $state(data.servings);
 
   const multiplier = $derived(servings / recipe.servings);
   const current_step = $derived(recipe.steps[current_step_index]);
@@ -84,9 +84,10 @@
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   });
 
-  function setServings(value: number) {
-    if (value < 1) return;
+  // Navigating away must not leave the screen awake.
+  onDestroy(releaseWakeLock);
 
+  function setServings(value: number) {
     servings = value;
     const url = new URL(page.url);
     url.searchParams.set("porsies", String(value));
@@ -135,7 +136,7 @@
       <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
     </Button>
 
-    <ButtonAnchor href="{page.url.pathname}/bestandele?porsies={servings}" outline>
+    <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline>
       <Icon name="drumstick-bite" />
       <span class="">Bekyk alle Bestandele</span>
     </ButtonAnchor>
@@ -156,28 +157,10 @@
               Porsies
             </span>
           </div>
-          <div class="text-primary headline-md">{servings} Mense</div>
+          <div class="text-primary headline-md">{servingsLabel(servings)}</div>
         </div>
 
-        <button
-          type="button"
-          aria-label="Decrease servings"
-          onclick={() => setServings(servings - 1)}
-          class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
-        >
-          <Icon name="minus" size={20} />
-        </button>
-        <div class="flex items-center justify-center mx-3">
-          <span class="font-bold">{servings}</span>
-        </div>
-        <button
-          type="button"
-          aria-label="Increase servings"
-          onclick={() => setServings(servings + 1)}
-          class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
-        >
-          <Icon name="plus" size={20} />
-        </button>
+        <ServingsStepper {servings} onchange={setServings} />
       </Panel>
 
       <Panel class="p-3 space-y-2">

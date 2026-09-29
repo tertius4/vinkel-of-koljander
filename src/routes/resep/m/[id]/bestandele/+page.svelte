@@ -1,10 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { normalise } from "$lib";
   import Icon from "$lib/ui/comps/Icon.svelte";
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
+  import { ingredientKey, servingsLabel } from "..";
+  import ServingsStepper from "../comps/ServingsStepper.svelte";
   import Ingredient from "./comps/Ingredient.svelte";
 
   const { data } = $props();
@@ -17,11 +18,10 @@
   const percentage = $derived(total ? Math.round((done / total) * 100) : 0);
 
   function keyOf(ingredient: { title: string; unit: string }): string {
-    return `${normalise(ingredient.title)}|${normalise(ingredient.unit)}`;
+    return ingredientKey(ingredient.title, ingredient.unit);
   }
 
   function setServings(value: number) {
-    if (value < 1) return;
     const url = new URL(page.url);
     url.searchParams.set("porsies", String(value));
     goto(url, { replaceState: true, keepFocus: true, noScroll: true });
@@ -44,28 +44,10 @@
     <Panel class="p-4 mt-4 grid grid-cols-[1fr_auto_auto_auto] items-center bg-white/80">
       <div class="space-y-1">
         <div class="label-sm uppercase tracking-wider text-primary-900 text-xs">Aantal porsies</div>
-        <div class="text-primary headline-md font-bold">{data.servings} Mense</div>
+        <div class="text-primary headline-md font-bold">{servingsLabel(data.servings)}</div>
       </div>
 
-      <button
-        type="button"
-        aria-label="Decrease servings"
-        onclick={() => setServings(data.servings - 1)}
-        class="size-9 rounded-xl border flex items-center justify-center border-primary-200 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
-      >
-        <Icon name="minus" size={20} />
-      </button>
-      <div class="flex items-center justify-center mx-3">
-        <span class="font-bold">{data.servings}</span>
-      </div>
-      <button
-        type="button"
-        aria-label="Increase servings"
-        onclick={() => setServings(data.servings + 1)}
-        class="size-9 rounded-xl border flex items-center justify-center border-primary-200 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
-      >
-        <Icon name="plus" size={20} />
-      </button>
+      <ServingsStepper servings={data.servings} onchange={setServings} border="border-primary-200" />
     </Panel>
 
     <div class="flex items-center gap-2 mt-4 text-sm italic text-[#55433c]">

@@ -1,9 +1,8 @@
-import { normalise } from "$lib";
-import { scaleAmount } from "..";
+import { ingredientKey, readServings, scaleAmount } from "..";
 
 export async function load({ parent, url }) {
   const { recipe } = await parent();
-  const servings = Number(url.searchParams.get("porsies")) || recipe.porsies;
+  const servings = readServings(url, recipe.porsies);
   const multiplier = recipe.porsies ? servings / recipe.porsies : 1;
 
   // The same ingredient (with the same unit) can be used in several steps, so add those up and show them once.
@@ -11,7 +10,7 @@ export async function load({ parent, url }) {
 
   for (const step of recipe.stappe) {
     for (const ingredient of step.ingredients) {
-      const key = `${normalise(ingredient.ingredient)}|${normalise(ingredient.unit)}`;
+      const key = ingredientKey(ingredient.ingredient, ingredient.unit);
       const entry = merged.get(key) ?? {
         title: ingredient.ingredient,
         amount: 0,
