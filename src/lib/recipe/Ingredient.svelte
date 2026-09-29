@@ -24,7 +24,7 @@
   <div>
     <div class="font-bold text-lg flex justify-between items-center gap-2">
       <span>{data.title}</span>
-      <span class="text-primary text-base text-nowrap">{data.amount} {data.unit}</span>
+      <span hidden={!data.amount || data.amount === "0"} class="text-primary text-base text-nowrap">{data.amount} {data.unit}</span>
     </div>
     <span class="italic text-neutral-900" hidden={!data.comments.length}
       ><span class="font-semibold not-italic">Wenk:</span> {data.comments.join("; ")}</span

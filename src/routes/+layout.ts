@@ -14,9 +14,9 @@ export async function load({ depends, url, route }) {
   const is_logged_in = browser && (await checkAuthToken());
   const is_maintenance_mode = env.PUBLIC_MAINTENANCE_MODE === "true";
 
-  const is_create_page = url.pathname.startsWith("/skep");
+  const is_create_page = url.pathname.startsWith("/create");
   const is_search_page = route.id === "/(soek)";
-  const is_edit_page = url.pathname.endsWith("/wysig");
+  const is_edit_page = url.pathname.startsWith("/wysig");
   const is_recipe_page = url.pathname.startsWith("/resep/") || url.pathname.startsWith("/resep/");
   const is_wide_page = url.pathname.startsWith("/resep/") && !url.pathname.startsWith("/resep/m/");
   const is_ingredients_page = url.pathname.endsWith("/bestandele");

@@ -15,7 +15,7 @@
 >
   {#if page.data.is_logged_in}
     <a
-      href="/resep/{data.id}/wysig"
+      href="/wysig/{data.id}"
       aria-label="Wysig {data.title}"
       class="absolute top-4 right-4 bg-neutral-800/90 p-2 z-10 rounded-xl text-white hover:text-primary-500 transition-colors shadow-sm"
     >

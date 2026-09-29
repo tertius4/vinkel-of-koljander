@@ -44,7 +44,7 @@
   {#if editable}
     <a
       class="absolute top-3 right-3 z-10 cursor-pointer rounded-full bg-white p-2 shadow transition hover:shadow-md focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-rust-500 focus-visible:outline-none md:opacity-0 md:group-hover:opacity-100"
-      href="/resep/{resep.id}/wysig"
+      href="/wysig/{resep.id}"
       title="Wysig resep"
       aria-label="Wysig resep"
     >

@@ -136,7 +136,7 @@
 
   <div class="grid grid-cols-1 gap-3 py-2 mb-4">
     <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode}>
-      <Icon name={cook_mode ? "xmark" : "circle-play"} />
+      <Icon name={cook_mode ? "xmark" : "circle-play"} size={20} />
       <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
     </Button>
 
@@ -186,122 +186,126 @@
     </div>
   </Container>
 
-  <div class="flex items-center justify-between flex-wrap gap-2 my-2">
-    <h2 class="headline-lg text-primary text-2xl sm:text-3xl">Instruksies</h2>
-  </div>
-  <p class="text-neutral-950 text-sm mb-4">
-    Volg elke fase noukeurig met die aangeduide bestanddele vir die beste resultaat.
-  </p>
-  <Container class="p-3 mb-4">
-    <div class="flex gap-2 items-center font-semibold mb-3 px-1">
-      <Icon name="flag" size={20} class="text-primary shrink-0" />
-      <span class="text-primary">Stap {current_step_index + 1}: {current_step.title}</span>
+  {#if !!current_step}
+    <div class="flex items-center justify-between flex-wrap gap-2 my-2">
+      <h2 class="headline-lg text-primary text-2xl sm:text-3xl">Instruksies</h2>
     </div>
-    <div class="flex gap-2 overflow-x-auto scrollbar-none">
-      {#each recipe.steps as step, i}
-        {@const is_current = current_step_index === i}
-        <button
-          type="button"
-          bind:this={step_buttons[i]}
-          title={step.title || "Stap " + (i + 1)}
-          onclick={() => goToStep(i)}
+    <p class="text-neutral-950 text-sm mb-4">
+      Volg elke fase noukeurig met die aangeduide bestanddele vir die beste resultaat.
+    </p>
+    <Container class="p-3 mb-4">
+      <div class="flex gap-2 items-center font-semibold mb-3 px-1">
+        <Icon name="flag" size={20} class="text-primary shrink-0" />
+        <span class="text-primary">Stap {current_step_index + 1}: {current_step.title}</span>
+      </div>
+      <div class="flex gap-2 overflow-x-auto scrollbar-none">
+        {#each recipe.steps as step, i}
+          {@const is_current = current_step_index === i}
+          <button
+            type="button"
+            bind:this={step_buttons[i]}
+            title={step.title || "Stap " + (i + 1)}
+            onclick={() => goToStep(i)}
+            class={{
+              "p-3 w-fit min-h-10 rounded-lg transition-colors duration-300": true,
+              "border border-primary-200 bg-white": !is_current,
+              "bg-primary-600 text-white font-medium": is_current,
+            }}
+          >
+            <div
+              class="text-nowrap uppercase {is_current ? 'text-white' : 'text-neutral-700'} font-bold tracking-wider"
+            >
+              Stap {i + 1}
+            </div>
+            <div
+              hidden={!step.title}
+              class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-700'}"
+            >
+              {step.title}
+            </div>
+          </button>
+        {/each}
+      </div>
+    </Container>
+
+    {#key current_step_index}
+      <div>
+        <Container class="rounded-b-none! bg-primary-100 p-3 grid grid-cols-[auto_1fr] gap-2">
+          <div>
+            <div
+              class="rounded-xl bg-primary font-source-serif-4 size-9 flex items-center justify-center text-white text-lg font-semibold"
+            >
+              {current_step_index + 1}
+            </div>
+          </div>
+          <div>
+            <span class="block font-source-serif-4 headline-md font-semibold"
+              >{current_step.title || "Stap " + (current_step_index + 1)}</span
+            >
+            <p hidden={!current_step.description} class="text-[#55433c]!">
+              {current_step.description}
+            </p>
+          </div>
+        </Container>
+
+        <Container class="rounded-none! p-3 border-t-0" hidden={!current_step.ingredients.length}>
+          <div class="flex gap-2 text-primary-600 uppercase tracking-wider items-center py-3">
+            <Icon name="carrot" size={20} />
+            <h3>Bestanddele vir hierdie stap</h3>
+          </div>
+          <div class="space-y-2">
+            {#each current_step.ingredients as ingredient}
+              <Panel class="p-4 font-semibold rounded-none space-y-4">
+                <div>
+                  <span hidden={!ingredient.amount}>
+                    {scaleAmount(ingredient.amount, multiplier)}
+                    {ingredient.unit}</span
+                  > <span class="capitalize">{ingredient.ingredient}</span>
+                </div>
+                {#if !!ingredient.comment}
+                  <Callout icon="lightbulb" title="Wenk" body={ingredient.comment} />
+                {/if}
+              </Panel>
+            {/each}
+          </div>
+        </Container>
+        <Container
           class={{
-            "p-3 w-fit min-h-10 rounded-lg transition-colors duration-300": true,
-            "border border-primary-200 bg-white": !is_current,
-            "bg-primary-600 text-white font-medium": is_current,
+            "rounded-t-none! p-4 border-t-0 space-y-4": true,
+            "bg-primary-100": current_step.ingredients.length,
+            "bg-primary-50": !current_step.ingredients.length,
           }}
         >
-          <div class="text-nowrap uppercase {is_current ? 'text-white' : 'text-neutral-700'} font-bold tracking-wider">
-            Stap {i + 1}
-          </div>
-          <div
-            hidden={!step.title}
-            class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-700'}"
-          >
-            {step.title}
-          </div>
-        </button>
-      {/each}
-    </div>
-  </Container>
-
-  {#key current_step_index}
-    <div>
-      <Container class="rounded-b-none! bg-primary-100 p-3 grid grid-cols-[auto_1fr] gap-2">
-        <div>
-          <div
-            class="rounded-xl bg-primary font-source-serif-4 size-9 flex items-center justify-center text-white text-lg font-semibold"
-          >
-            {current_step_index + 1}
-          </div>
-        </div>
-        <div>
-          <span class="block font-source-serif-4 headline-md font-semibold"
-            >{current_step.title || "Stap " + (current_step_index + 1)}</span
-          >
-          <p hidden={!current_step.description} class="text-[#55433c]!">
-            {current_step.description}
-          </p>
-        </div>
-      </Container>
-
-      <Container class="rounded-none! p-3 border-t-0" hidden={!current_step.ingredients.length}>
-        <div class="flex gap-2 text-primary-600 uppercase tracking-wider items-center py-3">
-          <Icon name="carrot" size={20} />
-          <h3>Bestanddele vir hierdie stap</h3>
-        </div>
-        <div class="space-y-2">
-          {#each current_step.ingredients as ingredient}
-            <Panel class="p-4 font-semibold rounded-none space-y-4">
-              <div>
-                <span hidden={!ingredient.amount}>
-                  {scaleAmount(ingredient.amount, multiplier)}
-                  {ingredient.unit}</span
-                > <span class="capitalize">{ingredient.ingredient}</span>
+          {#each current_step.instructions as instruction, i}
+            <div class="grid grid-cols-[auto_1fr] gap-2 items-center body-md">
+              <div class="mb-auto">
+                <div class="bg-primary-200 text-primary-600 px-2 py-0.5 rounded font-semibold">
+                  {current_step_index + 1}.{i + 1}
+                </div>
               </div>
-              {#if !!ingredient.comment}
-                <Callout icon="lightbulb" title="Wenk" body={ingredient.comment} />
-              {/if}
-            </Panel>
-          {/each}
-        </div>
-      </Container>
-      <Container
-        class={{
-          "rounded-t-none! p-4 border-t-0 space-y-4": true,
-          "bg-primary-100": current_step.ingredients.length,
-          "bg-primary-50": !current_step.ingredients.length,
-        }}
-      >
-        {#each current_step.instructions as instruction, i}
-          <div class="grid grid-cols-[auto_1fr] gap-2 items-center body-md">
-            <div class="mb-auto">
-              <div class="bg-primary-200 text-primary-600 px-2 py-0.5 rounded font-semibold">
-                {current_step_index + 1}.{i + 1}
-              </div>
+              <div class="text-black">{instruction.label}</div>
+              <Callout
+                class="col-start-2 bg-secondary/15!"
+                hidden={!instruction.note}
+                title="Nota"
+                body={instruction.note}
+                small
+              />
             </div>
-            <div class="text-black">{instruction.label}</div>
-            <Callout
-              class="col-start-2 bg-secondary/15!"
-              hidden={!instruction.note}
-              title="Nota"
-              body={instruction.note}
-              small
-            />
-          </div>
-        {/each}
-      </Container>
-    </div>
-  {/key}
+          {/each}
+        </Container>
+      </div>
+    {/key}
 
-  <div class="flex justify-between gap-4 mt-4">
-    <Button outline onclick={prevStep} disabled={current_step_index === 0}>
-      <Icon name="arrow-left" />
-      <span class="text-nowrap">Vorige</span>
-    </Button>
-    <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
-      <span class="text-nowrap">Volgende</span>
-      <Icon name="arrow-right" />
-    </Button>
-  </div>
+    <div class="flex justify-between gap-4 mt-4">
+      <Button outline onclick={prevStep} disabled={current_step_index === 0}>
+        <Icon name="arrow-left" />
+        <span class="text-nowrap">Vorige</span>
+      </Button>
+      <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
+        <span class="text-nowrap">Volgende</span>
+        <Icon name="arrow-right" />
+      </Button>
+    </div>
+  {/if}
 </main>

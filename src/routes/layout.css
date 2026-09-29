@@ -196,6 +196,19 @@
   --color-neutral-900: #423f3d;
   --color-neutral-950: #252323;
   --color-neutral: var(--color-neutral-500);
+
+  --color-red-50: #fdf0ee;
+  --color-red-100: #f9dfdb;
+  --color-red-200: #f5bdb5;
+  --color-red-300: #ea8d81;
+  --color-red-400: #d15046;
+  --color-red-500: #ba1a1a;
+  --color-red-600: #a10000;
+  --color-red-700: #850000;
+  --color-red-800: #6c0001;
+  --color-red-900: #570707;
+  --color-red-950: #320403;
+  --color-red: var(--color-red-500);
 }
 
 body {

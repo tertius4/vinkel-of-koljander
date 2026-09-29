@@ -123,7 +123,7 @@
 
 {#if data.is_logged_in}
   <a
-    href="/skep"
+    href="/create"
     class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg text-white flex items-center gap-1 p-4 shadow-lg"
   >
     <Icon name="plus" size={20} />
