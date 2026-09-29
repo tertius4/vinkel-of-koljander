@@ -66,7 +66,7 @@
               {#each step.ingredients as ingredient}
                 <Panel class="p-4 font-semibold space-y-4">
                   <div>
-                    <span hidden={!ingredient.amount}>{ingredient.amount} {ingredient.unit}</span>
+                    <span hidden={!ingredient.amount || ingredient.amount === "0"}>{ingredient.amount} {ingredient.unit}</span>
                     <span class="capitalize">{ingredient.ingredient}</span>
                   </div>
                   {#if ingredient.comment}
