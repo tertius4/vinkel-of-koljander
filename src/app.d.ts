@@ -19,6 +19,8 @@ declare global {
       tyd: { werk: number; wag: number };
       porsies: number;
       stappe: ResepStap[];
+      rating?: { thumbs_up: number };
+      author?: { naam: string; initials: string };
     }
 
     interface Kommentaar {
@@ -47,6 +49,8 @@ declare global {
 
   interface ResepStap {
     nommer: number;
+    title?: string;
+    description?: string;
     instruksies: { label: string; note?: string }[];
     ingredients: DB.Ingredient[];
   }

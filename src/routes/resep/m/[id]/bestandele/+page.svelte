@@ -4,9 +4,9 @@
   import Icon from "$lib/ui/comps/Icon.svelte";
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
-  import { ingredientKey, servingsLabel } from "..";
-  import ServingsStepper from "../comps/ServingsStepper.svelte";
-  import Ingredient from "./comps/Ingredient.svelte";
+  import { ingredientKey, servingsLabel } from "$lib/recipe";
+  import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
+  import Ingredient from "$lib/recipe/Ingredient.svelte";
 
   const { data } = $props();
 

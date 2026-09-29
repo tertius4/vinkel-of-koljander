@@ -16,10 +16,11 @@ export async function load({ depends, url }) {
 
   const is_create_page = url.pathname.startsWith("/skep");
   const is_edit_page = url.pathname.endsWith("/wysig");
-  const is_recipe_page = url.pathname.startsWith("/resep-oud/") || url.pathname.startsWith("/resep/");
+  const is_recipe_page = url.pathname.startsWith("/resep/") || url.pathname.startsWith("/resep/");
+  const is_wide_page = url.pathname.startsWith("/resep/") && !url.pathname.startsWith("/resep/m/");
   const is_ingredients_page = url.pathname.endsWith("/bestandele");
 
   const back_href = is_ingredients_page ? url.pathname.replace(/\/bestandele$/, "") + url.search : "/";
 
-  return { is_logged_in, is_maintenance_mode, is_create_page, is_edit_page, is_recipe_page, back_href };
+  return { is_logged_in, is_maintenance_mode, is_create_page, is_edit_page, is_recipe_page, is_wide_page, back_href };
 }

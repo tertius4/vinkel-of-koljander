@@ -10,8 +10,8 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
-  import { ingredientsHref, scaleAmount, servingsLabel } from ".";
-  import ServingsStepper from "./comps/ServingsStepper.svelte";
+  import { ingredientsHref, scaleAmount, servingsLabel } from "$lib/recipe";
+  import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
 
   const { data } = $props();
 

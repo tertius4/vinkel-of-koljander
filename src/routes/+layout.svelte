@@ -40,7 +40,7 @@
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
     </header>
 
-    <div class="max-w-4xl mx-auto grow min-h-0 w-full flex flex-col">
+    <div class={["mx-auto grow min-h-0 w-full flex flex-col"]}>
       {@render children()}
     </div>
   {/if}

@@ -13,9 +13,9 @@
       const isMobilePage = page.url.pathname.startsWith("/resep/m/");
 
       if (isMobilePage && !isMobileScreen) {
-        goto(page.url.pathname.replace("/resep/m", "/resep"));
+        goto(page.url.pathname.replace("/resep/m", "/resep").replace(/\/bestandele$/, "") + page.url.search);
       } else if (!isMobilePage && isMobileScreen) {
-        goto(page.url.pathname.replace("/resep", "/resep/m"));
+        goto(page.url.pathname.replace("/resep", "/resep/m") + page.url.search);
       }
     });
   });

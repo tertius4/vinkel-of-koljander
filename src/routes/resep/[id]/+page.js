@@ -1,11 +1,25 @@
-import { Core2 } from "$lib/core/index.js";
-import { error } from "@sveltejs/kit";
+import { mergeIngredients, readServings, scaleAmount, servingsLabel, toRecipeView } from "$lib/recipe";
 
-export async function load({ params }) {
-  const recipe_id = params.id;
-  const recipe = await Core2.recipe.getRecipe(recipe_id);
-  console.log(recipe);
-  if (!recipe) throw error(404, "Resep nie gevind nie");
+export async function load({ parent, url }) {
+  const { recipe } = await parent();
+  const servings = readServings(url, recipe.porsies);
+  const multiplier = recipe.porsies ? servings / recipe.porsies : 1;
 
-  return { recipe };
+  const view = toRecipeView(recipe);
+
+  return {
+    servings,
+    servings_label: servingsLabel(servings),
+    recipe: {
+      ...view,
+      steps: view.steps.map((step) => ({
+        ...step,
+        ingredients: step.ingredients.map((ingredient) => ({
+          ...ingredient,
+          amount: scaleAmount(ingredient.amount, multiplier),
+        })),
+      })),
+    },
+    ingredients: mergeIngredients(recipe, multiplier),
+  };
 }
