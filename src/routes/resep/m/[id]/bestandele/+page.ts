@@ -1,24 +1,37 @@
-import { Core2 } from "$lib/core";
-import { error } from "@sveltejs/kit";
+import { normalise } from "$lib";
+import { scaleAmount } from "..";
 
-export async function load({ params }) {
-  const recipe_id = params.id;
-  const recipe = await Core2.recipe.getRecipe(recipe_id);
-  if (!recipe) throw error(404, "Resep nie gevind nie");
+export async function load({ parent, url }) {
+  const { recipe } = await parent();
+  const servings = Number(url.searchParams.get("porsies")) || recipe.porsies;
+  const multiplier = recipe.porsies ? servings / recipe.porsies : 1;
 
-  const ingredients = recipe.stappe.flatMap((step) => {
-    // TODO: Match the same ingredients to only show them once.
-    return step.ingredients.map((ingredient) => {
-      const comments: string[] = [];
-      if (ingredient.comment) comments.push(ingredient.comment);
-      return {
+  // The same ingredient (with the same unit) can be used in several steps, so add those up and show them once.
+  const merged = new Map<string, { title: string; amount: number; unit: string; comments: string[] }>();
+
+  for (const step of recipe.stappe) {
+    for (const ingredient of step.ingredients) {
+      const key = `${normalise(ingredient.ingredient)}|${normalise(ingredient.unit)}`;
+      const entry = merged.get(key) ?? {
         title: ingredient.ingredient,
-        amount: ingredient.amount,
+        amount: 0,
         unit: ingredient.unit,
-        comments: comments,
+        comments: [],
       };
-    });
-  });
+
+      entry.amount += Number(ingredient.amount) || 0;
+      if (ingredient.comment && !entry.comments.includes(ingredient.comment)) {
+        entry.comments.push(ingredient.comment);
+      }
+
+      merged.set(key, entry);
+    }
+  }
+
+  const ingredients = [...merged.values()].map((ingredient) => ({
+    ...ingredient,
+    amount: scaleAmount(ingredient.amount, multiplier),
+  }));
 
   return { ingredients };
 }

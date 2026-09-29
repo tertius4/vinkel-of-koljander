@@ -2,7 +2,7 @@
   interface Props {
     data: {
       title: string;
-      amount: number;
+      amount: string;
       unit: string;
       comments: string[];
     };

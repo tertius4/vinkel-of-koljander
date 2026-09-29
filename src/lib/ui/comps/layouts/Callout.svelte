@@ -4,8 +4,8 @@
   interface Props {
     icon: string;
     title: string;
-    body: string;
-    small: boolean;
+    body?: string;
+    small?: boolean;
   }
 
   const { icon, title, body, small = false, ...rest }: Props & Record<string, any> = $props();

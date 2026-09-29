@@ -1,10 +1,5 @@
-import { Core2 } from "$lib/core/index.js";
-import { error } from "@sveltejs/kit";
-
-export async function load({ params }) {
-  const recipe_id = params.id;
-  const recipe = await Core2.recipe.getRecipe(recipe_id);
-  if (!recipe) throw error(404, "Resep nie gevind nie");
+export async function load({ parent }) {
+  const { recipe } = await parent();
 
   return {
     recipe: {

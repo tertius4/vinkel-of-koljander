@@ -17,7 +17,7 @@
   {:else}
     <header class="relative w-full bg-white border-b border-primary-50 py-2">
       {#if data.is_create_page || data.is_edit_page || data.is_recipe_page}
-        <a href="/" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100">
+        <a href={data.back_href} class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100">
           <Icon name="arrow-left" size={24} class="text-primary-500" />
         </a>
       {/if}

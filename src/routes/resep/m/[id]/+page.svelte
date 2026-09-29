@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { replaceState } from "$app/navigation";
   import { page } from "$app/state";
   import Button from "$lib/ui/comps/buttons/Button.svelte";
   import ButtonAnchor from "$lib/ui/comps/buttons/ButtonAnchor.svelte";
@@ -8,18 +9,23 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
+  import { scaleAmount } from ".";
 
   const { data } = $props();
 
-  let wakeLock: WakeLockSentinel;
+  let wake_lock: WakeLockSentinel | null = null;
+  let cook_mode = $state(false);
 
   const recipe = $derived(data.recipe);
 
   let current_step_index = $state(0);
   const step_buttons: HTMLButtonElement[] = $state([]);
 
+  // The serving count lives in the URL (?porsies=) so it survives navigating to the ingredients page and back.
+  const url_servings = Number(page.url.searchParams.get("porsies"));
+
   // svelte-ignore state_referenced_locally
-  let servings = $state(recipe.servings);
+  let servings = $state(Number.isInteger(url_servings) && url_servings > 0 ? url_servings : recipe.servings);
 
   const multiplier = $derived(servings / recipe.servings);
   const current_step = $derived(recipe.steps[current_step_index]);
@@ -46,24 +52,45 @@
     }
   }
 
-  async function startCookMode() {
-    if ("wakeLock" in navigator) {
-      try {
-        wakeLock = await navigator.wakeLock.request("screen");
-      } catch (err) {
-        console.error("Cook Mode failed:", err);
-      }
+  async function requestWakeLock() {
+    if (!("wakeLock" in navigator)) return;
+    try {
+      wake_lock = await navigator.wakeLock.request("screen");
+    } catch (err) {
+      console.error("Cook Mode failed:", err);
     }
   }
 
-  function increaseServings() {
-    servings += 1;
+  async function releaseWakeLock() {
+    await wake_lock?.release();
+    wake_lock = null;
   }
 
-  function decreaseServings() {
-    if (servings > 1) {
-      servings -= 1;
+  async function toggleCookMode() {
+    cook_mode = !cook_mode;
+    if (cook_mode) await requestWakeLock();
+    else await releaseWakeLock();
+  }
+
+  // The browser drops the wake lock when the tab is hidden, so request it again when the user comes back.
+  $effect(() => {
+    if (!cook_mode) return;
+
+    function onVisibilityChange() {
+      if (document.visibilityState === "visible") requestWakeLock();
     }
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  });
+
+  function setServings(value: number) {
+    if (value < 1) return;
+    
+    servings = value;
+    const url = new URL(page.url);
+    url.searchParams.set("porsies", String(value));
+    replaceState(url, page.state);
   }
 </script>
 
@@ -81,9 +108,9 @@
     {recipe.title}
   </h1>
 
-  <p class="font-sans! text-[#55433c] leading-relaxed text-base sm:text-lg mb-4">
+  <div class="font-sans! text-[#55433c] leading-relaxed text-base sm:text-lg mb-4">
     <Description description={recipe.description} />
-  </p>
+  </div>
 
   <div class="border-y grid grid-cols-[auto_1fr_auto] gap-2 py-2 mb-2 border-[#dbc1b8]" hidden={!recipe.author.name}>
     <div
@@ -103,12 +130,12 @@
   </div>
 
   <div class="grid grid-cols-1 gap-3 py-2 mb-4">
-    <Button onclick={startCookMode}>
-      <Icon name="circle-play" />
-      <span class="">Begin Kook-modus</span>
+    <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode}>
+      <Icon name={cook_mode ? "xmark" : "circle-play"} />
+      <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
     </Button>
 
-    <ButtonAnchor href="{page.url.pathname}/bestandele" outline>
+    <ButtonAnchor href="{page.url.pathname}/bestandele?porsies={servings}" outline>
       <Icon name="drumstick-bite" />
       <span class="">Bekyk alle Bestandele</span>
     </ButtonAnchor>
@@ -135,7 +162,7 @@
         <button
           type="button"
           aria-label="Decrease servings"
-          onclick={() => decreaseServings()}
+          onclick={() => setServings(servings - 1)}
           class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
         >
           <Icon name="minus" size={20} />
@@ -146,7 +173,7 @@
         <button
           type="button"
           aria-label="Increase servings"
-          onclick={() => increaseServings()}
+          onclick={() => setServings(servings + 1)}
           class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
         >
           <Icon name="plus" size={20} />
@@ -240,7 +267,7 @@
           {#each current_step.ingredients as ingredient}
             <Panel class="p-4 font-semibold rounded-none">
               <div class="leading-[2.5]">
-                {(ingredient.amount * multiplier).toFixed(2).replace(/\.?0+$/, "")}
+                {scaleAmount(ingredient.amount, multiplier)}
                 {ingredient.unit} <span class="capitalize">{ingredient.ingredient}</span>
               </div>
               <Callout hidden={!ingredient.comment} icon="lightbulb" title="Wenk" body={ingredient.comment} />
