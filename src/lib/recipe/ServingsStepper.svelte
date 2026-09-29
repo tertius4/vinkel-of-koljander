@@ -19,13 +19,12 @@
   const modified = $derived(original_servings != null && servings !== original_servings);
 </script>
 
-{#if !modified}
+{#if modified}
   <button
     transition:fade
     type="button"
     aria-label="Herstel porsies"
     title="Herstel na {original_servings}"
-    disabled={!modified}
     onclick={() => onchange(original_servings)}
     class="{button_class} mr-2"
   >
