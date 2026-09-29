@@ -309,7 +309,7 @@
       <span>Vorige Stap</span>
     </Button>
     <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
-      <span>Volgende Stap</span>
+      <span class="text-nowrap">Volgende Stap</span>
       <Icon name="arrow-right" />
     </Button>
   </div>

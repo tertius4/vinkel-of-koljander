@@ -33,5 +33,5 @@ export async function load({ parent, url }) {
     amount: scaleAmount(ingredient.amount, multiplier),
   }));
 
-  return { ingredients };
+  return { title: recipe.naam, servings, ingredients };
 }
