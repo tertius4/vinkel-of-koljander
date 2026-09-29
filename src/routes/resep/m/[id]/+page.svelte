@@ -16,12 +16,17 @@
   const recipe = $derived(data.recipe);
 
   let current_step_index = $state(0);
+  const step_buttons: HTMLButtonElement[] = $state([]);
 
   // svelte-ignore state_referenced_locally
   let servings = $state(recipe.servings);
 
   const multiplier = $derived(servings / recipe.servings);
   const current_step = $derived(recipe.steps[current_step_index]);
+
+  $effect(() => {
+    step_buttons[current_step_index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  });
 
   function nextStep() {
     if (current_step_index < recipe.steps.length - 1) {
@@ -45,7 +50,6 @@
     if ("wakeLock" in navigator) {
       try {
         wakeLock = await navigator.wakeLock.request("screen");
-        console.log("Cook Mode: Screen stay-on active");
       } catch (err) {
         console.error("Cook Mode failed:", err);
       }
@@ -130,22 +134,22 @@
 
         <button
           type="button"
-          aria-label="Increase servings"
-          onclick={() => increaseServings()}
+          aria-label="Decrease servings"
+          onclick={() => decreaseServings()}
           class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
         >
-          <Icon name="plus" size={20} />
+          <Icon name="minus" size={20} />
         </button>
         <div class="flex items-center justify-center mx-3">
           <span class="font-bold">{servings}</span>
         </div>
         <button
           type="button"
-          aria-label="Decrease servings"
-          onclick={() => decreaseServings()}
+          aria-label="Increase servings"
+          onclick={() => increaseServings()}
           class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
         >
-          <Icon name="minus" size={20} />
+          <Icon name="plus" size={20} />
         </button>
       </Panel>
 
@@ -184,6 +188,7 @@
         {@const is_current = current_step_index === i}
         <button
           type="button"
+          bind:this={step_buttons[i]}
           title={step.title || "Stap " + (i + 1)}
           onclick={() => goToStep(i)}
           class={{

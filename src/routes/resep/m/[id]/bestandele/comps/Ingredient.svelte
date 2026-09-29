@@ -11,9 +11,9 @@
   const { data, ...rest }: Props & Record<string, any> = $props();
 </script>
 
-<div {...rest} class={["grid grid-cols-[auto_1fr] gap-2", rest.class]}>
+<label {...rest} class={["grid grid-cols-[auto_1fr] gap-2 cursor-pointer has-checked:opacity-50", rest.class]}>
   <div>
-    <div class="mt-0.5 rounded border-2 size-5 shrink-0 border-neutral-500"></div>
+    <input type="checkbox" class="mt-0.5 size-5 shrink-0 accent-primary-600" />
   </div>
   <div>
     <div class="font-bold flex justify-between items-center">
@@ -24,4 +24,4 @@
       ><span class="font-semibold">Wenk: </span>{data.comments.map((comment) => comment).join("; ")}</span
     >
   </div>
-</div>
+</label>
