@@ -17,15 +17,16 @@ export async function load({ params }) {
       description: recipe.beskrywing,
       steps: recipe.stappe.map((step) => ({
         title: step.title,
+        description: step.description,
         ingredients: step.ingredients,
         instructions: step.instruksies,
       })),
       rating: {
-        thumbs_up: 98,
+        thumbs_up: recipe.rating?.thumbs_up ?? 0,
       },
       author: {
-        name: "Tannie Sanet",
-        initials: "TS",
+        name: recipe.author?.naam,
+        initials: recipe.author?.initials,
       },
     },
   };
