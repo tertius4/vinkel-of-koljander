@@ -86,7 +86,7 @@
 
   function setServings(value: number) {
     if (value < 1) return;
-    
+
     servings = value;
     const url = new URL(page.url);
     url.searchParams.set("porsies", String(value));
@@ -265,12 +265,14 @@
         </div>
         <div class="space-y-2">
           {#each current_step.ingredients as ingredient}
-            <Panel class="p-4 font-semibold rounded-none">
-              <div class="leading-[2.5]">
+            <Panel class="p-4 font-semibold rounded-none space-y-4">
+              <div>
                 {scaleAmount(ingredient.amount, multiplier)}
                 {ingredient.unit} <span class="capitalize">{ingredient.ingredient}</span>
               </div>
-              <Callout hidden={!ingredient.comment} icon="lightbulb" title="Wenk" body={ingredient.comment} />
+              {#if !!ingredient.comment}
+                <Callout icon="lightbulb" title="Wenk" body={ingredient.comment} />
+              {/if}
             </Panel>
           {/each}
         </div>

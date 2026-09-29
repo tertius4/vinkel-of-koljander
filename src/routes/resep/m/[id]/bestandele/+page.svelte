@@ -12,12 +12,13 @@
   // Ticked ingredients are keyed by name and unit, so they stay ticked when a change in servings reloads the list.
   const ticked: Record<string, boolean> = $state({});
 
-  const keyOf = (ingredient: { title: string; unit: string }) =>
-    `${normalise(ingredient.title)}|${normalise(ingredient.unit)}`;
-
   const total = $derived(data.ingredients.length);
   const done = $derived(data.ingredients.filter((ingredient) => ticked[keyOf(ingredient)]).length);
   const percentage = $derived(total ? Math.round((done / total) * 100) : 0);
+
+  function keyOf(ingredient: { title: string; unit: string }): string {
+    return `${normalise(ingredient.title)}|${normalise(ingredient.unit)}`;
+  }
 
   function setServings(value: number) {
     if (value < 1) return;

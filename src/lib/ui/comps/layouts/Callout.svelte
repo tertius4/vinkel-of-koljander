@@ -2,7 +2,7 @@
   import Icon from "../Icon.svelte";
 
   interface Props {
-    icon: string;
+    icon?: string;
     title: string;
     body?: string;
     small?: boolean;
