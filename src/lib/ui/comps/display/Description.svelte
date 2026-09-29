@@ -92,7 +92,7 @@
   {#if is_overflowing || is_expanded}
     <div class="mx-auto w-fit">
       <button
-        class="rounded-full bg-neutral-300 uppercase text-[12px] font-medium focus:bg-neutral-400 outline-none items-center px-2 py-0.5 flex gap-1"
+        class="rounded-full bg-neutral-100 uppercase text-[12px] font-medium focus:bg-neutral-200 outline-none items-center px-2 py-0.5 flex gap-1"
         type="button"
         onclick={toggleExpanded}
       >

@@ -295,7 +295,7 @@
   <div class="flex justify-between gap-4 mt-4">
     <Button outline onclick={prevStep} disabled={current_step_index === 0}>
       <Icon name="arrow-left" />
-      <span>Vorige Stap</span>
+      <span class="text-nowrap">Vorige Stap</span>
     </Button>
     <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
       <span class="text-nowrap">Volgende Stap</span>
