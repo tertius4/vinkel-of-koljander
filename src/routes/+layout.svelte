@@ -3,6 +3,7 @@
   import { browser } from "$app/environment";
   import "./layout.css";
   import Icon from "$lib/ui/comps/Icon.svelte";
+  import { page } from "$app/state";
 
   const { data, children } = $props();
 </script>
@@ -40,7 +41,7 @@
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
     </header>
 
-    <div class={["mx-auto grow min-h-0 w-full flex flex-col"]}>
+    <div class={["mx-auto grow min-h-0 w-full flex flex-col", page.data.is_search_page && "max-w-6xl"]}>
       {@render children()}
     </div>
   {/if}

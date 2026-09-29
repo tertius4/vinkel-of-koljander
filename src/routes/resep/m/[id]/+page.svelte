@@ -207,12 +207,12 @@
             "bg-primary-600 text-white font-medium": is_current,
           }}
         >
-          <div class="text-nowrap uppercase {is_current ? 'text-white' : 'text-neutral-950'} font-bold tracking-wider">
+          <div class="text-nowrap uppercase {is_current ? 'text-white' : 'text-neutral-700'} font-bold tracking-wider">
             Stap {i + 1}
           </div>
           <div
             hidden={!step.title}
-            class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-950'}"
+            class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-700'}"
           >
             {step.title}
           </div>

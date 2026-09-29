@@ -1,5 +1,4 @@
 export async function load({ url }) {
-  return {
-    search: url.searchParams.get("search") || "",
-  };
+  const search = url.searchParams.get("search") || "";
+  return { search };
 }

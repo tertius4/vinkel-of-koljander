@@ -7,7 +7,7 @@ import { initializeApp } from "firebase/app";
 // Firebase does not serve SSR for free.
 export const ssr = false;
 
-export async function load({ depends, url }) {
+export async function load({ depends, url, route }) {
   depends("layout:root");
   initializeApp(FIREBASE_CONFIG, APP_NAME);
 
@@ -15,6 +15,7 @@ export async function load({ depends, url }) {
   const is_maintenance_mode = env.PUBLIC_MAINTENANCE_MODE === "true";
 
   const is_create_page = url.pathname.startsWith("/skep");
+  const is_search_page = route.id === "/(soek)";
   const is_edit_page = url.pathname.endsWith("/wysig");
   const is_recipe_page = url.pathname.startsWith("/resep/") || url.pathname.startsWith("/resep/");
   const is_wide_page = url.pathname.startsWith("/resep/") && !url.pathname.startsWith("/resep/m/");
@@ -22,5 +23,14 @@ export async function load({ depends, url }) {
 
   const back_href = is_ingredients_page ? url.pathname.replace(/\/bestandele$/, "") + url.search : "/";
 
-  return { is_logged_in, is_maintenance_mode, is_create_page, is_edit_page, is_recipe_page, is_wide_page, back_href };
+  return {
+    is_logged_in,
+    is_maintenance_mode,
+    is_search_page,
+    is_create_page,
+    is_edit_page,
+    is_recipe_page,
+    is_wide_page,
+    back_href,
+  };
 }

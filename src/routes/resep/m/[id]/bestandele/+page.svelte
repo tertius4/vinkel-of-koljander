@@ -78,7 +78,7 @@
         data={ingredient}
         checked={ticked[keyOf(ingredient)]}
         onchange={(value) => setTicked(keyOf(ingredient), value)}
-        class="border-b-2 border-dashed border-neutral-200 last:border-b-0 py-3"
+        class="border-b-2 border-dashed border-neutral-100 last:border-b-0 py-3"
       />
     {/each}
   </div>
