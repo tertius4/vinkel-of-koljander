@@ -4,14 +4,25 @@ import { DB } from "$lib/DB";
 
 export const searchRecipes = _searchRecipes;
 
-async function _searchRecipes(search: string): AsyncResult<RecipeCardData[]> {
+async function _searchRecipes(search: string, categories: string[] = []): AsyncResult<RecipeCardData[]> {
   try {
     const recipes = await DB.Resep.getAll();
     recipes.sort((a, b) => normalise(a.naam).localeCompare(normalise(b.naam)));
     recipes.sort((a, b) => (a.foto && !b.foto ? -1 : !a.foto && b.foto ? 1 : 0));
 
-    // Filter on title and tags
-    const filtered_recipes = searchOnText(recipes, (item) => [item.naam, ...item.kategorieë], search);
+    // Must have every selected category
+    const wanted = categories.map(normalise);
+    const in_categories = recipes.filter((item) => {
+      const have = item.kategorieë.map(normalise);
+      return wanted.every((c) => have.includes(c));
+    });
+
+    // Free text on the name (and tags when no categories are selected)
+    const filtered_recipes = searchOnText(
+      in_categories,
+      (item) => (wanted.length ? [item.naam] : [item.naam, ...item.kategorieë]),
+      search,
+    );
 
     const result_data: RecipeCardData[] = [];
     for (const recipe of filtered_recipes) {

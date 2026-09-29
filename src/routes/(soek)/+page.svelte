@@ -14,6 +14,8 @@
 
   // svelte-ignore state_referenced_locally
   let search = $state(data.search);
+  // svelte-ignore state_referenced_locally
+  let categories = $state<string[]>(data.categories);
   let cards: RecipeCardData[] = $state([]);
   let error_message = $state("");
   let is_opening_recipe = $state(false);
@@ -23,17 +25,22 @@
   // Keep the input in sync with the URL (e.g. back/forward navigation).
   $effect(() => {
     search = data.search;
+    categories = data.categories;
   });
 
-  const updateUrl = debounce((value: string) => {
-    const href = value ? `?search=${encodeURIComponent(value)}` : "/";
+  const updateUrl = debounce(() => {
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    for (const c of categories) params.append("categories", c);
+    const query = params.toString();
+    const href = query ? `?${query}` : "/";
     goto(href, { replaceState: true, keepFocus: true, noScroll: true });
     loadCards();
   }, 300);
 
   async function loadCards() {
     error_message = "";
-    const cards_result = await Api.searchRecipes(search);
+    const cards_result = await Api.searchRecipes(search, categories);
     if (!cards_result.ok) {
       console.error("Failed to load cards");
       error_message = "Failed to load cards";
@@ -46,12 +53,13 @@
 
   function handleSearchInput(event: Event) {
     search = (event.target as HTMLInputElement).value;
-    updateUrl(search);
+    updateUrl();
   }
 
   function clearSearch() {
     search = "";
-    updateUrl(search);
+    categories = [];
+    updateUrl();
   }
 
   onMount(() => loadCards());
@@ -77,6 +85,8 @@
     <InputSearchRecipe
       placeholder="Soek 'n Resep"
       bind:value={search}
+      bind:selected_categories={categories}
+      onchange_categories={updateUrl}
       oninput={handleSearchInput}
       onclear={clearSearch}
     />

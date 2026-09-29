@@ -1,4 +1,5 @@
 export async function load({ url }) {
   const search = url.searchParams.get("search") || "";
-  return { search };
+  const categories = url.searchParams.getAll("categories");
+  return { search, categories };
 }
