@@ -254,8 +254,10 @@
           {#each current_step.ingredients as ingredient}
             <Panel class="p-4 font-semibold rounded-none space-y-4">
               <div>
-                {scaleAmount(ingredient.amount, multiplier)}
-                {ingredient.unit} <span class="capitalize">{ingredient.ingredient}</span>
+                <span hidden={!ingredient.amount}>
+                  {scaleAmount(ingredient.amount, multiplier)}
+                  {ingredient.unit}</span
+                > <span class="capitalize">{ingredient.ingredient}</span>
               </div>
               {#if !!ingredient.comment}
                 <Callout icon="lightbulb" title="Wenk" body={ingredient.comment} />
@@ -295,10 +297,10 @@
   <div class="flex justify-between gap-4 mt-4">
     <Button outline onclick={prevStep} disabled={current_step_index === 0}>
       <Icon name="arrow-left" />
-      <span class="text-nowrap">Vorige Stap</span>
+      <span class="text-nowrap">Vorige</span>
     </Button>
     <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
-      <span class="text-nowrap">Volgende Stap</span>
+      <span class="text-nowrap">Volgende</span>
       <Icon name="arrow-right" />
     </Button>
   </div>

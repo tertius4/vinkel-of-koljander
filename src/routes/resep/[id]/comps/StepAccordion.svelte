@@ -66,8 +66,8 @@
               {#each step.ingredients as ingredient}
                 <Panel class="p-4 font-semibold space-y-4">
                   <div>
-                    {ingredient.amount}
-                    {ingredient.unit} <span class="capitalize">{ingredient.ingredient}</span>
+                    <span hidden={!ingredient.amount}>{ingredient.amount} {ingredient.unit}</span>
+                    <span class="capitalize">{ingredient.ingredient}</span>
                   </div>
                   {#if ingredient.comment}
                     <Callout icon="lightbulb" title="Wenk" body={ingredient.comment} />

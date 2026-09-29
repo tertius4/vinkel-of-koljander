@@ -47,9 +47,9 @@
 <svelte:body onkeydown={handleKeyPress} />
 
 <Modal>
-  <form class="space-y-2 relative">
+  <form class="space-y-2 relative bg-white p-4 rounded-lg">
     <button
-      class="absolute top-1 right-1 text-neutral-400 hover:text-neutral-800 transition-colors outline-none rounded-full focus:text-neutral-800 active:text-neutral-800 "
+      class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-800 transition-colors outline-none rounded-full focus:text-neutral-800 active:text-neutral-800"
       type="button"
       onclick={onclose}
     >

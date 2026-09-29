@@ -66,7 +66,7 @@
       </button>
     {/each}
     <input
-      type="search"
+      type="text"
       aria-label={placeholder}
       class="flex-1 min-w-24 h-full text-primary-950 placeholder:text-primary-400 outline-none"
       bind:value
