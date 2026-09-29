@@ -63,7 +63,7 @@
       rows="2"
       placeholder="Wenk (opsioneel)…"
       aria-label="Wenk"
-      class={[INPUT_CLASS, "col-span-full resize-none text-sm! bg-stone-100 border-l-8 border-l-secondary-700"]}
+      class={[INPUT_CLASS, "col-span-full resize-none text-sm! bg-stone-100 border-l-8 border-secondary-700 placeholder:text-secondary/80"]}
     ></textarea>
   {/if}
 </Panel>

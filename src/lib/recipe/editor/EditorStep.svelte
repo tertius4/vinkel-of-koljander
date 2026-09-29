@@ -207,7 +207,7 @@
                   aria-label="Nota"
                   class={[
                     INPUT_CLASS,
-                    "col-start-2 col-span-2 resize-none text-sm! bg-secondary/15! border-l-4 border-l-secondary-700",
+                    "col-start-2 col-span-2 resize-none text-sm! bg-secondary/15! border-l-4 border-l-secondary-700 placeholder:text-secondary/80",
                   ]}
                 ></textarea>
               {/if}
@@ -241,7 +241,7 @@
         </div>
         <button
           type="button"
-          class="flex items-center gap-2 px-3 h-10 rounded-lg text-red hover:bg-red-50 focus:bg-red-50 outline-none font-semibold"
+          class="flex items-center gap-2 px-3 h-10 rounded-lg text-red hover:bg-red-50 focus:bg-red-50 outline-none font-medium"
           onclick={handleRemove}
         >
           <Icon name="trash" size={20} />
