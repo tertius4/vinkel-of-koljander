@@ -19,8 +19,9 @@
   let cards: RecipeCardData[] = $state([]);
   let error_message = $state("");
   let is_opening_recipe = $state(false);
+  let is_loading = $state(true);
 
-  const is_loading = $derived(navigating.to !== null || is_opening_recipe);
+  const is_navigating = $derived(navigating.to !== null || is_opening_recipe);
 
   // Keep the input in sync with the URL (e.g. back/forward navigation).
   $effect(() => {
@@ -40,10 +41,12 @@
 
   async function loadCards() {
     error_message = "";
+    is_loading = true;
     const cards_result = await Api.searchRecipes(search, categories);
+    is_loading = false;
     if (!cards_result.ok) {
       console.error("Failed to load cards");
-      error_message = "Failed to load cards";
+      error_message = "Kon nie resepte laai nie.";
       cards = [];
       return;
     }
@@ -66,7 +69,7 @@
   onDestroy(() => (is_opening_recipe = false));
 </script>
 
-{#if is_loading}
+{#if is_navigating}
   <div
     transition:fade
     class="fixed inset-0 w-dvw h-dvh bg-black/20 text-black z-12 pointer-events-none"
@@ -75,7 +78,7 @@
   >
     <div class="flex flex-col items-center gap-2 justify-center w-full h-full animate-pulse">
       <Icon name="loading" class="animate-spin" size={28} />
-      <span class="font-medium text-lg font-sans">Loading…</span>
+      <span class="font-medium text-lg font-sans">Laai…</span>
     </div>
   </div>
 {/if}
@@ -95,6 +98,11 @@
   <div class="flex-1 min-h-0 flex flex-col">
     {#if !!error_message}
       <p class="text-center text-error" role="alert">{error_message}</p>
+    {:else if is_loading && cards.length === 0}
+      <div class="flex flex-col items-center gap-2 py-8 text-on-surface-variant" role="status" aria-live="polite">
+        <Icon name="loading" class="animate-spin" size={28} />
+        <span>Laai resepte…</span>
+      </div>
     {:else if cards.length === 0}
       <p class="text-center text-on-surface-variant">Geen resultate gevind nie.</p>
     {:else}

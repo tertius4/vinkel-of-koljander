@@ -10,7 +10,7 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
-  import { ingredientsHref, scaleAmount, servingsLabel } from "$lib/recipe";
+  import { ingredientsHref, scaleAmount, scrollStepIntoView, servingsLabel } from "$lib/recipe";
   import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
 
   const { data } = $props();
@@ -30,25 +30,24 @@
   const multiplier = $derived(servings / recipe.servings);
   const current_step = $derived(recipe.steps[current_step_index]);
 
-  $effect(() => {
-    step_buttons[current_step_index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  });
-
   function nextStep() {
     if (current_step_index < recipe.steps.length - 1) {
       current_step_index += 1;
+      scrollStepIntoView(step_buttons[current_step_index]);
     }
   }
 
   function prevStep() {
     if (current_step_index > 0) {
       current_step_index -= 1;
+      scrollStepIntoView(step_buttons[current_step_index]);
     }
   }
 
   function goToStep(index: number) {
     if (index >= 0 && index < recipe.steps.length) {
       current_step_index = index;
+      scrollStepIntoView(step_buttons[current_step_index]);
     }
   }
 
@@ -96,13 +95,18 @@
 </script>
 
 <main class="p-4 w-full bg-white grow overflow-y-auto">
-  <div class="relative">
+  <div class="relative" hidden={!recipe.image}>
     <ImageFullScreen src={recipe.image} alt={recipe.title} />
     <div class="absolute bottom-4 left-2 flex gap-1 flex-wrap pointer-events-none" tabindex="-1">
       {#each recipe.categories as category}
         <div class="bg-black/80 text-white px-2 py-1 rounded w-fit">{category}</div>
       {/each}
     </div>
+  </div>
+  <div class="flex gap-1 flex-wrap" hidden={!!recipe.image}>
+    {#each recipe.categories as category}
+      <div class="bg-black/80 text-white px-2 py-1 rounded w-fit">{category}</div>
+    {/each}
   </div>
 
   <h1 class="my-4 text-[28px] leading-tight tracking-tight font-semibold font-source-serif-4 text-primary">
@@ -136,7 +140,7 @@
       <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
     </Button>
 
-    <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline>
+    <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline hidden={!recipe.has_ingredients}>
       <Icon name="drumstick-bite" />
       <span class="">Bekyk alle Bestandele</span>
     </ButtonAnchor>

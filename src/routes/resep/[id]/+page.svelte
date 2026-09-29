@@ -30,13 +30,18 @@
       <StepAccordion steps={data.recipe.steps} />
     </section>
     <aside class="lg:sticky lg:top-0 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto space-y-4">
-      <div class="relative">
+      <div class="relative" hidden={!data.recipe.image}>
         <ImageFullScreen src={data.recipe.image} alt={data.recipe.title} />
         <div class="absolute bottom-4 left-2 flex gap-1 flex-wrap pointer-events-none" tabindex="-1">
           {#each data.recipe.categories as category}
             <div class="bg-black/80 text-white px-2 py-1 rounded w-fit">{category}</div>
           {/each}
         </div>
+      </div>
+      <div class="flex gap-1 flex-wrap" hidden={!!data.recipe.image}>
+        {#each data.recipe.categories as category}
+          <div class="bg-black/80 text-white px-2 py-1 rounded w-fit">{category}</div>
+        {/each}
       </div>
 
       <h1 class="text-[32px] leading-tight tracking-tight font-semibold font-source-serif-4 text-primary">
@@ -110,7 +115,7 @@
         </div>
       </Container>
 
-      <Container class="p-5">
+      <Container class="p-5" hidden={!data.ingredients.length}>
         <div class="flex gap-2 items-center mb-4">
           <Icon name="drumstick-bite" class="text-primary" />
           <h3 class="headline-md text-base text-primary-900 font-bold tracking-tight">Bestanddele</h3>

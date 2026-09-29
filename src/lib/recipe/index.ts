@@ -11,6 +11,26 @@ export function ingredientKey(title: string, unit: string) {
   return `${normalise(title)}|${normalise(unit)}`;
 }
 
+/** A recipe without a (valid) portion count is for one person. */
+export function baseServings(recipe: DB.Resep) {
+  return recipe.porsies || 1;
+}
+
+/** Factor to scale the recipe's amounts from its own portion count to `servings`. */
+export function servingsMultiplier(recipe: DB.Resep, servings: number) {
+  return servings / baseServings(recipe);
+}
+
+/** Ingredients without a name are placeholders from the editor and are never shown. */
+function isListed(ingredient: { ingredient: string }) {
+  return ingredient.ingredient.trim() !== "";
+}
+
+/** Scrolls a step button into view inside its horizontal strip, without moving the page. */
+export function scrollStepIntoView(button?: HTMLElement) {
+  button?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+}
+
 /** "1 Mens" / "4 Mense" */
 export function servingsLabel(servings: number) {
   return `${servings} ${servings === 1 ? "Mens" : "Mense"}`;
@@ -39,20 +59,23 @@ export function readServings(url: URL, fallback: number) {
 
 /** The recipe as the recipe pages show it (English keys, no database naming). */
 export function toRecipeView(recipe: DB.Resep) {
+  const steps = recipe.stappe.map((step) => ({
+    title: step.title,
+    description: step.description,
+    ingredients: step.ingredients.filter(isListed),
+    instructions: step.instruksies,
+  }));
+
   return {
     image: recipe.foto,
     categories: recipe.kategorieë,
     title: recipe.naam,
-    servings: recipe.porsies,
+    servings: baseServings(recipe),
     work_time: recipe.tyd.werk,
     wait_time: recipe.tyd.wag,
     description: recipe.beskrywing,
-    steps: recipe.stappe.map((step) => ({
-      title: step.title,
-      description: step.description,
-      ingredients: step.ingredients,
-      instructions: step.instruksies,
-    })),
+    steps,
+    has_ingredients: steps.some((step) => step.ingredients.length > 0),
     rating: {
       thumbs_up: recipe.rating?.thumbs_up ?? 0,
     },
@@ -71,7 +94,7 @@ export function mergeIngredients(recipe: DB.Resep, multiplier: number) {
   const merged = new Map<string, { title: string; amount: number; unit: string; comments: string[] }>();
 
   for (const step of recipe.stappe) {
-    for (const ingredient of step.ingredients) {
+    for (const ingredient of step.ingredients.filter(isListed)) {
       const key = ingredientKey(ingredient.ingredient, ingredient.unit);
       const entry = merged.get(key) ?? {
         title: ingredient.ingredient,

@@ -55,7 +55,7 @@
       <span>Hoeveelhede pas outomaties aan volgens jou gaste.</span>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4" hidden={!total}>
       <div class="flex justify-between text-sm font-semibold">
         <span>{done} van {total} bestanddele afgemerk</span>
         <span class="text-primary font-bold">{percentage}%</span>
@@ -71,6 +71,8 @@
       </div>
     </div>
   </Container>
+
+  <p class="text-center text-on-surface-variant" hidden={!!total}>Geen bestanddele nie.</p>
 
   <div class="px-1">
     {#each data.ingredients as ingredient (keyOf(ingredient))}
