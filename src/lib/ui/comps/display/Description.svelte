@@ -23,7 +23,6 @@
    * @param {HTMLDivElement} inner_content
    */
   function checkDescriptionOverflow(inner_content) {
-    console.trace(inner_content);
     if (!inner_content || !content_wrapper) return;
 
     // Get the actual rendered height with line-clamp applied
@@ -93,7 +92,7 @@
   {#if is_overflowing || is_expanded}
     <div class="mx-auto w-fit">
       <button
-        class="rounded-full bg-neutral-50 uppercase text-[12px] font-medium focus:bg-neutral-100 outline-none items-center px-2 py-0.5 flex gap-1"
+        class="rounded-full bg-neutral-300 uppercase text-[12px] font-medium focus:bg-neutral-400 outline-none items-center px-2 py-0.5 flex gap-1"
         type="button"
         onclick={toggleExpanded}
       >

@@ -1,8 +1,13 @@
 <script lang="ts">
   import { page } from "$app/state";
+  import Button from "$lib/ui/comps/buttons/Button.svelte";
+  import ButtonAnchor from "$lib/ui/comps/buttons/ButtonAnchor.svelte";
   import Description from "$lib/ui/comps/display/Description.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
+  import Container from "$lib/ui/comps/layouts/Container.svelte";
+  import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
+  import { fade, slide } from "svelte/transition";
 
   const { data } = $props();
 
@@ -11,6 +16,8 @@
 
   const recipe = $derived(data.recipe);
   const current_step = $derived(recipe.steps[current_step_index]);
+  // svelte-ignore state_referenced_locally
+  let servings = $state(recipe.servings);
 
   function nextStep() {
     if (current_step_index < recipe.steps.length - 1) {
@@ -40,6 +47,16 @@
       }
     }
   }
+
+  function increaseServings() {
+    servings += 1;
+  }
+
+  function decreaseServings() {
+    if (servings > 1) {
+      servings -= 1;
+    }
+  }
 </script>
 
 <main class="p-4 w-full bg-white grow overflow-y-auto">
@@ -52,7 +69,7 @@
     </div>
   </div>
 
-  <h1 class="my-4 text-[28px] leading-tight tracking-tight font-semibold font-source-serif-4 text-[#231a11]">
+  <h1 class="my-4 text-[28px] leading-tight tracking-tight font-semibold font-source-serif-4 text-primary">
     {recipe.title}
   </h1>
 
@@ -70,110 +87,147 @@
       <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van:</div>
       <div class="font-semibold text-black text-sm">{recipe.author.name}</div>
     </div>
-    <div class="rounded-lg bg-primary-50 h-full flex justify-center items-center px-2 border border-primary-200">
+    <Container class="h-full flex justify-center items-center px-2">
       <span class="text-md mr-1.5 leading-none">👍</span>
       <span class="font-bold text-[#231a11] text-md">{recipe.rating.thumbs_up}</span>
       <span class="text-[#88726b] text-sm ml-1 font-medium">duime</span>
-    </div>
+    </Container>
   </div>
 
   <div class="grid grid-cols-1 gap-3 py-2 mb-4">
-    <button
-      class="w-full bg-primary-500 hover:bg-primary-600 text-white py-3.5 px-4 rounded-lg font-headline-md text-base flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99]"
-      onclick={startCookMode}
-    >
+    <Button onclick={startCookMode}>
       <Icon name="circle-play" />
       <span class="">Begin Kook-modus</span>
-    </button>
+    </Button>
 
-    <a
-      class="w-full border-2 border-primary text-primary focus:bg-primary-500 focus:text-white py-3.5 px-4 rounded-lg font-headline-md text-base flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.99] text-center"
-      href="{page.url.pathname}/bestandele"
-    >
+    <ButtonAnchor href="{page.url.pathname}/bestandele" outline>
       <Icon name="drumstick-bite" />
       <span class="">Bekyk alle Bestandele</span>
-    </a>
+    </ButtonAnchor>
   </div>
 
-  <div class="rounded-lg border border-primary-100 p-4 bg-primary-100">
+  <Container class="p-5">
     <div class="flex gap-2 items-center">
       <Icon name="kitchen-set" class="text-primary" />
       <h3 class="headline-md text-base text-primary-900 font-bold tracking-tight">Porsiegrootte &amp; Tye</h3>
     </div>
     <hr class="border-primary-100 my-4" />
     <div class="grid grid-cols-2 gap-4">
-      <div class=" bg-white p-2 col-span-2 rounded-lg border border-neutral-100">
-        <span class="label-sm uppercase tracking-wider text-primary-800 flex items-center"> Porsies </span>
-      </div>
+      <Panel class="p-3 col-span-2 grid grid-cols-[1fr_auto_auto_auto] gap-0">
+        <div class="space-y-3">
+          <div class="flex gap-2 items-center">
+            <Icon name="user-group" size={20} class="text-secondary-700" />
+            <span class="label-sm uppercase tracking-wider text-primary-900 flex items-center font-normal!"
+              >Porsies</span
+            >
+          </div>
+          <div class="text-primary headline-md">{servings} Mense</div>
+        </div>
 
-      <div class=" bg-white p-2 rounded-lg border border-neutral-100">
-        <span class="label-sm uppercase tracking-wider text-primary-800 flex items-center">Voorbereiding</span>
-      </div>
+        <button
+          type="button"
+          aria-label="Increase servings"
+          onclick={() => increaseServings()}
+          class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
+        >
+          <Icon name="plus" size={20} />
+        </button>
+        <div class="flex items-center justify-center mx-3">
+          <span class="font-bold">{servings}</span>
+        </div>
+        <button
+          type="button"
+          aria-label="Decrease servings"
+          onclick={() => decreaseServings()}
+          class="size-9 rounded-xl border flex items-center justify-center my-auto border-primary-400 bg-white text-black outline-none focus:bg-primary-100 active:bg-primary-100"
+        >
+          <Icon name="minus" size={20} />
+        </button>
+      </Panel>
 
-      <div class=" bg-white p-2 rounded-lg border border-neutral-100">
-        <span class="label-sm uppercase tracking-wider text-primary-800 flex items-center">Kooktyd</span>
-      </div>
+      <Panel class="p-3 space-y-2">
+        <div class="flex gap-2 items-center">
+          <Icon name="spoon" size={20} class="text-secondary-700" />
+          <span class="label-sm uppercase tracking-wider flex items-center text-primary-900 font-normal!">Werkstyd</span
+          >
+        </div>
+        <div class="headline-md text-center">{recipe.work_time} min</div>
+      </Panel>
+
+      <Panel class="p-3 space-y-2">
+        <div class="flex gap-2 items-center">
+          <Icon name="clock" size={20} class="text-secondary-700" />
+          <span class="label-sm uppercase tracking-wider flex items-center text-primary-900 font-normal!">Wagtyd</span>
+        </div>
+        <div class="headline-md text-center">{recipe.wait_time} min</div>
+      </Panel>
     </div>
-  </div>
+  </Container>
 
   <div class="flex items-center justify-between flex-wrap gap-2 my-2">
     <h2 class="headline-lg text-primary text-2xl sm:text-3xl">Instruksies</h2>
   </div>
-  <p class="text-neutral-900 text-sm mb-4">
-    Volg elke fase noukeurig met die aangeduide bestanddele vir die volmaakte potjie.
+  <p class="text-neutral-950 text-sm mb-4">
+    Volg elke fase noukeurig met die aangeduide bestanddele vir die beste resultaat.
   </p>
-  <div class="bg-primary-100 border border-primary-100 rounded-lg p-2.5">
-    <span>Stap {current_step_index + 1}: {current_step.title}</span>
-    <div class="flex gap-2 overflow-x-auto">
+  <div class="bg-primary-100 border border-primary-100 rounded-lg p-3">
+    <div class="flex gap-2 items-center font-semibold mb-3">
+      <Icon name="flag" size={20} class="text-primary" />
+      <span class="text-primary">Stap {current_step_index + 1}: {current_step.title}</span>
+    </div>
+    <div class="flex gap-2 overflow-x-auto scrollbar-none">
       {#each recipe.steps as step, i}
+        {@const is_current = current_step_index === i}
         <button
           type="button"
+          title={step.title || "Stap " + (i + 1)}
           onclick={() => goToStep(i)}
           class={{
-            "shrink-0 size-24 rounded-lg": true,
-            "border border-primary-200 bg-white": current_step_index !== i,
-            "bg-primary-600 text-white font-medium": current_step_index === i,
+            "p-3 w-fit min-h-10 rounded-lg transition-colors duration-300": true,
+            "border border-primary-200 bg-white": !is_current,
+            "bg-primary-600 text-white font-medium": is_current,
           }}
         >
-          <div>Stap {i + 1}</div>
-          <div>{step.title}</div>
+          <div class="text-nowrap uppercase {is_current ? 'text-white' : 'text-neutral-900'} font-bold tracking-wider">
+            Stap {i + 1}
+          </div>
+          <div
+            hidden={!step.title}
+            class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-950'}"
+          >
+            {step.title}
+          </div>
         </button>
       {/each}
     </div>
   </div>
 
-  <div>
-    <div class="bg-primary-200 rounded-lg"></div>
-    <div>
-      <h3>Bestanddele vir hierdie stap:</h3>
-      {#each current_step.ingredients as ingredient}
-        <div>{ingredient.ingredient}</div>
-      {/each}
-
+  {#key current_step_index}
+    <div in:fade>
+      <div class="bg-primary-200 rounded-lg"></div>
       <div>
-        {#each current_step.instructions as instruction}
-          <div>{instruction.label}</div>
+        <h3>Bestanddele vir hierdie stap:</h3>
+        {#each current_step.ingredients as ingredient}
+          <div>{ingredient.ingredient}</div>
         {/each}
+
+        <div>
+          {#each current_step.instructions as instruction}
+            <div>{instruction.label}</div>
+          {/each}
+        </div>
       </div>
     </div>
-  </div>
+  {/key}
 
   <div class="flex justify-between gap-4 mt-4">
-    <button
-      type="button"
-      onclick={prevStep}
-      class="flex gap-1 border border-primary text-primary items-center text-nowrap justify-center w-full px-4 py-2 rounded-lg"
-    >
+    <Button outline onclick={prevStep} disabled={current_step_index === 0}>
       <Icon name="arrow-left" />
       <span>Vorige Stap</span>
-    </button>
-    <button
-      type="button"
-      onclick={nextStep}
-      class="flex gap-1 bg-primary items-center justify-center text-nowrap text-white w-full px-4 py-2 rounded-lg"
-    >
+    </Button>
+    <Button onclick={nextStep} disabled={current_step_index === recipe.steps.length - 1}>
       <span>Volgende Stap</span>
       <Icon name="arrow-right" />
-    </button>
+    </Button>
   </div>
 </main>

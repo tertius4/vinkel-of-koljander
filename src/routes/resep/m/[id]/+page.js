@@ -11,9 +11,12 @@ export async function load({ params }) {
       image: recipe.foto,
       categories: recipe.kategorieë,
       title: recipe.naam,
+      servings: recipe.porsies,
+      work_time: recipe.tyd.werk,
+      wait_time: recipe.tyd.wag,
       description: recipe.beskrywing,
       steps: recipe.stappe.map((step) => ({
-        title: "tydelike beskrywing",
+        title: step.title,
         ingredients: step.ingredients,
         instructions: step.instruksies,
       })),

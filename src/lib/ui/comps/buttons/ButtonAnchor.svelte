@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { MouseEventHandler } from "svelte/elements";
-
   interface Props {
     children: () => any;
     type?: "button" | "submit" | "reset";
-    onclick?: MouseEventHandler<HTMLButtonElement>;
+    href: string;
     disabled?: boolean;
     outline?: boolean;
     solid?: boolean;
@@ -13,7 +11,7 @@
   const {
     children,
     type,
-    onclick,
+    href,
     disabled,
     outline = false,
     solid = true,
@@ -21,13 +19,13 @@
   }: Props & Record<string, any> = $props();
 </script>
 
-<button
+<a
   {...rest}
   {type}
   class={[
     "rounded transition-colors py-3.5 px-4 outline-none w-full duration-300",
-    "headline-md text-base!",
     "flex items-center justify-center gap-2",
+    "headline-md text-base!",
     {
       "opacity-50 cursor-not-allowed": disabled,
       "text-white bg-primary": solid && !outline,
@@ -36,11 +34,9 @@
       "focus:bg-primary-500 focus:text-white hover:bg-primary-500 hover:text-white active:bg-primary-500 active:text-white":
         outline && !disabled,
     },
-
     rest.class || "",
   ]}
-  {onclick}
-  {disabled}
+  href={disabled ? undefined : href}
 >
   {@render children()}
-</button>
+</a>
