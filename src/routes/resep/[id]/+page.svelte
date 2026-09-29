@@ -79,7 +79,7 @@
         </div>
         <hr class="border-primary-100 my-4" />
         <div class="grid grid-cols-2 gap-4">
-          <Panel class="p-3 col-span-2 grid grid-cols-[1fr_auto_auto_auto] gap-0">
+          <Panel class="p-3 col-span-2 grid grid-cols-[1fr_auto_auto_auto_auto] gap-0">
             <div class="space-y-3">
               <div class="flex gap-2 items-center">
                 <Icon name="user-group" size={20} class="text-secondary-700" />
@@ -90,7 +90,7 @@
               <div class="text-primary headline-md">{data.servings_label}</div>
             </div>
 
-            <ServingsStepper servings={data.servings} onchange={setServings} />
+            <ServingsStepper servings={data.servings} original_servings={data.original_servings} onchange={setServings} />
           </Panel>
 
           <Panel class="p-3 space-y-2">

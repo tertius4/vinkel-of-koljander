@@ -5,5 +5,5 @@ export async function load({ parent, url }) {
   const servings = readServings(url, baseServings(recipe));
   const multiplier = servingsMultiplier(recipe, servings);
 
-  return { title: recipe.naam, servings, ingredients: mergeIngredients(recipe, multiplier) };
+  return { title: recipe.naam, servings, original_servings: baseServings(recipe), ingredients: mergeIngredients(recipe, multiplier) };
 }

@@ -41,13 +41,13 @@
       <Icon name="fire-burner" size={32} class="text-primary shrink-0" />
     </div>
 
-    <Panel class="p-4 mt-4 grid grid-cols-[1fr_auto_auto_auto] items-center bg-white/80">
+    <Panel class="p-4 mt-4 grid grid-cols-[1fr_auto_auto_auto_auto] items-center bg-white/80">
       <div class="space-y-1">
         <div class="label-sm uppercase tracking-wider text-primary-900 text-xs">Aantal porsies</div>
         <div class="text-primary headline-md font-bold">{servingsLabel(data.servings)}</div>
       </div>
 
-      <ServingsStepper servings={data.servings} onchange={setServings} border="border-primary-200" />
+      <ServingsStepper servings={data.servings} original_servings={data.original_servings} onchange={setServings} border="border-primary-200" />
     </Panel>
 
     <div class="flex items-center gap-2 mt-4 text-sm italic text-[#55433c]">

@@ -9,6 +9,7 @@ export async function load({ parent, url }) {
 
   return {
     servings,
+    original_servings: baseServings(recipe),
     servings_label: servingsLabel(servings),
     recipe: {
       ...view,
