@@ -11,7 +11,10 @@
 </script>
 
 <article
-  class="bg-white rounded-xl h-full overflow-hidden border border-neutral-100 flex flex-col relative group hover:shadow-md hover:shadow-secondary/5 transition-shadow duration-300"
+  class={[
+    "bg-white rounded-xl h-full overflow-hidden border border-neutral-100 flex flex-col relative group hover:shadow-md hover:shadow-secondary/5 transition-shadow duration-300",
+    !data.published && "shadow-md border-secondary",
+  ]}
 >
   {#if page.data.is_logged_in}
     <a
@@ -22,8 +25,21 @@
       <Icon name="edit" class="text-white" />
     </a>
   {/if}
+  {#if !data.published}
+    <span
+      class="absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-lg bg-secondary-200 border border-secondary text-secondary-950 px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-sm"
+    >
+      <Icon name="edit" size={14} />
+      Konsep
+    </span>
+  {/if}
   <a href="/resep/{data.id}" class="flex flex-col grow" {onclick}>
-    <div class="h-56 overflow-hidden bg-surface-container-low flex items-center justify-center">
+    <div
+      class={[
+        "h-56 overflow-hidden bg-surface-container-low flex items-center justify-center",
+        !data.published && "opacity-60",
+      ]}
+    >
       {#if data.cover_image}
         <img
           alt={data.cover_image.alt}
@@ -46,7 +62,7 @@
             </span>
           {/each}
         </div>
-        <h2 class="font-serif text-[24px] leading-7 font-semibold text-neutral-700 mb-4">{data.title}</h2>
+        <h2 class="font-serif text-[24px] leading-7 font-semibold text-primary-700 mb-4">{data.title}</h2>
       </div>
 
       <div class="flex items-center gap-6 text-on-surface-variant">

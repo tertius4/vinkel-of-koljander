@@ -13,6 +13,7 @@
     kategorieë: [],
     porsies: 4,
     stappe: [],
+    published: false,
   };
 </script>
 

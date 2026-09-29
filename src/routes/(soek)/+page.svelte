@@ -7,6 +7,7 @@
   import { fade } from "svelte/transition";
   import CardRecipe from "./CardRecipe.svelte";
   import InputSearchRecipe from "./InputSearchRecipe.svelte";
+  import { page } from "$app/state";
   import Api from "$lib/api";
   import { flip } from "svelte/animate";
 
@@ -42,7 +43,7 @@
   async function loadCards() {
     error_message = "";
     is_loading = true;
-    const cards_result = await Api.searchRecipes(search, categories);
+    const cards_result = await Api.searchRecipes(search, categories, !!page.data.is_logged_in);
     is_loading = false;
     if (!cards_result.ok) {
       console.error("Failed to load cards");
@@ -64,6 +65,15 @@
     categories = [];
     updateUrl();
   }
+
+  // Drafts are only listed while logged in, so reload when signing in or out.
+  let last_logged_in = page.data.is_logged_in;
+  $effect(() => {
+    const is_logged_in = page.data.is_logged_in;
+    if (is_logged_in === last_logged_in) return;
+    last_logged_in = is_logged_in;
+    loadCards();
+  });
 
   onMount(() => loadCards());
   onDestroy(() => (is_opening_recipe = false));

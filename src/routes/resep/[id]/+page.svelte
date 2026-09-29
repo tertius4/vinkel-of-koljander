@@ -22,7 +22,7 @@
 
 <main class="p-4 lg:p-6 w-full bg-white grow overflow-y-auto">
   <div class="grid lg:grid-cols-[minmax(0,1000px)_400px] gap-6 items-start w-fit mx-auto">
-    <section>
+    <section class="max-lg:order-2">
       <h2 class="headline-lg text-primary text-3xl mt-2">Instruksies</h2>
       <p class="text-neutral-950 text-sm mb-4">
         Volg elke fase noukeurig met die aangeduide bestanddele vir die beste resultaat.
@@ -90,7 +90,11 @@
               <div class="text-primary headline-md">{data.servings_label}</div>
             </div>
 
-            <ServingsStepper servings={data.servings} original_servings={data.original_servings} onchange={setServings} />
+            <ServingsStepper
+              servings={data.servings}
+              original_servings={data.original_servings}
+              onchange={setServings}
+            />
           </Panel>
 
           <Panel class="p-3 space-y-2">

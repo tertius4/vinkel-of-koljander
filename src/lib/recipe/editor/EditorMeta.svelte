@@ -3,6 +3,7 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImagePicker from "$lib/ui/ImagePicker.svelte";
+  import { initialsOf } from "$lib/recipe";
   import { INPUT_CLASS, LABEL_CLASS } from "./styles";
 
   let { recipe = $bindable() }: { recipe: DB.Resep } = $props();
@@ -29,6 +30,19 @@
     placeholder="Vertel kortliks iets oor die resep…"
     class={[INPUT_CLASS, "resize-y"]}
   ></textarea>
+</div>
+
+<div>
+  <label for="author" class={[LABEL_CLASS, "block mb-1"]}>Resep kom van (opsioneel)</label>
+  <div class="flex items-center gap-2">
+    <div
+      class="size-11 shrink-0 flex items-center justify-center rounded-lg bg-secondary-200 text-secondary-900 font-bold"
+      aria-hidden="true"
+    >
+      {initialsOf(recipe.author?.naam ?? "") || "?"}
+    </div>
+    <input id="author" bind:value={recipe.author!.naam} placeholder="bv. Ouma Sannie" class={INPUT_CLASS} />
+  </div>
 </div>
 
 <Container class="p-5">

@@ -39,7 +39,9 @@ export class Table<T extends any> {
     this.name = name;
   }
 
-  async create(data: Omit<T, "id" | "archived" | "created_at">): AsyncResult {
+  async create(
+    data: Omit<T, "id" | "archived" | "created_at">,
+  ): Promise<{ ok: true; id: string } | { ok: false; error: string }> {
     try {
       if (!data) throw new Error("Data is required");
 
@@ -49,9 +51,9 @@ export class Table<T extends any> {
 
       // Convert to plain object and ensure all values are serializable
       const doc_data = JSON.parse(JSON.stringify({ ...data, created_at }));
-      await addDoc(colRef, doc_data);
+      const doc_ref = await addDoc(colRef, doc_data);
 
-      return { ok: true };
+      return { ok: true, id: doc_ref.id };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
       console.error(`Error creating document in ${this.name}: ${error_message}`);
@@ -81,7 +83,9 @@ export class Table<T extends any> {
 
       return snapshot.docs.map((d) => ({ ...d.data(), id: d.id })) as T[];
     } catch (e) {
-      alert(`Het gefaal om dokuments te kry van ${this.name}: ${(e as Error).stack || "Unknown error occurred"}`);
+      console.error(
+        `Het gefaal om dokuments te kry van ${this.name}: ${(e as Error).stack || "Unknown error occurred"}`,
+      );
       return [];
     }
   }

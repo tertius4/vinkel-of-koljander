@@ -8,6 +8,7 @@
   import EditorStep from "./editor/EditorStep.svelte";
   import ModalRemoveRecipe from "./ModalRemoveRecipe.svelte";
   import { mount, unmount } from "svelte";
+  import { initialsOf } from "$lib/recipe";
 
   const { recipe: original }: { recipe: DB.Resep } = $props();
 
@@ -17,6 +18,8 @@
     ...structuredClone($state.snapshot(original)),
     kategorieë: original.kategorieë ?? [],
     tyd: { werk: original.tyd?.werk ?? 0, wag: original.tyd?.wag ?? 0 },
+    author: { naam: original.author?.naam ?? "", initials: original.author?.initials ?? "" },
+    published: original.published ?? false,
     stappe: (original.stappe ?? []).map((stap) => ({
       ...structuredClone($state.snapshot(stap)),
       instruksies: stap.instruksies ?? [],
@@ -31,6 +34,7 @@
   let open = $state(is_new ? -1 : 0);
   let is_saving = $state(false);
   let error = $state("");
+  let notice = $state("");
 
   function addStep() {
     recipe.stappe.push({ nommer: recipe.stappe.length + 1, ingredients: [], instruksies: [] });
@@ -54,6 +58,8 @@
     return {
       ...data,
       naam: data.naam.trim(),
+      // Stored even when empty: Firestore updates cannot drop a field, and an empty name is not displayed.
+      author: { naam: data.author!.naam.trim(), initials: initialsOf(data.author!.naam) },
       stappe: data.stappe.map((stap, i) => ({
         ...stap,
         nommer: i + 1,
@@ -63,9 +69,11 @@
     };
   }
 
-  async function save() {
+  /** Saves the form. `published` overrides the recipe's published state (publish / unpublish). */
+  async function save(published = recipe.published ?? false) {
     error = "";
-    const data = cleaned();
+    notice = "";
+    const data = { ...cleaned(), published };
     if (!data.naam) {
       error = "Gee asseblief 'n naam aan die resep.";
       return;
@@ -73,12 +81,19 @@
 
     is_saving = true;
     try {
-      const result: { ok: boolean; error?: string } = recipe.id
+      const result: { ok: boolean; id?: string; error?: string } = recipe.id
         ? await DB.Resep.updateById(recipe.id, data)
         : await DB.Resep.create(data);
 
-      if (result.ok) await goto("/");
-      else error = result.error || "Kon nie die resep stoor nie.";
+      if (!result.ok) {
+        error = result.error || "Kon nie die resep stoor nie.";
+        return;
+      }
+
+      recipe.published = published;
+      if (published) await goto("/");
+      else if (!recipe.id && result.id) await goto(`/wysig/${result.id}`, { replaceState: true });
+      else notice = "Konsep gestoor.";
     } finally {
       is_saving = false;
     }
@@ -111,15 +126,21 @@
 {#snippet actions()}
   {#if error}
     <p class="text-red-600 text-sm" role="alert">{error}</p>
+  {:else if notice}
+    <p class="text-primary-700 text-sm" role="status">{notice}</p>
   {/if}
-  <div class="flex gap-3">
+  <div class="grid grid-cols-2 gap-2">
     {#if !is_new}
-      <Button outline disabled={is_saving} onclick={remove} class="w-auto! px-5">
+      <Button outline disabled={is_saving} onclick={remove} class="px-5">
         <Icon name="trash" size={20} />
         <span>Skrap</span>
       </Button>
     {/if}
-    <Button disabled={is_saving} onclick={save}>
+    <Button outline disabled={is_saving} onclick={() => save(!recipe.published)} class="px-5">
+      <Icon name={recipe.published ? "x-circle" : "check-circle"} size={20} />
+      <span>{recipe.published ? "Ontpubliseer" : "Publiseer"}</span>
+    </Button>
+    <Button disabled={is_saving} onclick={() => save()} class="px-5 col-span-2">
       <Icon name={is_saving ? "loading" : "check"} size={20} class={{ "animate-spin": is_saving }} />
       <span>{is_saving ? "Besig..." : "Stoor"}</span>
     </Button>
@@ -128,16 +149,7 @@
 
 <main class="p-4 max-lg:pb-0 lg:p-6 w-full bg-white grow overflow-y-auto">
   <div class="grid lg:grid-cols-[minmax(0,1000px)_400px] gap-6 items-start w-fit max-w-full mx-auto">
-    <aside
-      class="lg:col-start-2 lg:row-start-1 lg:sticky lg:top-0 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto space-y-4 min-w-0"
-    >
-      <h1 class="headline-lg text-primary text-3xl mt-2">{is_new ? "Skep 'n Nuwe Resep" : "Wysig Resep"}</h1>
-      <EditorMeta bind:recipe />
-      <EditorCategories bind:recipe />
-      <div class="hidden lg:block space-y-3">{@render actions()}</div>
-    </aside>
-
-    <section class="lg:col-start-1 lg:row-start-1 min-w-0">
+    <section class="max-lg:order-2 lg:col-start-2 lg:row-start-1 min-w-0">
       <h2 class="headline-lg text-primary text-3xl mt-2">Stappe</h2>
       <p class="text-neutral-950 text-sm mb-4">Deel die resep op in fases met hul eie bestanddele en instruksies.</p>
 
@@ -163,6 +175,27 @@
         <span>Voeg Stap By</span>
       </Button>
     </section>
+
+    <aside
+      class="lg:col-start-1 lg:row-start-1 lg:sticky lg:top-0 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto space-y-4 min-w-0"
+    >
+      <div class="flex items-center justify-between gap-3 mt-2">
+        <h1 class="headline-lg text-primary text-3xl">{is_new ? "Skep 'n Nuwe Resep" : "Wysig Resep"}</h1>
+        <span
+          class={[
+            "shrink-0 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider border",
+            recipe.published
+              ? "bg-primary-100 border-primary-200 text-primary-700"
+              : "bg-secondary-100 border-secondary-300 text-secondary-950",
+          ]}
+        >
+          {recipe.published ? "Gepubliseer" : "Konsep"}
+        </span>
+      </div>
+      <EditorMeta bind:recipe />
+      <EditorCategories bind:recipe />
+      <div class="hidden lg:block space-y-3">{@render actions()}</div>
+    </aside>
   </div>
 
   <div

@@ -21,6 +21,7 @@ declare global {
       stappe: ResepStap[];
       rating?: { thumbs_up: number };
       author?: { naam: string; initials: string };
+      published?: boolean;
     }
 
     interface Kommentaar {
@@ -45,6 +46,7 @@ declare global {
     tags: string[];
     title: string;
     tyd?: { werk: number; wag: number };
+    published: boolean;
   }
 
   interface ResepStap {

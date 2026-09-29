@@ -57,6 +57,14 @@ export function readServings(url: URL, fallback: number) {
   throw redirect(307, clean.pathname + clean.search);
 }
 
+/** "Ouma Sannie" -> "OS". Uses the first letter of the first and last word. */
+export function initialsOf(name: string) {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "";
+  const letters = words.length === 1 ? [words[0]] : [words[0], words[words.length - 1]];
+  return letters.map((word) => word[0].toUpperCase()).join("");
+}
+
 /** The recipe as the recipe pages show it (English keys, no database naming). */
 export function toRecipeView(recipe: DB.Resep) {
   const steps = recipe.stappe.map((step) => ({
