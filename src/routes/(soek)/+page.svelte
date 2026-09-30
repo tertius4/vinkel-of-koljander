@@ -1,10 +1,8 @@
 <script lang="ts">
   import { debounce } from "$lib";
   import { goto } from "$app/navigation";
-  import { navigating } from "$app/state";
   import Icon from "$lib/ui/comps/Icon.svelte";
   import { onDestroy, onMount } from "svelte";
-  import { fade } from "svelte/transition";
   import CardRecipe from "./CardRecipe.svelte";
   import InputSearchRecipe from "./InputSearchRecipe.svelte";
   import { page } from "$app/state";
@@ -21,8 +19,6 @@
   let error_message = $state("");
   let is_opening_recipe = $state(false);
   let is_loading = $state(true);
-
-  const is_navigating = $derived(navigating.to !== null || is_opening_recipe);
 
   // Keep the input in sync with the URL (e.g. back/forward navigation).
   $effect(() => {
@@ -78,20 +74,6 @@
   onMount(() => loadCards());
   onDestroy(() => (is_opening_recipe = false));
 </script>
-
-{#if is_navigating}
-  <div
-    transition:fade
-    class="fixed inset-0 w-dvw h-dvh bg-black/20 text-black z-12 pointer-events-none"
-    role="status"
-    aria-live="polite"
-  >
-    <div class="flex flex-col items-center gap-2 justify-center w-full h-full animate-pulse">
-      <Icon name="loading" class="animate-spin" size={28} />
-      <span class="font-medium text-lg font-sans">Laai…</span>
-    </div>
-  </div>
-{/if}
 
 <div class="h-full min-h-0 flex flex-col px-4">
   <div class="my-4 shrink-0">

@@ -18,8 +18,7 @@ import {
   type WhereFilterOp,
   getFirestore,
 } from "firebase/firestore";
-import { DB_NAME, APP_NAME, FIREBASE_CONFIG } from "$lib";
-import { DateUtil } from "$lib/date_util";
+import { DB_NAME, APP_NAME, FIREBASE_CONFIG, DateUtil, err } from "$lib";
 
 interface QueryOptions {
   filters?: (
@@ -107,7 +106,7 @@ export class Table<T extends any> {
       return { ok: true };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
-      return { ok: false, error: error_message };
+      return err(error_message);
     }
   }
 
@@ -120,7 +119,7 @@ export class Table<T extends any> {
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
-        return { ok: false, error: "Document not found" };
+        return err("Document not found");
       }
 
       // Update using the found document reference
@@ -128,7 +127,7 @@ export class Table<T extends any> {
       return { ok: true };
     } catch (error) {
       const error_message = error instanceof Error ? error.message : String(error);
-      return { ok: false, error: error_message };
+      return err(error_message);
     }
   }
 
