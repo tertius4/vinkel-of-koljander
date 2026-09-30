@@ -124,21 +124,19 @@
     >
       {recipe.author.initials}
     </div>
-    <div class="h-full flex flex-col justify-between">
+    <div>
       <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van:</div>
       <div class="font-semibold text-black text-sm">{recipe.author.name}</div>
     </div>
-    <Container class="h-full flex justify-center items-center px-2" hidden={recipe.rating.thumbs_up === 0}>
-      <span class="text-md mr-1.5 leading-none">👍</span>
-      <span class="font-bold text-[#231a11] text-md">{recipe.rating.thumbs_up}</span>
-      <span class="text-[#88726b] text-sm ml-1 font-medium">duime</span>
-    </Container>
   </div>
 
   <div class="grid grid-cols-1 gap-3 py-2 mb-4">
-    <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode}>
-      <Icon name={cook_mode ? "xmark" : "circle-play"} size={20} />
-      <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
+    <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode} class="flex-col! gap-0!">
+      <div class="flex gap-1">
+        <Icon name={cook_mode ? "xmark" : "circle-play"} size={20} />
+        <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
+      </div>
+      <div class="text-primary-200 body-sm">Verhoed dat jou skerm donker gaan</div>
     </Button>
 
     <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline hidden={!recipe.has_ingredients}>

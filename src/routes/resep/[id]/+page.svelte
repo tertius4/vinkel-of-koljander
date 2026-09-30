@@ -65,15 +65,10 @@
         >
           {data.recipe.author.initials}
         </div>
-        <div class="h-full flex flex-col justify-between">
-          <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van:</div>
+        <div>
+          <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van</div>
           <div class="font-semibold text-black text-sm">{data.recipe.author.name}</div>
         </div>
-        <Container class="h-full flex justify-center items-center px-2" hidden={data.recipe.rating.thumbs_up === 0}>
-          <span class="text-md mr-1.5 leading-none">👍</span>
-          <span class="font-bold text-[#231a11] text-md">{data.recipe.rating.thumbs_up}</span>
-          <span class="text-[#88726b] text-sm ml-1 font-medium">duime</span>
-        </Container>
       </div>
 
       <Container class="p-5">
