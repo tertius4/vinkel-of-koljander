@@ -58,6 +58,8 @@
     } else {
       // Get clamped height after state change
       setTimeout(() => {
+        if (!content_wrapper || !inner_content) return;
+
         const clamped_height = inner_content.offsetHeight;
         content_wrapper.style.height = `${clamped_height}px`;
       }, 0);
@@ -65,6 +67,8 @@
 
     if (!is_expanded) {
       setTimeout(() => {
+        if (!inner_content) return;
+
         checkDescriptionOverflow(inner_content);
       }, 300);
     }
