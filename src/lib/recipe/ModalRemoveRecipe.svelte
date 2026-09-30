@@ -42,8 +42,8 @@
       <div class="space-y-1 min-w-0">
         <h2 id="remove-recipe-title" class="text-xl font-bold">Skrap resep?</h2>
         <p id="remove-recipe-desc" class="text-neutral-500">
-          <span class="font-semibold text-neutral-800 wrap-break-word">{recipe_name}</span> sal permanent geskrap word. Dit kan nie
-          ongedaan gemaak word nie.
+          <span class="font-semibold text-neutral-800 wrap-break-word">{recipe_name}</span> sal permanent geskrap word, saam met al die kommentaar
+          daarop. Dit kan nie ongedaan gemaak word nie.
         </p>
       </div>
     </div>

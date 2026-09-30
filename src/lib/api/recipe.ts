@@ -1,8 +1,18 @@
 import { err, normalise, ok, searchOnText, wait } from "$lib";
 import { DB } from "$lib/DB";
-// import { remote } from "$lib/server";
 
 export const searchRecipes = _searchRecipes;
+
+export async function deleteRecipe(id: string): AsyncResult<true> {
+  try {
+    await DB.Comments.deleteMany({ filters: [{ field: "recipe_id", operator: "==", value: id }] });
+    await DB.Resep.delete(id);
+    return ok();
+  } catch (error) {
+    console.error("Failed to delete recipe:", error);
+    return err(500, "Kon nie die resep skrap nie");
+  }
+}
 
 async function _searchRecipes(
   search: string,

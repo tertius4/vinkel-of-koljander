@@ -101,6 +101,24 @@ export const DateUtil = {
     return format.replace(/YYYY|YY|MMMM|MMM|MM|M|dddd|ddd|DD|D|HH|H|mm|m|ss|s/g, (match) => tokens[match]);
   },
 
+  /** Relative time in Afrikaans for a "YYYY-MM-DD HH:mm:ss" string, e.g. "5 minute gelede". */
+  timeAgo(date: string, now = new Date()): string {
+    const then = new Date(date.replace(" ", "T"));
+    if (isNaN(then.getTime())) return "";
+
+    const minutes = Math.floor((now.getTime() - then.getTime()) / 60000);
+    if (minutes < 1) return "nou net";
+    if (minutes < 60) return `${minutes} ${minutes === 1 ? "minuut" : "minute"} gelede`;
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} uur gelede`;
+
+    const days = Math.floor(hours / 24);
+    if (days < 30) return `${days} ${days === 1 ? "dag" : "dae"} gelede`;
+
+    return DateUtil.format(then, "D MMM YYYY");
+  },
+
   addDays(date: Date, days: number): Date {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -168,7 +186,7 @@ export function debounce<T extends (...args: any[]) => void>(fn: T, delay: numbe
   } as T;
 }
 
-export function ok<T>(value: T): Result<T> {
+export function ok<T = void>(value?: T): Result<T> {
   return { ok: true, value } as Result<T>;
 }
 

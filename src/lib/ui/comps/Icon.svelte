@@ -207,7 +207,18 @@
     <circle cx="12" cy="12" r="10" />
     <polyline points="12,6 12,12 16,14" />
   </symbol>
-  <symbol id="crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <symbol
+    id="comment"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </symbol>
+  <symbol id="crown"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path
       d="M2 19H22V21H2V19ZM2 5L7 9L12 2L17 9L22 5V17H2V5ZM12 11.5C11.17 11.5 10.5 10.83 10.5 10C10.5 9.17 11.17 8.5 12 8.5C12.83 8.5 13.5 9.17 13.5 10C13.5 10.83 12.83 11.5 12 11.5Z"
     />

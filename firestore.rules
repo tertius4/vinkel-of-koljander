@@ -2,6 +2,26 @@ rules_version='2'
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Anyone may read and post comments, but never edit them.
+    // NOTE: the catch-all rule below still grants full access (rules are OR'd);
+    // this only takes effect once that rule is removed or scoped.
+    match /comments/{comment} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['recipe_id', 'author_name', 'content', 'reactions', 'created_at'])
+        && request.resource.data.recipe_id is string
+        && request.resource.data.author_name is string
+        && request.resource.data.author_name.size() > 0
+        && request.resource.data.author_name.size() <= 40
+        && request.resource.data.content is string
+        && request.resource.data.content.size() <= 500
+        && request.resource.data.reactions is list
+        && request.resource.data.reactions.hasOnly(['thumbsup'])
+        && request.resource.data.reactions.size() <= 1;
+      // Delete is needed to remove a recipe's comments along with it (the app has no Firebase auth to check).
+      allow update: if false;
+      allow delete: if true;
+    }
+
     match /{document=**} {
       // This rule allows anyone with your database reference to view, edit,
       // and delete all data in your database. It is useful for getting

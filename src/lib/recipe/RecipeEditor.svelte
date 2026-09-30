@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { DB } from "$lib/DB";
+  import Api from "$lib/api";
   import Button from "$lib/ui/comps/buttons/Button.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
   import EditorCategories from "./editor/EditorCategories.svelte";
@@ -9,6 +10,7 @@
   import ModalRemoveRecipe from "./ModalRemoveRecipe.svelte";
   import { mount, unmount } from "svelte";
   import { initialsOf } from "$lib/recipe";
+  import { json } from "@sveltejs/kit";
 
   const { recipe: original }: { recipe: DB.Resep } = $props();
 
@@ -113,10 +115,13 @@
   async function deleteRecipe() {
     is_saving = true;
     try {
-      await DB.Resep.delete(recipe.id);
+      const result = await Api.deleteRecipe(recipe.id);
+      if (!result.ok) throw result.error;
+      
       await goto("/");
-    } catch {
-      error = "Kon nie die resep skrap nie.";
+    } catch (error) {
+      const message = error instanceof Error ? error.message : JSON.stringify(error);
+      error = message;
     } finally {
       is_saving = false;
     }
@@ -135,11 +140,11 @@
         <Icon name="trash" size={20} />
         <span>Skrap</span>
       </Button>
+      <Button outline disabled={is_saving} onclick={() => save(!recipe.published)} class="px-5">
+        <Icon name={recipe.published ? "x-circle" : "check-circle"} size={20} />
+        <span>{recipe.published ? "Ontpubliseer" : "Publiseer"}</span>
+      </Button>
     {/if}
-    <Button outline disabled={is_saving} onclick={() => save(!recipe.published)} class="px-5">
-      <Icon name={recipe.published ? "x-circle" : "check-circle"} size={20} />
-      <span>{recipe.published ? "Ontpubliseer" : "Publiseer"}</span>
-    </Button>
     <Button disabled={is_saving} onclick={() => save()} class="px-5 col-span-2">
       <Icon name={is_saving ? "loading" : "check"} size={20} class={{ "animate-spin": is_saving }} />
       <span>{is_saving ? "Besig..." : "Stoor"}</span>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import CommentsSection from "$lib/comments/CommentsSection.svelte";
   import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
   import Description from "$lib/ui/comps/display/Description.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
@@ -28,6 +29,9 @@
         Volg elke fase noukeurig met die aangeduide bestanddele vir die beste resultaat.
       </p>
       <StepAccordion steps={data.recipe.steps} />
+      <div class="mt-8">
+        <CommentsSection recipe_id={page.params.id!} />
+      </div>
     </section>
     <aside class="lg:sticky lg:top-0 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto space-y-4">
       <div class="relative" hidden={!data.recipe.image}>

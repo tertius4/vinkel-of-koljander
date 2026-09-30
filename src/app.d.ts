@@ -24,12 +24,15 @@ declare global {
       published?: boolean;
     }
 
-    interface Kommentaar {
+    type Reaction = "thumbsup";
+
+    interface Comment {
       id: string;
-      resep_id: string;
-      gebruiker: string;
-      datum: string;
-      inhoud: string;
+      recipe_id: string;
+      author_name: string;
+      content: string;
+      reactions: Reaction[];
+      created_at: string;
     }
 
     interface Ingredient {

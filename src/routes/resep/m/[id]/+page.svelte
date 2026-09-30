@@ -10,6 +10,7 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
+  import CommentsSection from "$lib/comments/CommentsSection.svelte";
   import { ingredientsHref, scaleAmount, scrollStepIntoView, servingsLabel } from "$lib/recipe";
   import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
 
@@ -308,4 +309,8 @@
       </Button>
     </div>
   {/if}
+
+  <div class="mt-8">
+    <CommentsSection recipe_id={page.params.id!} />
+  </div>
 </main>
