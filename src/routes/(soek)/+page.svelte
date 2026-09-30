@@ -75,8 +75,8 @@
   onDestroy(() => (is_opening_recipe = false));
 </script>
 
-<div class="h-full min-h-0 flex flex-col px-4">
-  <div class="my-4 shrink-0">
+<div class="flex flex-col px-4">
+  <div class="bg-[#f8efeb] background-pattern sticky top-(--header-height) z-11 py-4 shrink-0">
     <InputSearchRecipe
       placeholder="Soek 'n Resep"
       bind:value={search}
@@ -87,7 +87,7 @@
     />
   </div>
 
-  <div class="flex-1 min-h-0 flex flex-col">
+  <div class="flex flex-col">
     {#if !!error_message}
       <p class="text-center text-error" role="alert">{error_message}</p>
     {:else if is_loading && cards.length === 0}
@@ -98,7 +98,7 @@
     {:else if cards.length === 0}
       <p class="text-center text-on-surface-variant">Geen resultate gevind nie.</p>
     {:else}
-      <div tabindex="-1" class="flex-1 min-h-0 w-full overflow-y-auto">
+      <div class="w-full">
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 pb-4">
           {#each cards as card (card.id)}
             <div animate:flip={{ duration: 200 }}>
@@ -116,7 +116,7 @@
 {#if data.is_logged_in}
   <a
     href="/create"
-    class="absolute bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg text-white flex items-center gap-1 p-4 shadow-lg"
+    class="fixed bottom-4 md:bottom-6 right-4 md:right-6 bg-primary-600 hover:bg-primary-700 z-11 transition-colors rounded-lg text-white flex items-center gap-1 p-4 shadow-lg"
   >
     <Icon name="plus" size={20} />
     <span class="text-[20px] font-semibold tracking-wide">SKEP</span>

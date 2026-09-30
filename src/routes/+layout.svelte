@@ -6,9 +6,14 @@
   import { page } from "$app/state";
 
   const { data, children } = $props();
+
+  let header_height = $state(0);
 </script>
 
-<main class="background w-dvw h-dvh flex flex-col overflow-hidden">
+<main
+  class={["background background-pattern w-dvw h-dvh flex flex-col", page.data.is_search_page ? "overflow-y-auto" : "overflow-hidden"]}
+  style="--header-height: {header_height}px"
+>
   {#if data.is_maintenance_mode}
     <div class="flex flex-col items-center justify-center h-full gap-4 p-4">
       <h2 class="text-2xl font-bold text-alabaster-950">In Onderhoud</h2>
@@ -16,7 +21,7 @@
       <span class="text-4xl">🏗️</span>
     </div>
   {:else}
-    <header class="relative w-full bg-white border-b border-primary-50 py-2">
+    <header bind:offsetHeight={header_height} class="sticky top-0 z-20 shrink-0 w-full bg-white border-b border-primary-50 py-2">
       {#if data.is_create_page || data.is_edit_page || data.is_recipe_page}
         <a href={data.back_href} class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-primary-50 hover:bg-primary-100 text-primary-500 rounded-lg p-2 md:p-3 outline-none focus:bg-primary-100 active:bg-primary-100">
           <Icon name="arrow-left" size={24} class="text-primary-500" />
@@ -41,7 +46,7 @@
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
     </header>
 
-    <div class={["mx-auto grow min-h-0 w-full flex flex-col", page.data.is_search_page && "max-w-6xl"]}>
+    <div class={["mx-auto grow w-full flex flex-col", page.data.is_search_page ? "max-w-6xl" : "min-h-0"]}>
       {@render children()}
     </div>
   {/if}
@@ -51,6 +56,11 @@
   .background {
     background-color: #f8efeb;
     opacity: 0.8;
+  }
+
+  /* Fixed attachment lets sticky elements repaint the exact same pattern as <main> without being transparent. */
+  :global(.background-pattern) {
+    background-attachment: fixed;
     background-image: conic-gradient(
         from 60deg at 56.25% calc(425% / 6),
         transparent 0deg,
