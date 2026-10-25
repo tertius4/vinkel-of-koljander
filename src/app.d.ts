@@ -20,8 +20,18 @@ declare global {
       porsies: number;
       stappe: ResepStap[];
       rating?: { thumbs_up: number };
+      /** Legacy single credit; new recipes use `erkenning`. */
       author?: { naam: string; initials: string };
+      /** Up to two credits, e.g. "Kom uit Kookboek A" + "'n Geskenk van Oom Isak". */
+      erkenning?: Credit[];
       published?: boolean;
+    }
+
+    type CreditKind = "kom uit" | "geleer by" | "geskenk van" | "kom van" | "aangepas deur";
+
+    interface Credit {
+      soort: CreditKind;
+      naam: string;
     }
 
     type Reaction = "thumbsup";

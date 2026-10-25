@@ -9,7 +9,7 @@
   import EditorStep from "./editor/EditorStep.svelte";
   import ModalRemoveRecipe from "./ModalRemoveRecipe.svelte";
   import { mount, unmount } from "svelte";
-  import { initialsOf } from "$lib/recipe";
+  import { creditOf } from "$lib/recipe";
   import { json } from "@sveltejs/kit";
 
   const { recipe: original }: { recipe: DB.Resep } = $props();
@@ -20,7 +20,10 @@
     ...structuredClone($state.snapshot(original)),
     kategorieë: original.kategorieë ?? [],
     tyd: { werk: original.tyd?.werk ?? 0, wag: original.tyd?.wag ?? 0 },
-    author: { naam: original.author?.naam ?? "", initials: original.author?.initials ?? "" },
+    // Always at least one (empty) row, so the editor has something to fill in.
+    erkenning: creditOf(original).length
+      ? creditOf(original).map((credit) => ({ ...credit }))
+      : [{ soort: "kom uit", naam: "" }],
     published: original.published ?? false,
     stappe: (original.stappe ?? []).map((stap) => ({
       ...structuredClone($state.snapshot(stap)),
@@ -60,8 +63,11 @@
     return {
       ...data,
       naam: data.naam.trim(),
-      // Stored even when empty: Firestore updates cannot drop a field, and an empty name is not displayed.
-      author: { naam: data.author!.naam.trim(), initials: initialsOf(data.author!.naam) },
+      // Stored even when empty, so it replaces a legacy `author` (Firestore updates cannot drop a field).
+      erkenning: data
+        .erkenning!.map((credit) => ({ ...credit, naam: credit.naam.trim() }))
+        .filter((credit) => credit.naam)
+        .slice(0, 2),
       stappe: data.stappe.map((stap, i) => ({
         ...stap,
         nommer: i + 1,

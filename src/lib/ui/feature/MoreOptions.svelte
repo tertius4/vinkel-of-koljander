@@ -55,7 +55,7 @@
     }}
     aria-label="Meer opsies"
   >
-    <Icon name="ellipsis" size={16} class="text-alabaster-700" />
+    <Icon name="vertical-ellipsis" size={16} class="text-alabaster-700" />
   </button>
 
   {#if open}
@@ -70,7 +70,7 @@
         role="menuitem"
         onclick={openComment}
       >
-        <Icon name="message" size={14} class="text-alabaster-500" />
+        <Icon name="comment" size={14} class="text-alabaster-500" />
         Voeg opmerking by
       </button>
       <button

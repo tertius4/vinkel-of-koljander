@@ -3,8 +3,8 @@
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImagePicker from "$lib/ui/ImagePicker.svelte";
-  import { initialsOf } from "$lib/recipe";
-  import { INPUT_CLASS, LABEL_CLASS } from "./styles";
+  import { CREDIT_KINDS } from "$lib/recipe";
+  import { ICON_BUTTON_CLASS, INPUT_CLASS, LABEL_CLASS } from "./styles";
 
   let { recipe = $bindable() }: { recipe: DB.Resep } = $props();
 </script>
@@ -33,16 +33,44 @@
 </div>
 
 <div>
-  <label for="author" class={[LABEL_CLASS, "block mb-1"]}>Resep kom van (opsioneel)</label>
-  <div class="flex items-center gap-2">
-    <div
-      class="size-11 shrink-0 flex items-center justify-center rounded-lg bg-secondary-200 text-secondary-900 font-bold"
-      aria-hidden="true"
-    >
-      {initialsOf(recipe.author?.naam ?? "") || "?"}
-    </div>
-    <input id="author" bind:value={recipe.author!.naam} placeholder="bv. Ouma Sannie" class={INPUT_CLASS} />
+  <span class={[LABEL_CLASS, "block mb-1"]}>Erkenning (opsioneel)</span>
+  <div class="space-y-2">
+    {#each recipe.erkenning! as credit, i}
+      <div class="flex items-center gap-2">
+        <select bind:value={credit.soort} aria-label="Soort erkenning" class={[INPUT_CLASS, "w-auto! shrink-0"]}>
+          {#each CREDIT_KINDS as { soort, label }}
+            <option value={soort}>{label}</option>
+          {/each}
+        </select>
+        <input
+          bind:value={credit.naam}
+          aria-label="Naam"
+          placeholder={i === 0 ? "bv. Ouma se kookboek" : "bv. Oom Isak"}
+          class={INPUT_CLASS}
+        />
+        {#if recipe.erkenning!.length > 1}
+          <button
+            type="button"
+            class={ICON_BUTTON_CLASS}
+            aria-label="Verwyder erkenning"
+            onclick={() => recipe.erkenning!.splice(i, 1)}
+          >
+            <Icon name="xmark" size={20} />
+          </button>
+        {/if}
+      </div>
+    {/each}
   </div>
+  {#if recipe.erkenning!.length < 2}
+    <button
+      type="button"
+      class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary-600 hover:text-primary-800"
+      onclick={() => recipe.erkenning!.push({ soort: "geskenk van", naam: "" })}
+    >
+      <Icon name="plus" size={16} />
+      Voeg nog een by
+    </button>
+  {/if}
 </div>
 
 <Container class="p-4">

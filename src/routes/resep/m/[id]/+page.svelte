@@ -13,6 +13,7 @@
   import CommentsSection from "$lib/comments/CommentsSection.svelte";
   import { ingredientsHref, scaleAmount, scrollStepIntoView, servingsLabel } from "$lib/recipe";
   import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
+  import Credits from "../../[id]/comps/Credits.svelte";
 
   const { data } = $props();
 
@@ -118,17 +119,7 @@
     <Description description={recipe.description} />
   </div>
 
-  <div class="border-y grid grid-cols-[auto_1fr_auto] gap-2 py-2 mb-2 border-[#dbc1b8]" hidden={!recipe.author.name}>
-    <div
-      class="size-9 flex items-center justify-center rounded-lg bg-secondary-200 text-secondary-900 font-bold text-md"
-    >
-      {recipe.author.initials}
-    </div>
-    <div>
-      <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van:</div>
-      <div class="font-semibold text-black text-sm">{recipe.author.name}</div>
-    </div>
-  </div>
+  <Credits credits={recipe.credits} class="mb-2" />
 
   <div class="grid grid-cols-1 gap-3 py-2 mb-4">
     <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode} class="flex-col! gap-0!">
@@ -206,7 +197,7 @@
             title={step.title || "Stap " + (i + 1)}
             onclick={() => goToStep(i)}
             class={{
-              "p-3 w-fit min-h-10 rounded-lg transition-colors duration-300": true,
+              "p-3 w-fit max-w-48 shrink-0 min-h-10 rounded-lg transition-colors duration-300": true,
               "border border-primary-200 bg-white": !is_current,
               "bg-primary-600 text-white font-medium": is_current,
             }}
@@ -218,7 +209,7 @@
             </div>
             <div
               hidden={!step.title}
-              class="overflow-hidden font-medium capitalize {is_current ? 'text-white' : 'text-neutral-700'}"
+              class="truncate text-left font-medium capitalize {is_current ? 'text-white' : 'text-neutral-700'}"
             >
               {step.title}
             </div>

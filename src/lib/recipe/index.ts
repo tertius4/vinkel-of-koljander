@@ -65,6 +65,28 @@ export function initialsOf(name: string) {
   return letters.map((word) => word[0].toUpperCase()).join("");
 }
 
+/** The credit phrases, in the order the editor offers them. The label starts the displayed sentence. */
+export const CREDIT_KINDS: { soort: DB.CreditKind; label: string }[] = [
+  { soort: "kom uit", label: "Kom uit" },
+  { soort: "geleer by", label: "Geleer by" },
+  { soort: "geskenk van", label: "'n Geskenk van" },
+  { soort: "kom van", label: "Kom van" },
+  { soort: "aangepas deur", label: "Aangepas deur" },
+];
+
+/** The recipe's credits. Older recipes only have `author`, which reads as "Kom van <naam>". */
+export function creditOf(recipe: DB.Resep): DB.Credit[] {
+  const credits =
+    recipe.erkenning ?? (recipe.author?.naam ? [{ soort: "kom van" as const, naam: recipe.author.naam }] : []);
+  return credits.filter((credit) => credit.naam.trim());
+}
+
+/** { label: "Kom uit", name: "Kookboek A" }. Kept apart so the name can be shown in bold. */
+function creditLine(credit: DB.Credit) {
+  const label = CREDIT_KINDS.find((s) => s.soort === credit.soort)?.label ?? "Kom van";
+  return { label, name: credit.naam.trim() };
+}
+
 /** The recipe as the recipe pages show it (English keys, no database naming). */
 export function toRecipeView(recipe: DB.Resep) {
   const steps = recipe.stappe.map((step) => ({
@@ -87,10 +109,7 @@ export function toRecipeView(recipe: DB.Resep) {
     rating: {
       thumbs_up: recipe.rating?.thumbs_up ?? 0,
     },
-    author: {
-      name: recipe.author?.naam,
-      initials: recipe.author?.initials,
-    },
+    credits: creditOf(recipe).map(creditLine),
   };
 }
 

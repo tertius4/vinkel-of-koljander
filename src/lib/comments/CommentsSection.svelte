@@ -22,7 +22,7 @@
 <section class="space-y-4">
   <div>
     <h2 class="headline-lg text-primary text-2xl sm:text-3xl mt-2">Gemeenskaps Kommentaar</h2>
-    <p class="text-neutral-900 text-sm">Wat ander mense sê oor hierdie resep</p>
+    <p class="text-neutral-900 text-sm">Wat sê ander mense oor hierdie resep?</p>
   </div>
 
   <Button onclick={() => comments.openForm()}>

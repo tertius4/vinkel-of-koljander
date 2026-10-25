@@ -10,6 +10,7 @@
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
   import IngredientChecklist from "./comps/IngredientChecklist.svelte";
   import StepAccordion from "./comps/StepAccordion.svelte";
+  import Credits from "./comps/Credits.svelte";
 
   const { data } = $props();
 
@@ -56,20 +57,7 @@
         <Description description={data.recipe.description} />
       </div>
 
-      <div
-        class="border-y grid grid-cols-[auto_1fr_auto] gap-2 py-2 border-[#dbc1b8]"
-        hidden={!data.recipe.author.name}
-      >
-        <div
-          class="size-9 flex items-center justify-center rounded-lg bg-secondary-200 text-secondary-900 font-bold text-md"
-        >
-          {data.recipe.author.initials}
-        </div>
-        <div>
-          <div class="block text-[11px] uppercase tracking-wider text-[#88726b] font-semibold">Resep kom van</div>
-          <div class="font-semibold text-black text-sm">{data.recipe.author.name}</div>
-        </div>
-      </div>
+      <Credits credits={data.recipe.credits} />
 
       <Container class="p-5">
         <div class="flex gap-2 items-center">

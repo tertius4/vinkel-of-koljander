@@ -1,8 +1,9 @@
 <script lang="ts">
   import Icon from "../Icon.svelte";
+  import type { IconName } from "$lib/ui/icons/names";
 
   interface Props {
-    icon?: string;
+    icon?: IconName;
     title: string;
     body?: string;
     small?: boolean;
