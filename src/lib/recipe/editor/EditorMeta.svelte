@@ -17,7 +17,7 @@
     id="naam"
     bind:value={recipe.naam}
     placeholder="bv. Ouma se Bobotie"
-    class={[INPUT_CLASS, "font-source-serif-4 text-2xl! font-semibold text-primary! placeholder:text-primary/70"]}
+    class={[INPUT_CLASS, "font-source-serif-4 text-xl! font-semibold text-primary! placeholder:text-primary/70"]}
   />
 </div>
 
@@ -26,7 +26,7 @@
   <textarea
     id="beskrywing"
     bind:value={recipe.beskrywing}
-    rows="4"
+    rows="3"
     placeholder="Vertel kortliks iets oor die resep…"
     class={[INPUT_CLASS, "resize-y"]}
   ></textarea>
@@ -45,13 +45,13 @@
   </div>
 </div>
 
-<Container class="p-5">
+<Container class="p-4">
   <div class="flex gap-2 items-center">
     <Icon name="kitchen-set" class="text-primary" />
     <h3 class="headline-md text-base text-primary-900 font-bold tracking-tight">Porsiegrootte &amp; Tye</h3>
   </div>
-  <hr class="border-primary-100 my-4" />
-  <div class="grid grid-cols-2 gap-4">
+  <hr class="border-primary-100 my-3" />
+  <div class="grid grid-cols-2 gap-3">
     <Panel class="p-3 col-span-2 space-y-2">
       <label for="porsies" class="flex gap-2 items-center">
         <Icon name="user-group" size={20} class="text-secondary-700" />

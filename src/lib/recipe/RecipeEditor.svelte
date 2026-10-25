@@ -153,7 +153,7 @@
 {/snippet}
 
 <main class="p-4 max-lg:pb-0 lg:p-6 w-full bg-white grow overflow-y-auto">
-  <div class="grid lg:grid-cols-[minmax(0,1000px)_400px] gap-6 items-start w-fit max-w-full mx-auto">
+  <div class="grid lg:grid-cols-[340px_minmax(0,1fr)] gap-6 items-start w-full max-w-[1400px] mx-auto">
     <section class="max-lg:order-2 lg:col-start-2 lg:row-start-1 min-w-0">
       <h2 class="headline-lg text-primary text-3xl mt-2">Stappe</h2>
       <p class="text-neutral-950 text-sm mb-4">Deel die resep op in fases met hul eie bestanddele en instruksies.</p>
@@ -185,7 +185,7 @@
       class="lg:col-start-1 lg:row-start-1 lg:sticky lg:top-0 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto space-y-4 min-w-0"
     >
       <div class="flex items-center justify-between gap-3 mt-2">
-        <h1 class="headline-lg text-primary text-3xl">{is_new ? "Skep 'n Nuwe Resep" : "Wysig Resep"}</h1>
+        <h1 class="headline-lg text-primary text-2xl">{is_new ? "Skep 'n Nuwe Resep" : "Wysig Resep"}</h1>
         <span
           class={[
             "shrink-0 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider border",

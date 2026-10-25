@@ -31,14 +31,14 @@
   }
 </script>
 
-<Container class="p-5">
+<Container class="p-4">
   <div class="flex gap-2 items-center">
     <Icon name="categories" class="text-primary" />
     <h3 class="headline-md text-base text-primary-900 font-bold tracking-tight">Kategorieë</h3>
   </div>
-  <hr class="border-primary-100 my-4" />
+  <hr class="border-primary-100 my-3" />
 
-  <div class="flex flex-wrap gap-2 mb-4">
+  <div class="flex flex-wrap gap-1.5 mb-3">
     {#each [...FOOD_CATEGORIES, ...custom_categories] as category (category.label)}
       <CategoryPill
         label={category.label}
