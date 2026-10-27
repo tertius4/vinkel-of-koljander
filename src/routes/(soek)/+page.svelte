@@ -73,6 +73,10 @@
   onMount(() => loadCards());
 </script>
 
+<svelte:head>
+  <title>Vinkel of Koljander</title>
+</svelte:head>
+
 <div class="flex flex-col px-4">
   <div class="bg-[#f8efeb] background-pattern sticky top-(--header-height) z-11 py-4 shrink-0">
     <InputSearchRecipe

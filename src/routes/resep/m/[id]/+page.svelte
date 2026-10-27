@@ -19,6 +19,7 @@
 
   let wake_lock: WakeLockSentinel | null = null;
   let cook_mode = $state(false);
+  let link_copied = $state(false);
 
   const recipe = $derived(data.recipe);
 
@@ -88,6 +89,30 @@
   // Navigating away must not leave the screen awake.
   onDestroy(releaseWakeLock);
 
+  async function shareRecipe() {
+    // The desktop url, so it opens on any device; phones are redirected to the mobile layout.
+    const url = `${location.origin}/resep/${page.params.id}`;
+
+    // Not every desktop browser can share; those copy the link instead.
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: recipe.title, text: `Kyk na hierdie resep: ${recipe.title}`, url });
+      } catch (error) {
+        // Closing the share sheet rejects with an AbortError, which is not a failure.
+        if ((error as Error).name !== "AbortError") console.error("Failed to share:", error);
+      }
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      link_copied = true;
+      setTimeout(() => (link_copied = false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+    }
+  }
+
   function setServings(value: number) {
     servings = value;
     const url = new URL(page.url);
@@ -95,6 +120,10 @@
     replaceState(url, page.state);
   }
 </script>
+
+<svelte:head>
+  <title>{recipe.title} · Vinkel of Koljander</title>
+</svelte:head>
 
 <main class="p-4 w-full bg-white grow overflow-y-auto">
   <div class="relative" hidden={!recipe.image}>
@@ -111,30 +140,25 @@
     {/each}
   </div>
 
-  <h1 class="my-4 text-[28px] leading-tight tracking-tight font-semibold font-source-serif-4 text-primary">
-    {recipe.title}
-  </h1>
+  <div class="flex items-start justify-between gap-3 my-4">
+    <h1 class="text-[28px] leading-tight tracking-tight font-semibold font-source-serif-4 text-primary">
+      {recipe.title}
+    </h1>
+    <button
+      type="button"
+      onclick={shareRecipe}
+      class="shrink-0 size-11 flex items-center justify-center rounded-lg bg-primary-50 text-primary-500 hover:bg-primary-100 focus:bg-primary-100 active:bg-primary-100 outline-none"
+      aria-label={link_copied ? "Skakel gekopieer" : "Deel resep"}
+    >
+      <Icon name={link_copied ? "check" : "share"} size={22} />
+    </button>
+  </div>
 
   <div class="font-sans! text-[#55433c] leading-relaxed text-base sm:text-lg mb-4">
     <Description description={recipe.description} />
   </div>
 
   <Credits credits={recipe.credits} class="mb-2" />
-
-  <div class="grid grid-cols-1 gap-3 py-2 mb-4">
-    <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode} class="flex-col! gap-0!">
-      <div class="flex gap-1">
-        <Icon name={cook_mode ? "xmark" : "circle-play"} size={20} />
-        <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
-      </div>
-      <div class="text-primary-200 body-sm">Verhoed dat jou skerm donker gaan</div>
-    </Button>
-
-    <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline hidden={!recipe.has_ingredients}>
-      <Icon name="drumstick-bite" />
-      <span class="">Bekyk alle Bestandele</span>
-    </ButtonAnchor>
-  </div>
 
   <Container class="p-5">
     <div class="flex gap-2 items-center">
@@ -175,6 +199,21 @@
       </Panel>
     </div>
   </Container>
+
+  <div class="grid grid-cols-1 gap-3 py-2 mt-4 mb-4">
+    <Button onclick={toggleCookMode} outline={cook_mode} aria-pressed={cook_mode} class="flex-col! gap-0!">
+      <div class="flex gap-1">
+        <Icon name={cook_mode ? "xmark" : "circle-play"} size={20} />
+        <span class="">{cook_mode ? "Stop Kook-modus" : "Begin Kook-modus"}</span>
+      </div>
+      <div class="text-primary-200 body-sm">Verhoed dat jou skerm donker gaan</div>
+    </Button>
+
+    <ButtonAnchor href={ingredientsHref(page.url.pathname, servings)} outline hidden={!recipe.has_ingredients}>
+      <Icon name="drumstick-bite" />
+      <span class="">Bekyk alle Bestandele</span>
+    </ButtonAnchor>
+  </div>
 
   {#if !!current_step}
     <div class="flex items-center justify-between flex-wrap gap-2 my-2">
