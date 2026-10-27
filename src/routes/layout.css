@@ -158,30 +158,30 @@
   /* Define the custom font family */
   --font-source-serif-4: "Source Serif 4", serif;
 
-  --color-primary-50: #f9f1ee;
-  --color-primary-100: #f1e1db;
-  --color-primary-200: #e5c3b6;
-  --color-primary-300: #d19984;
-  --color-primary-400: #b2664a;
-  --color-primary-500: #994422;
-  --color-primary-600: #83310b;
-  --color-primary-700: #6c2607;
-  --color-primary-800: #571f07;
-  --color-primary-900: #461b0a;
-  --color-primary-950: #280d04;
-  --color-primary: #994422;
-
-  --color-secondary-50: #f1f3f0;
-  --color-secondary-100: #e1e6e0;
-  --color-secondary-200: #c3cdc0;
-  --color-secondary-300: #9aab96;
-  --color-secondary-400: #6a8164;
-  --color-secondary-500: #4b6544;
-  --color-secondary-600: #3a5333;
-  --color-secondary-700: #2e4328;
-  --color-secondary-800: #253620;
-  --color-secondary-900: #1f2c1b;
-  --color-secondary-950: #0f170d;
+  --color-primary-50: #FAF3F0;
+  --color-primary-100: #F3E6DF;
+  --color-primary-200: #E8CDBE;
+  --color-primary-300: #D8AA90;
+  --color-primary-400: #BE7F5B;
+  --color-primary-500: #AA6338;
+  --color-primary-600: #914D21;
+  --color-primary-700: #773E19;
+  --color-primary-800: #613315;
+  --color-primary-900: #4F2B15;
+  --color-primary-950: #2D170A;
+  --color-primary: var(--color-primary-500);
+  
+  --color-secondary-50: #F2F3EF;
+  --color-secondary-100: #E3E6DD;
+  --color-secondary-200: #C7CDBA;
+  --color-secondary-300: #A1AB8B;
+  --color-secondary-400: #748154;
+  --color-secondary-500: #576430;
+  --color-secondary-600: #45521E;
+  --color-secondary-700: #384216;
+  --color-secondary-800: #2D3512;
+  --color-secondary-900: #252B11;
+  --color-secondary-950: #131707;
   --color-secondary: var(--color-secondary-500);
 
   --color-neutral-50: #f7f6f6;

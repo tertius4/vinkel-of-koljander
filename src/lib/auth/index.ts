@@ -1,4 +1,3 @@
-import { Preferences } from "@capacitor/preferences";
 import { PUBLIC_LOGIN_PASSWORD, PUBLIC_COOKIE_SECRET } from "$env/static/public";
 import { browser } from "$app/environment";
 
@@ -34,22 +33,22 @@ export async function saveAuthToken(password: string): Promise<boolean> {
   if (password !== PUBLIC_LOGIN_PASSWORD) return false;
 
   const token = generateToken(password);
-  await Preferences.set({ key: AUTH_KEY, value: token });
+  localStorage.setItem(AUTH_KEY, token);
   return true;
 }
 
 export async function checkAuthToken(): Promise<boolean> {
   if (!browser) return false;
-  const { value } = await Preferences.get({ key: AUTH_KEY });
+  const value = localStorage.getItem(AUTH_KEY);
   if (!value) return false;
 
   const valid = validateToken(value);
   if (!valid) {
-    await Preferences.remove({ key: AUTH_KEY });
+    localStorage.removeItem(AUTH_KEY);
   }
   return valid;
 }
 
 export async function clearAuthToken(): Promise<void> {
-  await Preferences.remove({ key: AUTH_KEY });
+  localStorage.removeItem(AUTH_KEY);
 }
