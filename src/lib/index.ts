@@ -326,7 +326,7 @@ export function setupInstallPrompt() {
 
   function close() {
     closed = true;
-    if (banner) unmount(banner);
+    if (banner) unmount(banner, { outro: true });
     banner = null;
   }
 

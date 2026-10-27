@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly } from "svelte/transition";
   import Button from "$lib/ui/comps/buttons/Button.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
 
@@ -10,41 +11,82 @@
   }
 
   const { is_ios, oninstall, ondismiss }: Props = $props();
+
+  const BENEFITS = ["Een tik vanaf jou tuisskerm", "Volskerm, sonder blaaierbalke", "Maak vinniger oop"];
 </script>
 
 <div
-  class="fixed inset-x-0 bottom-0 z-30 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none"
+  class="fixed inset-x-0 bottom-0 z-30 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
   role="dialog"
-  aria-label="Installeer die app"
+  aria-labelledby="install-prompt-title"
+  transition:fly={{ y: 200, duration: 400 }}
 >
   <div
-    class="pointer-events-auto mx-auto max-w-md flex items-center gap-3 rounded-lg border border-primary-100 bg-white p-3 shadow-lg"
+    class="relative mx-auto max-w-md overflow-hidden rounded-2xl border-2 border-primary-200 bg-white shadow-[0_-8px_40px_rgba(70,27,10,0.35)]"
   >
-    <img src="/icons/icon-192.png" alt="" class="size-12 shrink-0 rounded-lg" />
-
-    <div class="grow min-w-0 text-sm">
-      <div class="font-bold text-primary-900">Installeer Vinkel of Koljander</div>
-      {#if is_ios}
-        <div class="text-[#55433c]">
-          Tik op <Icon name="share" size={14} class="inline align-[-2px] text-primary" /> en dan
-          <span class="font-semibold">Voeg by tuisskerm</span>.
-        </div>
-      {:else}
-        <div class="text-[#55433c]">Kry die resepte vinnig vanaf jou tuisskerm.</div>
-      {/if}
-    </div>
-
-    {#if oninstall}
-      <Button onclick={oninstall} class="w-auto! px-3! py-2! shrink-0">Installeer</Button>
-    {/if}
+    <div class="h-1.5 bg-primary"></div>
 
     <button
       type="button"
       onclick={ondismiss}
-      class="shrink-0 rounded p-1 text-neutral-500 hover:text-primary focus:text-primary outline-none"
+      class="absolute top-2.5 right-2.5 rounded-full p-1 text-neutral-500 hover:bg-primary-50 hover:text-primary focus:bg-primary-50 focus:text-primary outline-none"
       aria-label="Nie nou nie"
     >
-      <Icon name="xmark" size={20} />
+      <Icon name="xmark" size={18} />
     </button>
+
+    <div class="p-5 pt-4">
+      <div class="flex items-center gap-3 pr-5">
+        <img src="/icons/icon-192.png" alt="" class="size-12 shrink-0 rounded-xl shadow-md ring-2 ring-primary-100" />
+        <div class="min-w-0">
+          <div class="text-xs font-bold uppercase tracking-wider text-secondary-700">Kry die gratis app</div>
+          <h2 id="install-prompt-title" class="text-xl leading-tight font-semibold font-source-serif-4 text-primary">
+            Vinkel of Koljander
+          </h2>
+        </div>
+      </div>
+
+      {#if is_ios}
+        <ol class="mt-4 space-y-2 text-[#55433c]">
+          <li class="flex items-center gap-3">
+            <span
+              class="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white"
+              >1</span
+            >
+            <span>Tik op <Icon name="share" size={16} class="inline align-[-3px] text-primary" /> onderaan Safari</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span
+              class="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white"
+              >2</span
+            >
+            <span>Kies <span class="font-semibold">Voeg by tuisskerm</span></span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span
+              class="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white"
+              >3</span
+            >
+            <span>Tik op <span class="font-semibold">Voeg by</span></span>
+          </li>
+        </ol>
+      {:else}
+        <ul class="mt-4 space-y-1.5 text-[#55433c]">
+          {#each BENEFITS as benefit}
+            <li class="flex items-center gap-2">
+              <Icon name="check-circle" size={18} class="shrink-0 text-primary" />
+              {benefit}
+            </li>
+          {/each}
+        </ul>
+      {/if}
+
+      {#if oninstall}
+        <Button onclick={oninstall} class="mt-5 py-3.5! text-lg! shadow-lg shadow-primary/30">
+          <Icon name="download" size={20} />
+          Installeer nou
+        </Button>
+      {/if}
+    </div>
   </div>
 </div>

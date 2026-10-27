@@ -13,6 +13,7 @@ export const iconNames = [
   "clock",
   "comment",
   "copy",
+  "download",
   "drumstick-bite",
   "edit",
   "fire-burner",
