@@ -1,5 +1,6 @@
 <script>
   import Icon from "$lib/ui/comps/Icon.svelte";
+  import { compressImage } from "$lib";
 
   /**
    * @typedef {Object} Props
@@ -10,19 +11,30 @@
   /** @type {Props} */
   const { foto, onchange } = $props();
 
+  let busy = $state(false);
+  let error = $state("");
+
   /**
    * Handles the file selection event.
    * @param {Event} event - The file input change event.
    */
-  function handleFileSelect(event) {
-    const file = /** @type {HTMLInputElement} */ (event.target).files?.[0];
+  async function handleFileSelect(event) {
+    const input = /** @type {HTMLInputElement} */ (event.target);
+    const file = input.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      onchange(/** @type {string} */ (e.target?.result));
-    };
-    reader.readAsDataURL(file);
+    busy = true;
+    error = "";
+    try {
+      onchange(await compressImage(file));
+    } catch (e) {
+      console.error("Failed to process image:", e);
+      error = "Kon nie die foto verwerk nie. Probeer 'n ander foto.";
+    } finally {
+      busy = false;
+      // Allows choosing the same file again after an error or removal.
+      input.value = "";
+    }
   }
 </script>
 
@@ -43,8 +55,16 @@
     for="foto"
     class="group flex flex-col items-center justify-center gap-2 w-full aspect-[2/1] border-2 border-dashed border-primary-200 rounded-lg cursor-pointer bg-white hover:bg-primary-100 hover:border-primary-400 focus-within:border-primary-400 transition-colors"
   >
-    <Icon name="camera" size={28} class="text-primary-400 group-hover:text-primary transition-colors" />
-    <span class="px-3 py-1.5 rounded bg-primary text-white text-sm font-semibold">Laai 'n foto op</span>
+    {#if busy}
+      <Icon name="loading" size={28} class="text-primary-400 animate-spin" />
+      <span class="text-sm font-semibold text-primary">Besig om foto te verklein...</span>
+    {:else}
+      <Icon name="camera" size={28} class="text-primary-400 group-hover:text-primary transition-colors" />
+      <span class="px-3 py-1.5 rounded bg-primary text-white text-sm font-semibold">Laai 'n foto op</span>
+    {/if}
   </label>
-  <input id="foto" type="file" accept="image/*" onchange={handleFileSelect} class="sr-only" />
+  <input id="foto" type="file" accept="image/*" onchange={handleFileSelect} disabled={busy} class="sr-only" />
+  {#if error}
+    <p class="mt-2 text-sm text-red-700">{error}</p>
+  {/if}
 {/if}

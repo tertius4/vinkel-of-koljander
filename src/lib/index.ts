@@ -249,3 +249,32 @@ export function searchOnText<T>(items: T[], getSearchStrings: (item: T) => strin
     .sort((a, b) => b.score - a.score || a.index - b.index)
     .map((result) => result.item);
 }
+
+// Photos are stored as data urls inside the recipe document, and Firestore caps a document at 1MB.
+const MAX_IMAGE_BYTES = 700_000;
+
+/**
+ * Shrinks an image so its longest side is at most `max_size` pixels (never enlarging it) and encodes it as
+ * WebP, or JPEG where the browser cannot encode WebP. Returns a data url.
+ */
+export async function compressImage(file: File, max_size = 1200, quality = 0.8): Promise<string> {
+  // "from-image" applies the EXIF rotation, so phone photos stay upright.
+  const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+  const scale = Math.min(1, max_size / Math.max(bitmap.width, bitmap.height));
+
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+
+  let data_url = encodeImage(canvas, quality);
+  if (data_url.length > MAX_IMAGE_BYTES) data_url = encodeImage(canvas, 0.6);
+  return data_url;
+}
+
+function encodeImage(canvas: HTMLCanvasElement, quality: number) {
+  const webp = canvas.toDataURL("image/webp", quality);
+  // Browsers that cannot encode WebP silently fall back to PNG, which is far bigger than JPEG.
+  return webp.startsWith("data:image/webp") ? webp : canvas.toDataURL("image/jpeg", quality);
+}

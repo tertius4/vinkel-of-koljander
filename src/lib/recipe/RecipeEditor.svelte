@@ -59,7 +59,9 @@
 
   // Empty rows are dropped and steps are renumbered so the saved document is always clean.
   function cleaned(): Omit<DB.Resep, "id"> {
-    const { id, ...data } = $state.snapshot(recipe);
+    // Not destructured from the rune directly: Svelte 5.46 compiles that to a helper the server build lacks.
+    const snapshot = $state.snapshot(recipe);
+    const { id, ...data } = snapshot;
     return {
       ...data,
       naam: data.naam.trim(),

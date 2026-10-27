@@ -17,13 +17,13 @@
   }
 </script>
 
-<label {...rest} class={["grid grid-cols-[auto_1fr] gap-3 cursor-pointer has-checked:opacity-50", rest.class]}>
+<label {...rest} class={["group grid grid-cols-[auto_1fr] gap-3 cursor-pointer has-checked:opacity-50", rest.class]}>
   <div>
     <input type="checkbox" {checked} onchange={handleChange} class="size-6 rounded shrink-0 accent-primary-600" />
   </div>
   <div>
     <div class="font-bold text-lg flex justify-between items-center gap-2">
-      <span>{data.title}</span>
+      <span class="group-has-checked:line-through">{data.title}</span>
       <span hidden={!data.amount || data.amount === "0"} class="text-primary text-base text-nowrap">{data.amount} {data.unit}</span>
     </div>
     <span class="italic text-neutral-900" hidden={!data.comments.length}

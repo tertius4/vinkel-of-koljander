@@ -2,13 +2,13 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import CommentsSection from "$lib/comments/CommentsSection.svelte";
+  import IngredientChecklist from "$lib/recipe/IngredientChecklist.svelte";
   import ServingsStepper from "$lib/recipe/ServingsStepper.svelte";
   import Description from "$lib/ui/comps/display/Description.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
   import Container from "$lib/ui/comps/layouts/Container.svelte";
   import Panel from "$lib/ui/comps/layouts/Panel.svelte";
   import ImageFullScreen from "$lib/ui/comps/media/ImageFullScreen.svelte";
-  import IngredientChecklist from "./comps/IngredientChecklist.svelte";
   import StepAccordion from "./comps/StepAccordion.svelte";
   import Credits from "./comps/Credits.svelte";
 
@@ -111,7 +111,7 @@
           <Icon name="drumstick-bite" class="text-primary" />
           <h3 class="headline-md text-base text-primary-900 font-bold tracking-tight">Bestanddele</h3>
         </div>
-        <IngredientChecklist ingredients={data.ingredients} />
+        <IngredientChecklist title={data.recipe.title} servings={data.servings} ingredients={data.ingredients} />
       </Container>
     </aside>
   </div>

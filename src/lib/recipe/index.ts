@@ -144,3 +144,19 @@ export function mergeIngredients(recipe: DB.Resep, multiplier: number) {
     amount: scaleAmount(ingredient.amount, multiplier),
   }));
 }
+
+/**
+ * The ingredients still to buy as a plain-text list, one item per line, so WhatsApp shows it neatly and
+ * Bring! reads each line as a separate item.
+ */
+export function shoppingListText(
+  title: string,
+  servings: number,
+  ingredients: { title: string; amount: string; unit: string }[],
+) {
+  const lines = ingredients.map((ingredient) => {
+    const has_amount = ingredient.amount && ingredient.amount !== "0";
+    return has_amount ? `- ${ingredient.amount} ${ingredient.unit} ${ingredient.title}`.replace(/\s+/g, " ") : `- ${ingredient.title}`;
+  });
+  return [`Inkopies vir ${title} (${servingsLabel(servings)}):`, ...lines].join("\n");
+}

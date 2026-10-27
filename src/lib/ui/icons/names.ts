@@ -12,6 +12,7 @@ export const iconNames = [
   "circle-play",
   "clock",
   "comment",
+  "copy",
   "drumstick-bite",
   "edit",
   "fire-burner",
@@ -23,6 +24,7 @@ export const iconNames = [
   "plus",
   "restore",
   "search",
+  "share",
   "sign-in",
   "sign-out",
   "sliders",
@@ -30,6 +32,7 @@ export const iconNames = [
   "trash",
   "user-group",
   "vertical-ellipsis",
+  "whatsapp",
   "x-circle",
   "xmark",
 ] as const;
