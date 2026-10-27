@@ -12,10 +12,13 @@
     untrack(() => {
       const isMobilePage = page.url.pathname.startsWith("/resep/m/");
 
+      // Replaces the wrong-layout url, so the back button does not return to it.
       if (isMobilePage && !isMobileScreen) {
-        goto(page.url.pathname.replace("/resep/m", "/resep").replace(/\/bestandele$/, "") + page.url.search);
+        goto(page.url.pathname.replace("/resep/m", "/resep").replace(/\/bestandele$/, "") + page.url.search, {
+          replaceState: true,
+        });
       } else if (!isMobilePage && isMobileScreen) {
-        goto(page.url.pathname.replace("/resep", "/resep/m") + page.url.search);
+        goto(page.url.pathname.replace("/resep", "/resep/m") + page.url.search, { replaceState: true });
       }
     });
   });

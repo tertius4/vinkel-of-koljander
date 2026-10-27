@@ -1,5 +1,6 @@
 <script lang="ts">
   import { navigating, page } from "$app/state";
+  import ScreenSvelte from "$lib/classes/Screen.svelte";
   import Icon from "$lib/ui/comps/Icon.svelte";
 
   interface Props {
@@ -8,8 +9,10 @@
 
   const { data }: Props = $props();
 
-  // Also true for the follow-up redirect to /resep/m/[id] on phones, since the id stays the same.
+  // Matches both /resep/[id] and /resep/m/[id], which share the id param.
   const is_opening = $derived(navigating.to?.params?.id === data.id);
+  // Straight to the layout for this screen, so phones skip the redirect from the desktop page.
+  const href = $derived(ScreenSvelte.isMobile ? `/resep/m/${data.id}` : `/resep/${data.id}`);
 </script>
 
 <article
@@ -43,7 +46,7 @@
       Konsep
     </span>
   {/if}
-  <a href="/resep/{data.id}" class="flex flex-col grow">
+  <a {href} class="flex flex-col grow">
     <div
       class={[
         "h-56 overflow-hidden bg-surface-container-low flex items-center justify-center",
