@@ -70,6 +70,17 @@ declare global {
     ingredients: DB.Ingredient[];
   }
 
+  // Chrome-only event, so TypeScript does not know it.
+  interface BeforeInstallPromptEvent extends Event {
+    prompt(): Promise<void>;
+    userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+  }
+
+  interface Window {
+    /** Caught by the script in app.html, because Chrome often sends it before the app has loaded. */
+    install_prompt_event?: BeforeInstallPromptEvent;
+  }
+
   type Result<T = void> = T extends void
     ? { ok: true }
     : { ok: true; value: T } | { ok: false; status: number; error: string };

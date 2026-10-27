@@ -2,12 +2,6 @@ import * as env from "$env/static/public";
 import { mount, unmount } from "svelte";
 import InstallPrompt from "$lib/ui/feature/InstallPrompt.svelte";
 
-// Chrome-only event, so TypeScript does not know it.
-interface BeforeInstallPromptEvent extends Event {
-  prompt(): Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
-
 export const WYSIG_WAGWOORD = env.PUBLIC_LOGIN_PASSWORD;
 export const DB_NAME = env.PUBLIC_DB_NAME;
 export const APP_NAME = env.PUBLIC_APP_NAME;
@@ -302,7 +296,7 @@ export function setupInstallPrompt() {
 
   // iOS Safari has no install event; there the visitor adds the site from the share menu themselves.
   const is_ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  let install_event: BeforeInstallPromptEvent | null = null;
+  let install_event: BeforeInstallPromptEvent | null = window.install_prompt_event ?? null;
   let banner: ReturnType<typeof mount> | null = null;
   let ready = false;
   let closed = false;
@@ -351,6 +345,7 @@ export function setupInstallPrompt() {
     const { outcome } = await install_event.userChoice;
     // The event can only be used once.
     install_event = null;
+    window.install_prompt_event = undefined;
     if (outcome === "dismissed") dismiss();
     else close();
   }
