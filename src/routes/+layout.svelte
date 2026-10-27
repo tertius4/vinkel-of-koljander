@@ -17,7 +17,11 @@
 </script>
 
 <main
-  class={["background background-pattern w-dvw h-dvh flex flex-col", page.data.is_search_page ? "overflow-y-auto" : "overflow-hidden"]}
+  class={[
+    "background background-pattern w-dvw h-dvh flex flex-col",
+    "pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]",
+    page.data.is_search_page ? "overflow-y-auto" : "overflow-hidden",
+  ]}
   style="--header-height: {header_height}px"
 >
   {#if data.is_maintenance_mode}
@@ -57,6 +61,10 @@
     </div>
   {/if}
 </main>
+
+<!-- viewport-fit=cover draws the app behind the phone's status and navigation bars; these paint them brown. -->
+<div class="fixed inset-x-0 top-0 z-40 h-[env(safe-area-inset-top)] bg-primary"></div>
+<div class="fixed inset-x-0 bottom-0 z-40 h-[env(safe-area-inset-bottom)] bg-primary"></div>
 
 <style>
   .background {
