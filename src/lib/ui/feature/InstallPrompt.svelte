@@ -11,8 +11,6 @@
   }
 
   const { is_ios, oninstall, ondismiss }: Props = $props();
-
-  const BENEFITS = ["Een tik vanaf jou tuisskerm", "Volskerm, sonder blaaierbalke", "Maak vinniger oop"];
 </script>
 
 <div
@@ -24,8 +22,6 @@
   <div
     class="relative mx-auto max-w-md overflow-hidden rounded-2xl border-2 border-primary-200 bg-white shadow-[0_-8px_40px_rgba(70,27,10,0.35)]"
   >
-    <div class="h-1.5 bg-primary"></div>
-
     <button
       type="button"
       onclick={ondismiss}
@@ -35,7 +31,7 @@
       <Icon name="xmark" size={18} />
     </button>
 
-    <div class="p-5 pt-4">
+    <div class="p-4">
       <div class="flex items-center gap-3 pr-5">
         <img src="/icons/icon-192.png" alt="" class="size-12 shrink-0 rounded-xl shadow-md ring-2 ring-primary-100" />
         <div class="min-w-0">
@@ -70,20 +66,11 @@
             <span>Tik op <span class="font-semibold">Voeg by</span></span>
           </li>
         </ol>
-      {:else}
-        <ul class="mt-4 space-y-1.5 text-[#55433c]">
-          {#each BENEFITS as benefit}
-            <li class="flex items-center gap-2">
-              <Icon name="check-circle" size={18} class="shrink-0 text-primary" />
-              {benefit}
-            </li>
-          {/each}
-        </ul>
       {/if}
 
       {#if oninstall}
-        <Button onclick={oninstall} class="mt-5 py-3.5! text-lg! shadow-lg shadow-primary/30">
-          <Icon name="download" size={20} />
+        <Button onclick={oninstall} class="mt-4">
+          <Icon name="download" size={18} />
           Installeer nou
         </Button>
       {/if}
