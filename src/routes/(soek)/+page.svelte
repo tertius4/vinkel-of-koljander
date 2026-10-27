@@ -2,7 +2,7 @@
   import { debounce } from "$lib";
   import { goto } from "$app/navigation";
   import Icon from "$lib/ui/comps/Icon.svelte";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
   import CardRecipe from "./CardRecipe.svelte";
   import InputSearchRecipe from "./InputSearchRecipe.svelte";
   import { page } from "$app/state";
@@ -17,7 +17,6 @@
   let categories = $state<string[]>(data.categories);
   let cards: RecipeCardData[] = $state([]);
   let error_message = $state("");
-  let is_opening_recipe = $state(false);
   let is_loading = $state(true);
 
   // Keep the input in sync with the URL (e.g. back/forward navigation).
@@ -72,7 +71,6 @@
   });
 
   onMount(() => loadCards());
-  onDestroy(() => (is_opening_recipe = false));
 </script>
 
 <div class="flex flex-col px-4">
@@ -103,7 +101,7 @@
           {#each cards as card (card.id)}
             <div animate:flip={{ duration: 200 }}>
               {#key card.id}
-                <CardRecipe data={card} onclick={() => (is_opening_recipe = true)} />
+                <CardRecipe data={card} />
               {/key}
             </div>
           {/each}

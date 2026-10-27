@@ -1,21 +1,31 @@
 <script lang="ts">
-  import { page } from "$app/state";
+  import { navigating, page } from "$app/state";
   import Icon from "$lib/ui/comps/Icon.svelte";
 
   interface Props {
     data: RecipeCardData;
-    onclick?: () => any;
   }
 
-  const { data, onclick }: Props = $props();
+  const { data }: Props = $props();
+
+  // Also true for the follow-up redirect to /resep/m/[id] on phones, since the id stays the same.
+  const is_opening = $derived(navigating.to?.params?.id === data.id);
 </script>
 
 <article
   class={[
     "bg-white rounded-xl h-full overflow-hidden border border-neutral-100 flex flex-col relative group hover:shadow-md hover:shadow-secondary/5 transition-shadow duration-300",
     !data.published && "shadow-md border-secondary",
+    is_opening && "ring-2 ring-primary",
   ]}
+  aria-busy={is_opening}
 >
+  {#if is_opening}
+    <div class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-white/70 backdrop-blur-[1px]">
+      <Icon name="loading" size={36} class="animate-spin text-primary" />
+      <span class="font-semibold text-primary">Laai resep…</span>
+    </div>
+  {/if}
   {#if page.data.is_logged_in}
     <a
       href="/wysig/{data.id}"
@@ -33,7 +43,7 @@
       Konsep
     </span>
   {/if}
-  <a href="/resep/{data.id}" class="flex flex-col grow" {onclick}>
+  <a href="/resep/{data.id}" class="flex flex-col grow">
     <div
       class={[
         "h-56 overflow-hidden bg-surface-container-low flex items-center justify-center",

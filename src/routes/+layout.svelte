@@ -1,5 +1,6 @@
 <script>
   import ButtonAuth from "$lib/ui/feature/ButtonAuth.svelte";
+  import NavigationProgress from "$lib/ui/feature/NavigationProgress.svelte";
   import { browser } from "$app/environment";
   import "./layout.css";
   import Icon from "$lib/ui/comps/Icon.svelte";
@@ -54,6 +55,8 @@
       </a>
 
       <ButtonAuth hidden={!browser} class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2" />
+
+      <NavigationProgress />
     </header>
 
     <div class={["mx-auto grow w-full flex flex-col", page.data.is_search_page ? "max-w-6xl" : "min-h-0"]}>
