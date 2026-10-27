@@ -4,10 +4,16 @@
   import "./layout.css";
   import Icon from "$lib/ui/comps/Icon.svelte";
   import { page } from "$app/state";
+  import { onMount } from "svelte";
+  import { setupInstallPrompt } from "$lib";
 
   const { data, children } = $props();
 
   let header_height = $state(0);
+
+  onMount(() => {
+    if (!data.is_maintenance_mode) return setupInstallPrompt();
+  });
 </script>
 
 <main

@@ -1,4 +1,12 @@
 import * as env from "$env/static/public";
+import { mount, unmount } from "svelte";
+import InstallPrompt from "$lib/ui/feature/InstallPrompt.svelte";
+
+// Chrome-only event, so TypeScript does not know it.
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 export const WYSIG_WAGWOORD = env.PUBLIC_LOGIN_PASSWORD;
 export const DB_NAME = env.PUBLIC_DB_NAME;
@@ -162,6 +170,13 @@ export const DateUtil = {
   },
 };
 
+// Photos are stored as data urls inside the recipe document, and Firestore caps a document at 1MB.
+const MAX_IMAGE_BYTES = 700_000;
+
+const INSTALL_DISMISSED_KEY = "install_prompt_dismissed_at";
+const INSTALL_DISMISS_DAYS = 30;
+const INSTALL_SHOW_DELAY_MS = 3000;
+
 export function normalise(text: string) {
   if (typeof text !== "string") return "";
 
@@ -250,9 +265,6 @@ export function searchOnText<T>(items: T[], getSearchStrings: (item: T) => strin
     .map((result) => result.item);
 }
 
-// Photos are stored as data urls inside the recipe document, and Firestore caps a document at 1MB.
-const MAX_IMAGE_BYTES = 700_000;
-
 /**
  * Shrinks an image so its longest side is at most `max_size` pixels (never enlarging it) and encodes it as
  * WebP, or JPEG where the browser cannot encode WebP. Returns a data url.
@@ -277,4 +289,85 @@ function encodeImage(canvas: HTMLCanvasElement, quality: number) {
   const webp = canvas.toDataURL("image/webp", quality);
   // Browsers that cannot encode WebP silently fall back to PNG, which is far bigger than JPEG.
   return webp.startsWith("data:image/webp") ? webp : canvas.toDataURL("image/jpeg", quality);
+}
+
+/**
+ * Invites visitors to install the site as an app, with a banner mounted on the body a few seconds after
+ * load. Not shown inside the installed app, or for 30 days after the visitor dismisses it. Returns a cleanup.
+ */
+export function setupInstallPrompt() {
+  const is_installed =
+    matchMedia("(display-mode: standalone)").matches || (navigator as { standalone?: boolean }).standalone === true;
+  if (is_installed || wasInstallDismissedRecently()) return () => {};
+
+  // iOS Safari has no install event; there the visitor adds the site from the share menu themselves.
+  const is_ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  let install_event: BeforeInstallPromptEvent | null = null;
+  let banner: ReturnType<typeof mount> | null = null;
+  let ready = false;
+  let closed = false;
+
+  const timer = setTimeout(() => {
+    ready = true;
+    show();
+  }, INSTALL_SHOW_DELAY_MS);
+  window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+  window.addEventListener("appinstalled", close);
+
+  return () => {
+    clearTimeout(timer);
+    window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+    window.removeEventListener("appinstalled", close);
+    if (banner) unmount(banner);
+  };
+
+  // Chrome can send its install event before or after the delay, so this is called on both.
+  function show() {
+    if (banner || closed || !ready || (!is_ios && !install_event)) return;
+    banner = mount(InstallPrompt, {
+      target: document.body,
+      props: { is_ios, oninstall: install_event ? install : undefined, ondismiss: dismiss },
+    });
+  }
+
+  function close() {
+    closed = true;
+    if (banner) unmount(banner);
+    banner = null;
+  }
+
+  function dismiss() {
+    close();
+    try {
+      localStorage.setItem(INSTALL_DISMISSED_KEY, String(Date.now()));
+    } catch {
+      // Storage can be unavailable (private mode); the banner then simply returns next visit.
+    }
+  }
+
+  async function install() {
+    if (!install_event) return;
+    await install_event.prompt();
+    const { outcome } = await install_event.userChoice;
+    // The event can only be used once.
+    install_event = null;
+    if (outcome === "dismissed") dismiss();
+    else close();
+  }
+
+  function onBeforeInstallPrompt(event: Event) {
+    // Stops Chrome's own mini-infobar, so the prompt only opens from our button.
+    event.preventDefault();
+    install_event = event as BeforeInstallPromptEvent;
+    show();
+  }
+}
+
+function wasInstallDismissedRecently() {
+  try {
+    const dismissed_at = Number(localStorage.getItem(INSTALL_DISMISSED_KEY));
+    return dismissed_at > 0 && Date.now() - dismissed_at < INSTALL_DISMISS_DAYS * 24 * 60 * 60 * 1000;
+  } catch {
+    return false;
+  }
 }
